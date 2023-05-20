@@ -86,6 +86,7 @@ static inline uint16_t rtc_get_datetime(uint16_t field) {
 		: "Rah" ((uint8_t) 0x02), "b" (field)
 		: "cc", "memory"
 	);
+	return result;
 }
 
 static inline uint16_t rtc_get_year(void) {
