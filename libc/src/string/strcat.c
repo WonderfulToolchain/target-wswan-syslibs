@@ -16,7 +16,7 @@ char __far* strcat(char __far* s1, const char __far* s2) {
 	char __far* sp = s1;
 
     	if (*sp) while (*(++sp));
-	while (*(s1++) = *(s2++));
+	while ((*(s1++) = *(s2++)));
 
 	return sp;
 }
