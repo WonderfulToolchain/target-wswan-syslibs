@@ -31,8 +31,8 @@
 #include "hardware.h"
 #include "util.h"
 
-extern const void *__rom_bank_offset;
-#define WF_BANK_INDEX(x) (((uint8_t) (uint16_t) (&__rom_bank_offset)) + (x))
+extern const void *__wf_rom_bank_offset;
+#define WF_BANK_INDEX(x) (((uint8_t) (uint16_t) (&__wf_rom_bank_offset)) + (x))
 
 /**
  * @addtogroup DefinesMemoryLayout Defines - Memory layout
@@ -151,70 +151,5 @@ void ws_cart_gpo_disable(uint8_t id);
  * @param val Value (true or false).
  */
 void ws_cart_gpo_set(uint8_t id, bool val);
-
-/**@}*/
-
-/**
- * @addtogroup CartridgeAsset High-Level Functions - Asset access
- * @{
- */
-
-/**
- * @brief Map a given asset to ROM banks 0 and 1, returning a pointer.
- *
- * Only one asset may be mapped in a given bank at a time.
- * The pointer will only allow you to access 64K of data - if you'd like to access more,
- * increment the position accordingly.
- * For more information, see @ref fsbankpack
- * 
- * @param position The asset position.
- * @return const void* The pointer to the mapped asset.
- */
-static inline const void __far* wf_asset_map(uint32_t position) {
-	asm volatile("" ::: "memory");
-	uint8_t idx = WF_BANK_INDEX(position >> 16);
-	outportb(IO_BANK_ROM0, idx);
-	outportb(IO_BANK_ROM1, idx + 1);
-	asm volatile("" ::: "memory");
-	return MK_FP(0x2000 | ((position >> 4) & 0xFFF) , (position & 0xF));
-}
-
-/**
- * @brief Map a given asset to ROM bank 0, returning a pointer.
- *
- * Only one asset may be mapped in a given bank at a time.
- * The pointer will only allow you to access 64K of data - if you'd like to access more,
- * increment the position accordingly.
- * For more information, see @ref fsbankpack
- * 
- * @param position The asset position.
- * @return const void* The pointer to the mapped asset.
- */
-static inline const void __far* wf_asset_map_rom0(uint32_t position) {
-	asm volatile("" ::: "memory");
-	uint8_t idx = WF_BANK_INDEX(position >> 16);
-	outportb(IO_BANK_ROM0, idx);
-	asm volatile("" ::: "memory");
-	return MK_FP(0x2000, position & 0xFFFF);
-}
-
-/**
- * @brief Map a given asset to ROM bank 1, returning a pointer.
- *
- * Only one asset may be mapped in a given bank at a time.
- * The pointer will only allow you to access 64K of data - if you'd like to access more,
- * increment the position accordingly.
- * For more information, see @ref fsbankpack
- * 
- * @param position The asset position.
- * @return const void* The pointer to the mapped asset.
- */
-static inline const void __far* wf_asset_map_rom1(uint32_t position) {
-	asm volatile("" ::: "memory");
-	uint8_t idx = WF_BANK_INDEX(position >> 16);
-	outportb(IO_BANK_ROM1, idx);
-	asm volatile("" ::: "memory");
-	return MK_FP(0x3000, position & 0xFFFF);
-}
 
 /**@}*/
