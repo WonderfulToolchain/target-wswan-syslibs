@@ -64,7 +64,7 @@
 # error Must specify DISPLAY_MODE!
 #endif
 
-	.section .crt0
+	.section .start
 	.global _start
 _start:
 	push	ds
