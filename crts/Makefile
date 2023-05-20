@@ -1,6 +1,4 @@
-ifndef WONDERFUL_TOOLCHAIN
-$(error Please define WONDERFUL_TOOLCHAIN to point to the location of the Wonderful toolchain.)
-endif
+WONDERFUL_TOOLCHAIN ?= /opt/wonderful
 include ../target/wswan/makedefs-common.mk
 
 OBJDIR := build
