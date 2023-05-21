@@ -16,6 +16,9 @@ int abs(int j);
 long int labs(long int j);
 long long int llabs(long long int j);
 
+int atoi(const char __far* s);
+long atol(const char __far* s);
+
 typedef struct {
 	int quot;
 	int rem;
