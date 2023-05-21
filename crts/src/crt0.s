@@ -24,11 +24,6 @@
 	.code16
 	.intel_syntax noprefix
 
-	.section .ivt
-	.global _ivt
-_ivt:
-	.fill 16, 4, 0
-
 	.section .start
 	.global _start
 _start:
