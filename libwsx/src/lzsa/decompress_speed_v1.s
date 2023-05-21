@@ -76,6 +76,9 @@ wsx_lzsa1_decompress:
 #endif
         xor     cx,cx
 
+#ifdef __IA16_TUNE_NEC_V30MZ
+	.align 2, 0x90
+#endif
 .decode_token:
         xchg    cx,ax           //clear ah (cx = 0 from match copy's rep movsb)
         lodsb                   //read token byte: O|LLL|MMMM

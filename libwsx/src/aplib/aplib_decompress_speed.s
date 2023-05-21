@@ -73,6 +73,9 @@ wsx_aplib_decompress:
         mov     al,0x80         // clear bit queue(al) and set high bit to move into carry
         xor     dx,dx           // invalidate rep offset
 
+#ifdef __IA16_TUNE_NEC_V30MZ
+	.align 2, 0x90
+#endif
 .literal:
         movsb                   // read and write literal byte
 .next_command_after_literal:

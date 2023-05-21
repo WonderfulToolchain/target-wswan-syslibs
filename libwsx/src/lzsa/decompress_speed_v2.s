@@ -85,6 +85,9 @@ wsx_lzsa2_decompress:
         xor     cx,cx
         mov     bx,0x100        //bx used by get_nybble
 
+#ifdef __IA16_TUNE_NEC_V30MZ
+	.align 2, 0x90
+#endif
 .decode_token:
         mov     ax,cx           //clear ah - cx is zero (and must stay that way)
         lodsb                   //read token byte: XYZ|LL|MMMM

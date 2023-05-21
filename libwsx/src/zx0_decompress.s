@@ -51,6 +51,9 @@ wsx_zx0_decompress:
         xor     dx,dx           // initialize rep-offset to 1
         dec     dx
 
+#ifdef __IA16_TUNE_NEC_V30MZ
+	.align 2, 0x90
+#endif
 .literals:
         call    .get_elias      // read number of literals to copy
         rep     movsb           // copy literal bytes
