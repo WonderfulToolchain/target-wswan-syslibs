@@ -56,7 +56,8 @@ ASFLAGS		+= -x assembler-with-cpp $(DEFINES) $(WF_ARCH_CFLAGS) \
 		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections
 
 CFLAGS		+= -std=gnu11 $(WARNFLAGS) $(DEFINES) $(WF_ARCH_CFLAGS) \
-		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections
+		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections \
+		   -fno-jump-tables
 
 ifeq ($(WF_TARGET),wwitch)
 CFLAGS		+= -Os -DLIBC_LOCALE_SJIS

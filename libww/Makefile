@@ -56,7 +56,8 @@ ASFLAGS		+= -x assembler-with-cpp $(DEFINES) $(WF_ARCH_CFLAGS) \
 		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections
 
 CFLAGS		+= -std=gnu11 $(WARNFLAGS) $(DEFINES) $(WF_ARCH_CFLAGS) \
-		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections -O2
+		   $(INCLUDEFLAGS) -ffunction-sections -fdata-sections \
+		   -O2 -fno-jump-tables
 
 # Intermediate build files
 # ------------------------
