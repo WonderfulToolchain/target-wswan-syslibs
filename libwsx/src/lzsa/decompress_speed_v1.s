@@ -25,6 +25,8 @@
 //     misrepresented as being the original software.
 //  3. This notice may not be removed or altered from any source distribution.
 
+#include <wonderful.h>
+
    .arch i186
    .code16
    .intel_syntax noprefix
@@ -60,7 +62,11 @@ wsx_lzsa1_decompress:
    push bp
    mov bp, sp
    mov di, ax
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
    lds si, [bp+14]
+#else
+   lds si, [bp+12]
+#endif
    mov es, dx
 
         push    di              //remember decompression offset
@@ -166,7 +172,7 @@ wsx_lzsa1_decompress:
    pop di
    pop si
    pop ds
-        retf 0x4               //done decompressing, exit to caller
+   ASM_PLATFORM_RET 0x4
 
 //With a confirmed longer match length, we have an opportunity to optimize for
 //the case where a single byte is repeated long enough that we can benefit
