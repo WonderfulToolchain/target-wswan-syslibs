@@ -42,13 +42,12 @@ __wsx_planar_unpack_1to2_zero_loop:
 	ret
 
 __wsx_planar_unpack_1to4_zero:
+	inc ax
 	mov bx, ax
-	inc bx
-	push bx
 	shr bx, 1
 	and bx, 6
 	mov dx, cs:[__wsx_planar_unpack_word_table + bx]
-	pop bx
+	mov bx, ax
 	shl bx, 1
 	and bx, 6
 	mov bx, cs:[__wsx_planar_unpack_word_table + bx]
