@@ -108,6 +108,7 @@ wsx_zx0_decompress:
         adc     cx,cx           // shift into cx
         jmp     short .elias_loop // keep reading
 .got_elias:
+	ret
 .done:
    pop bp
    pop ds
