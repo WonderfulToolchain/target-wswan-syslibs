@@ -21,7 +21,7 @@
    .arch i186
    .code16
    .intel_syntax noprefix
-   .global wsx_lzsa2_decompress
+   .global wsx_lzsa2_decompress_small
 
 //  ---------------------------------------------------------------------------
 //  Decompress raw LZSA2 block
@@ -32,7 +32,7 @@
 //  * ax:    decompressed size
 //  ---------------------------------------------------------------------------
 
-wsx_lzsa2_decompress:
+wsx_lzsa2_decompress_small:
    push si
    push di
    push es
