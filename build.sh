@@ -23,7 +23,7 @@ for i in wswan/small wswan/medium wwitch; do
 	build_library libc $i
 done
 
-for i in wswan/small wswan/medium; do
+for i in wswan/small wswan/medium wwitch; do
 	build_library libws $i
 done
 
