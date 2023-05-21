@@ -21,5 +21,24 @@
 #pragma once
 #include <stdint.h>
 
+/** \file lzsa.h
+ * LZSA decompression routines.
+ */
+
+/**
+ * @brief Decompress an LZSA1-compressed buffer.
+ *
+ * @param dest Destination memory pointer.
+ * @param src Source memory pointer.
+ * @return The number of bytes decompressed.
+ */
 uint16_t wsx_lzsa1_decompress(void __far* dest, const void __far* src);
+
+/**
+ * @brief Decompress an LZSA2-compressed buffer.
+ *
+ * @param dest Destination memory pointer.
+ * @param src Source memory pointer.
+ * @return The number of bytes decompressed.
+ */
 uint16_t wsx_lzsa2_decompress(void __far* dest, const void __far* src);

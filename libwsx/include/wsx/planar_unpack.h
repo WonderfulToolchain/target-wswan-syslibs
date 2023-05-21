@@ -23,7 +23,19 @@
 #pragma once
 #include <stdint.h>
 
+/** \file planar_unpack.h
+ * Planar image unpacking routines.
+ */
+
 #define WSX_PLANAR_UNPACK_MODE_1BPP_2BPP_ZERO(offset) (offset)
 #define WSX_PLANAR_UNPACK_MODE_1BPP_4BPP_ZERO(offset) ((offset) | (1 << 8))
 
+/**
+ * @brief Unpack a lower-bitdepth planar image to a higher bitdepth.
+ *
+ * @param dest Destination memory pointer.
+ * @param src_length Source data length.
+ * @param src Source memory pointer.
+ * @param mode Unpacking mode, see WSX_PLANAR_UNPACK_MODE defines.
+ */
 void wsx_planar_unpack(void __far* dest, uint16_t src_length, const void __far* src, uint16_t mode);
