@@ -27,8 +27,20 @@
  * Planar image unpacking routines.
  */
 
-#define WSX_PLANAR_UNPACK_MODE_1BPP_2BPP_ZERO(offset) (offset)
-#define WSX_PLANAR_UNPACK_MODE_1BPP_4BPP_ZERO(offset) ((offset) | (1 << 8))
+/**
+ * @brief Unpack 1BPP tiles to 2BPP tiles, using color zero and a specified foreground color.
+ */
+#define WSX_PLANAR_UNPACK_1BPP_TO_2BPP_ZERO(fg) (fg)
+
+/**
+ * @brief Unpack 1BPP tiles to 4BPP tiles, using color zero and a specified foreground color.
+ */
+#define WSX_PLANAR_UNPACK_1BPP_TO_4BPP_ZERO(fg) ((fg) | (1 << 8))
+
+/**
+ * @brief Unpack 1BPP tiles to 2BPP tiles, using a specified background and foreground color.
+ */
+#define WSX_PLANAR_UNPACK_1BPP_TO_2BPP(bg, fg) ((bg) | ((fg) << 2) | (2 << 8))
 
 /**
  * @brief Unpack a lower-bitdepth planar image to a higher bitdepth.
