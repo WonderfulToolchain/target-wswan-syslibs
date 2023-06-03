@@ -35,17 +35,13 @@
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 .macro ASM_PLATFORM_CALL tgt:req
-	.byte	0x9A
-	.word	\tgt
 	.reloc	., R_386_SEG16, "\tgt\()!"
-	.word	0
+	call 0:\tgt
 .endm
 
 .macro ASM_PLATFORM_JMP tgt:req
-	.byte	0xEA
-	.word	\tgt
-	.reloc	., R_386_SEG16, "\tgt\()!"
-	.word	0
+	.reloc	.+3, R_386_SEG16, "\tgt\()!"
+	jmp 0:\tgt
 .endm
 #else
 .macro ASM_PLATFORM_CALL tgt:req

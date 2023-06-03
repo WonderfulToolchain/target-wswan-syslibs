@@ -73,12 +73,8 @@ _start:
 	out	0xB0, al
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
-	//.reloc	.+3, R_386_SEG16, main
-	//jmp 0:main
-	.byte	0xEA
-	.word	main
-	.reloc	., R_386_SEG16, "main!"
-	.word	0
+	.reloc	.+3, R_386_SEG16, "main!"
+	jmp 0:main
 #else
 	jmp main
 #endif
