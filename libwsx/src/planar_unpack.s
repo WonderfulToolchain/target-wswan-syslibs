@@ -38,7 +38,7 @@ __wsx_planar_unpack_word_table:
 __wsx_planar_unpack_1to2_zero:
 	mov bx, ax
 	shl bx, 1
-	mov bx, cs:[__wsx_planar_unpack_word_table + 2 + bx]
+	mov bx, cs:[__wsx_planar_unpack_word_table + bx]
 #ifdef __IA16_TUNE_NEC_V30MZ
 	.align 2, 0x90
 #endif
@@ -51,7 +51,6 @@ __wsx_planar_unpack_1to2_zero_loop:
 	ret
 
 __wsx_planar_unpack_1to4_zero:
-	inc ax
 	mov bx, ax
 	shr bx, 1
 	and bx, 6
