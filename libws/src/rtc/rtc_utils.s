@@ -21,9 +21,7 @@
 */
 
 #include <wonderful.h>
-
-	.arch	i186
-	.code16
+#include "asm-preamble.h"
 	.intel_syntax noprefix
 
 // CX = timeout value

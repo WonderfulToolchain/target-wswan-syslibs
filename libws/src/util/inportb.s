@@ -21,8 +21,7 @@
 */
 
 #include <wonderful.h>
-	.arch	i8086
-	.code16
+#include "asm-preamble.h"
 	.intel_syntax noprefix
 
 	.global inportb

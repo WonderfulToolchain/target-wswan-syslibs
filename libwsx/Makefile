@@ -9,7 +9,7 @@ include $(WF_TARGET_DIR)/makedefs.mk
 # Source code paths
 # -----------------
 
-INCLUDEDIRS	:= include
+INCLUDEDIRS	:= include src/include
 SOURCEDIRS	:= src
 
 # Defines passed to all files

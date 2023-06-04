@@ -19,9 +19,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 
 #include <wonderful.h>
-
-   .arch i186
-   .code16
+#include "asm-preamble.h"
    .intel_syntax noprefix
    .global wsx_lzsa2_decompress_small
 

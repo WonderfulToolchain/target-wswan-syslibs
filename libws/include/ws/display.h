@@ -42,10 +42,17 @@ typedef struct {
 } ws_scr_entry_t;
 
 #define SCR_ENTRY_TILE(x) (x)
+#define SCR_ENTRY_TILE_MASK (0x1FF)
 #define SCR_ENTRY_PALETTE(x) ((x) << 9)
+#define SCR_ENTRY_PALETTE_MASK (0xF << 9)
 #define SCR_ENTRY_BANK(x) ((x) << 13)
-#define SCR_ENTRY_FLIP_H 0x4000
-#define SCR_ENTRY_FLIP_V 0x8000
+#define SCR_ENTRY_BANK_MASK (1 << 13)
+#define SCR_ENTRY_TILE_BANK_MASK (SCR_ENTRY_TILE_MASK | SCR_ENTRY_BANK_MASK)
+
+#define SCR_ENTRY_FLIP_H    0x4000
+#define SCR_ENTRY_FLIP_V    0x8000
+#define SCR_ENTRY_FLIP      0xC000
+#define SCR_ENTRY_FLIP_MASK 0xC000
 
 #define TILE_WIDTH 8
 #define TILE_HEIGHT 8
@@ -161,9 +168,7 @@ typedef struct {
 void ws_display_set_shade_lut(uint32_t lut);
 
 /**
- * @brief Put a map of tiles on the screen.
- * 
- * Upon overflow, the X and Y positions will be wrapped automatically.
+ * @brief Place a map of tiles on the screen.
  *
  * @param dest Pointer to the destination screen.
  * @param src Pointer to the source map.
@@ -172,11 +177,23 @@ void ws_display_set_shade_lut(uint32_t lut);
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_put_map(void *dest, const void __far* src, uint8_t x, uint8_t y, uint8_t width, uint8_t height);
+void ws_screen_put_tiles(void *dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+
+/**
+ * @brief Copy a map of tiles from the screen.
+ *
+ * @param dest Pointer to the destination area.
+ * @param src Pointer to the source screen.
+ * @param x Source X position, in tiles.
+ * @param y Source Y position, in tiles.
+ * @param width Width, in tiles.
+ * @param height Height, in tiles.
+ */
+void ws_screen_get_tiles(void __far* dest, const void *src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Fill an area on the screen with a given tile.
- * 
+ *
  * @param dest Pointer to the destination screen.
  * @param src The tile to fill the area with.
  * @param x Destination X position, in tiles.
@@ -184,17 +201,41 @@ void ws_screen_put_map(void *dest, const void __far* src, uint8_t x, uint8_t y, 
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_fill(void *dest, uint16_t src, uint8_t x, uint8_t y, uint8_t width, uint8_t height);
+void ws_screen_fill_tiles(void *dest, uint16_t src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+
+/**
+ * @brief Modify an area on the screen with given data.
+ *
+ * @param dest Pointer to the destination screen.
+ * @param mask The mask to AND the area with.
+ * @param value The value to OR the area with.
+ * @param x Destination X position, in tiles.
+ * @param y Destination Y position, in tiles.
+ * @param width Width, in tiles.
+ * @param height Height, in tiles.
+ */
+void ws_screen_modify_tiles(void *dest, uint16_t mask, uint16_t value, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Put a tile on the screen.
- * 
+ *
  * @param dest Pointer to the destination screen.
  * @param src The tile to put.
  * @param x Destination X position, in tiles.
  * @param y Destination Y position, in tiles.
  */
-static inline void ws_screen_put(void *dest, uint16_t src, uint8_t x, uint8_t y) {
+static inline void ws_screen_put_tile(void *dest, uint16_t src, uint16_t x, uint16_t y) {
 	((uint16_t*) dest)[((y & 0x1F) << 5) | (x & 0x1F)] = src;
+}
+
+/**
+ * @brief Get a tile on the screen.
+ *
+ * @param src Pointer to the source screen.
+ * @param x Destination X position, in tiles.
+ * @param y Destination Y position, in tiles.
+ */
+static inline uint16_t ws_screen_get_tile(void *src, uint16_t x, uint16_t y) {
+	return ((uint16_t*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
 }
 /**@}*/

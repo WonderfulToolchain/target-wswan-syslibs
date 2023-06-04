@@ -23,20 +23,69 @@
 #include <wonderful.h>
 #include "asm-preamble.h"
 	.intel_syntax noprefix
-	.global ws_hwint_set_default_handler_serial_tx
 
-ws_hwint_internal_default_handler0:
-	push ax
-	in al, 0xB2
-	and al, 0xFE
-	out 0xB2, al
-	mov al, 0x01
-	out 0xB6, al
-	pop ax
-	iret
+	.global ws_screen_get_tiles
+ws_screen_get_tiles:
+	// DX:AX - destination
+	// CX - source
+	// stack - X, Y, width, height
 
-ws_hwint_set_default_handler_serial_tx:
-	mov ax, 0
-	mov dx, offset "ws_hwint_internal_default_handler0"
-	mov cx, cs
-	ASM_PLATFORM_JMP ws_hwint_set_handler
+	push	ds
+	push	es
+	push	si
+	push	di
+	push	bp
+	mov	bp, sp
+
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+# define STACK_OFFSET 14
+#else
+# define STACK_OFFSET 12
+#endif
+
+	// adjust values:
+	// DS:SI - source
+	// ES:?? - destination
+	mov	di, ax
+	mov	es, dx
+	xor	ax, ax
+	mov	ds, ax
+	mov	si, cx
+
+	// AX = Y, BX = X
+	// => DI = destination
+	mov	ax, [bp + (STACK_OFFSET + 2)]
+	and	ax, 0x1F
+	shl	ax, 5
+	mov	bx, [bp + (STACK_OFFSET)]
+	and	bx, 0x1F
+	or	ax, bx
+	shl	ax, 1
+	add	si, ax
+
+	// CX = width, AX = height
+	mov	cx, [bp + (STACK_OFFSET + 4)]
+	and	cx, 0x1F
+	jz	__ws_screen_get_tiles_done
+	mov	ax, [bp + (STACK_OFFSET + 6)]
+	and	ax, 0x1F
+	jz	__ws_screen_get_tiles_done
+
+	cld
+__ws_screen_get_tiles_row:
+	push	cx
+	push	si
+	rep	movsw
+	pop	si
+	pop	cx
+	add	si, 32 * 2
+	dec	ax
+	jnz	__ws_screen_get_tiles_row
+
+__ws_screen_get_tiles_done:
+	pop	bp
+	pop	di
+	pop	si
+	pop	es
+	pop	ds
+	ASM_PLATFORM_RET 0x8
