@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
