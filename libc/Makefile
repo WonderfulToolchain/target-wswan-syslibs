@@ -62,7 +62,11 @@ CFLAGS		+= -std=gnu11 $(WARNFLAGS) $(DEFINES) $(WF_ARCH_CFLAGS) \
 ifeq ($(WF_TARGET),wwitch)
 CFLAGS		+= -Os -DLIBC_LOCALE_SJIS
 else
+ifeq ($(WF_SUBTARGET),bootfriend)
+CFLAGS		+= -Os -DLIBC_LOCALE_ASCII
+else
 CFLAGS		+= -O2 -DLIBC_LOCALE_ASCII
+endif
 endif
 
 # Intermediate build files
