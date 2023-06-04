@@ -71,14 +71,16 @@ ws_screen_get_tiles:
 	and	ax, 0x1F
 	jz	__ws_screen_get_tiles_done
 
+	mov	bx, 32
+	sub	bx, cx
+	shl	bx, 1
+
 	cld
 __ws_screen_get_tiles_row:
 	push	cx
-	push	si
 	rep	movsw
-	pop	si
 	pop	cx
-	add	si, 32 * 2
+	add	si, bx
 	dec	ax
 	jnz	__ws_screen_get_tiles_row
 

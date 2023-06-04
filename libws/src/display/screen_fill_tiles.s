@@ -65,14 +65,16 @@ ws_screen_fill_tiles:
 	and	dx, 0x1F
 	jz	__ws_screen_fill_tiles_done
 
+	mov	bx, 32
+	sub	bx, cx
+	shl	bx, 1
+
 	cld
 __ws_screen_fill_tiles_row:
 	push	cx
-	push	di
 	rep	stosw
-	pop	di
 	pop	cx
-	add	di, 32 * 2
+	add	di, bx
 	dec	dx
 	jnz	__ws_screen_fill_tiles_row
 
