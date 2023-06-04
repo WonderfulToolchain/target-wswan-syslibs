@@ -24,7 +24,11 @@
 #include "ws/display.h"
 #include "ws/eeprom.h"
 
-static const uint16_t __far ieep_name_color_to_rgb_map[16] = {
+static const uint16_t
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+__far
+#endif
+ieep_name_color_to_rgb_map[16] = {
 	RGB(0, 0, 0),
 	RGB(15, 0, 0),
 	RGB(15, 7, 0),

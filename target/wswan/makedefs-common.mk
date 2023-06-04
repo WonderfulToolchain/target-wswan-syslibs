@@ -17,6 +17,6 @@ else
 ROMLINK := $(WF)/bin/wf-wswantool romlink
 endif
 
-WF_ARCH_CFLAGS := -march=v30mz -mtune=v30mz -mregparmcall -msegelf -ffreestanding
+WF_ARCH_CFLAGS := -march=v30mz -mtune=v30mz -mregparmcall -ffreestanding
 WF_ARCH_ASFLAGS := --32-segelf
 WF_ARCH_LDFLAGS :=

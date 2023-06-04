@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,26 +20,40 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <stdint.h>
-#include "ws/eeprom.h"
+	.arch	i186
+	.code16
+	.intel_syntax noprefix
 
-const char
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-__far
-#endif
-ws_ieep_internal_owner_to_ascii_map[] = {
-	' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
-	'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-	'V', 'W', 'X', 'Y', 'Z', 3/* heart */, 13/* music note */, '+', '-', '?', '.'
-};
+	.section .start
+	.global _start
 
-void ws_ieep_read_owner_name_ascii(char *str) {
-	uint8_t i;
+_header:
+	.byte	0x62, 0x46 /* BootFriend magic */
+	.word	offset "_start" /* program counter value */
 
-	ws_ieep_read_owner_name((uint8_t*) str);
-	for (i = 0; i < 16; i++) {
-		if (str[i] == 0x00 || str[i] >= sizeof(ws_ieep_internal_owner_to_ascii_map)) break;
-		str[i] = ws_ieep_internal_owner_to_ascii_map[(uint8_t) str[i]];
-	}
-	str[i] = 0;
-}
+_start:
+	cli
+
+	xor	ax, ax
+	// CS = 0x0000
+	mov	ds, ax
+	mov	es, ax
+	mov	ss, ax
+
+	// configure SP
+	mov	sp, 0xFE00
+
+	// clear int enable
+	out	0xB2, al
+
+	// clear BSS
+	mov	di, offset "__edata"
+	mov	cx, offset "__lwbss"
+	cld
+	rep	stosw
+
+	// configure default interrupt base
+	mov	al, 0x08
+	out	0xB0, al
+
+	jmp	main

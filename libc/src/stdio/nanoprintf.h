@@ -10,6 +10,12 @@
 #include <stdarg.h>
 #include <stddef.h>
 
+#if defined(__IA16_CALLCVT_NO_ASSUME_SS_DATA)
+# define FAR_STACK __far
+#else
+# define FAR_STACK
+#endif
+
 // hacked-up flags to remove unused functions/logic. probably not thorough. (asie)
 // #define NPF_DEFINE_PPRINTF
 
@@ -45,14 +51,14 @@ NPF_VISIBILITY int snprintf(
 NPF_VISIBILITY int vsnprintf(
   char __far* buffer, size_t bufsz, char const __far* format, va_list vlist) NPF_PRINTF_ATTR(3, 0);
 
-typedef void (*npf_putc)(int c, void __far* ctx);
+typedef void (*npf_putc)(int c, void FAR_STACK* ctx);
 #ifdef NPF_DEFINE_PPRINTF
 NPF_VISIBILITY int npf_pprintf(
-  npf_putc pc, void __far* pc_ctx, char const __far* format, ...) NPF_PRINTF_ATTR(3, 4);
+  npf_putc pc, void FAR_STACK* pc_ctx, char const __far* format, ...) NPF_PRINTF_ATTR(3, 4);
 #endif
 
 NPF_VISIBILITY int npf_vpprintf(
-  npf_putc pc, void __far* pc_ctx, char const __far* format, va_list vlist) NPF_PRINTF_ATTR(3, 0);
+  npf_putc pc, void FAR_STACK* pc_ctx, char const __far* format, va_list vlist) NPF_PRINTF_ATTR(3, 0);
 
 #ifdef __cplusplus
 }
@@ -263,9 +269,9 @@ typedef struct npf_bufputc_ctx {
   size_t cur;
 } npf_bufputc_ctx_t;
 
-static int npf_parse_format_spec(char const __far* format, npf_format_spec_t __far* out_spec);
-static void npf_bufputc(int c, void __far* ctx);
-static void npf_bufputc_nop(int c, void __far* ctx);
+static int npf_parse_format_spec(char const __far* format, npf_format_spec_t FAR_STACK* out_spec);
+static void npf_bufputc(int c, void FAR_STACK* ctx);
+static void npf_bufputc_nop(int c, void FAR_STACK* ctx);
 static int npf_itoa_rev(char __far* buf, npf_int_t i);
 static int npf_utoa_rev(char __far* buf, npf_uint_t i, unsigned base, unsigned case_adjust);
 
@@ -296,7 +302,7 @@ static int npf_bin_len(npf_uint_t i);
 
 static int npf_max(int x, int y) { return (x > y) ? x : y; }
 
-int npf_parse_format_spec(char const __far* format, npf_format_spec_t __far* out_spec) {
+int npf_parse_format_spec(char const __far* format, npf_format_spec_t FAR_STACK* out_spec) {
   char const __far* cur = format;
 
 #if NANOPRINTF_USE_FIELD_WIDTH_FORMAT_SPECIFIERS == 1
@@ -682,21 +688,21 @@ int npf_bin_len(npf_uint_t u) {
 }
 #endif
 
-void npf_bufputc(int c, void __far* ctx) {
-  npf_bufputc_ctx_t __far* bpc = (npf_bufputc_ctx_t __far*)ctx;
+void npf_bufputc(int c, void FAR_STACK* ctx) {
+  npf_bufputc_ctx_t FAR_STACK* bpc = (npf_bufputc_ctx_t FAR_STACK*)ctx;
   if (bpc->cur < bpc->len) { bpc->dst[bpc->cur++] = (char)c; }
 }
 
-void npf_bufputc_nop(int c, void __far* ctx) { (void)c; (void)ctx; }
+void npf_bufputc_nop(int c, void FAR_STACK* ctx) { (void)c; (void)ctx; }
 
 typedef struct npf_cnt_putc_ctx {
   npf_putc pc;
-  void __far* ctx;
+  void FAR_STACK* ctx;
   int n;
 } npf_cnt_putc_ctx_t;
 
-static void npf_putc_cnt(int c, void __far* ctx) {
-  npf_cnt_putc_ctx_t __far* pc_cnt = (npf_cnt_putc_ctx_t __far*)ctx;
+static void npf_putc_cnt(int c, void FAR_STACK* ctx) {
+  npf_cnt_putc_ctx_t FAR_STACK* pc_cnt = (npf_cnt_putc_ctx_t FAR_STACK*)ctx;
   ++pc_cnt->n;
   pc_cnt->pc(c, pc_cnt->ctx); // sibling-call optimization
 }
@@ -709,7 +715,7 @@ static void npf_putc_cnt(int c, void __far* ctx) {
 #define NPF_WRITEBACK(MOD, TYPE) \
   case NPF_FMT_SPEC_LEN_MOD_##MOD: *(va_arg(args, TYPE *)) = (TYPE)pc_cnt.n; break
 
-int npf_vpprintf(npf_putc pc, void __far* pc_ctx, char const __far* format, va_list args) {
+int npf_vpprintf(npf_putc pc, void FAR_STACK* pc_ctx, char const __far* format, va_list args) {
   npf_format_spec_t fs;
   char const __far* cur = format;
   npf_cnt_putc_ctx_t pc_cnt;
@@ -1039,7 +1045,7 @@ int npf_vpprintf(npf_putc pc, void __far* pc_ctx, char const __far* format, va_l
 #undef NPF_WRITEBACK
 
 #ifdef NPF_DEFINE_PPRINTF
-int npf_pprintf(npf_putc pc, void __far* pc_ctx, char const __far* format, ...) {
+int npf_pprintf(npf_putc pc, void FAR_STACK* pc_ctx, char const __far* format, ...) {
   va_list val;
   va_start(val, format);
   int const rv = npf_vpprintf(pc, pc_ctx, format, val);
