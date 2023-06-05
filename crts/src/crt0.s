@@ -24,7 +24,7 @@
 	.code16
 	.intel_syntax noprefix
 
-	.section .start
+	.section .start, "ax"
 	.global _start
 _start:
 	cli

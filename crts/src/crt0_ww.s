@@ -64,7 +64,7 @@
 # error Must specify DISPLAY_MODE!
 #endif
 
-	.section .start
+	.section .start, "ax"
 	.global _start
 _start:
 	push	ds

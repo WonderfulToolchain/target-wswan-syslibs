@@ -30,22 +30,22 @@ $(OBJDIR)/crt0_ws_bootfriend.o: crt0_bootfriend.s $(OBJDIR)
 	$(CC) $(ASFLAGS) -mcmodel=tiny -c -o $@ $<
 
 $(OBJDIR)/crt0_ws_small.o: crt0.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=small -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -c -o $@ $<
 
 $(OBJDIR)/crt0_ws_medium.o: crt0.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=medium -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=medium -msegelf -c -o $@ $<
 
 $(OBJDIR)/crt0_ww_asc1.o: crt0_ww.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=small -DDISPLAY_MODE_ASCII1 -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DDISPLAY_MODE_ASCII1 -c -o $@ $<
 
 $(OBJDIR)/crt0_ww_asc2.o: crt0_ww.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=small -DDISPLAY_MODE_ASCII2 -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DDISPLAY_MODE_ASCII2 -c -o $@ $<
 
 $(OBJDIR)/crt0_ww_jpn1.o: crt0_ww.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=small -DDISPLAY_MODE_JAPANESE1 -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DDISPLAY_MODE_JAPANESE1 -c -o $@ $<
 
 $(OBJDIR)/crt0_ww_jpn2.o: crt0_ww.s $(OBJDIR)
-	$(CC) $(ASFLAGS) -mcmodel=small -DDISPLAY_MODE_JAPANESE2 -c -o $@ $<
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DDISPLAY_MODE_JAPANESE2 -c -o $@ $<
 
 $(OBJDIR):
 	$(info $(shell mkdir -p $(MKDIRS)))
