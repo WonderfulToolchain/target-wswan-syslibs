@@ -35,7 +35,7 @@
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 .macro ASM_PLATFORM_CALL tgt:req
-	.reloc	., R_386_SEG16, "\tgt\()!"
+	.reloc	.+3, R_386_SEG16, "\tgt\()!"
 	call 0:\tgt
 .endm
 
