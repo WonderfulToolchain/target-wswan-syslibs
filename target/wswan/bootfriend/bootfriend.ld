@@ -20,9 +20,7 @@ SECTIONS {
 		. = ALIGN (2);
 		__edata = .;
 	}
-	"__ldata!" = 0;
 	__ldata = SIZEOF(.data);
-	"__lwdata!" = 0;
 	__lwdata = (__ldata + 1) / 2;
 
 	.bss . (NOLOAD) :
@@ -31,8 +29,6 @@ SECTIONS {
 		. = ALIGN (2);
 		__ebss = .;
 	}
-	"__lbss!" = 0;
 	__lbss = SIZEOF(.bss);
-	"__lwbss!" = 0;
 	__lwbss = (__lbss + 1) / 2;
 }
