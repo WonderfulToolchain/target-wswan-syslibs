@@ -93,7 +93,7 @@ typedef struct {
  *
  * @param i Tile index (0-511).
  */
-#define MEM_TILE(i) ((uint8_t*) (0x2000 + ((i) << 4)))
+#define MEM_TILE(i) ((uint8_t __wf_iram*) (0x2000 + ((i) << 4)))
 
 /**
  * @brief Pointer to 4bpp tile.
@@ -107,21 +107,21 @@ typedef struct {
  *
  * @param i Tile index (0-511).
  */
-#define MEM_TILE_4BPP_BANK0(i) ((uint8_t*) (0x4000 + ((i) << 5)))
+#define MEM_TILE_4BPP_BANK0(i) ((uint8_t __wf_iram*) (0x4000 + ((i) << 5)))
 
 /**
  * @brief Pointer to 4bpp tile in bank 1 (512-1023).
  *
  * @param i Tile index (0-511).
  */
-#define MEM_TILE_4BPP_BANK1(i) ((uint8_t*) (0x8000 + ((i) << 5)))
+#define MEM_TILE_4BPP_BANK1(i) ((uint8_t __wf_iram*) (0x8000 + ((i) << 5)))
 
 /**
  * @brief Pointer to color palette.
  *
  * @param i Color palette (0-15).
  */
-#define MEM_COLOR_PALETTE(i) ((uint16_t*) (0xFE00 + ((i) << 5)))
+#define MEM_COLOR_PALETTE(i) ((uint16_t __wf_iram*) (0xFE00 + ((i) << 5)))
 
 /**
  * @brief Pointer to screen color palette.
@@ -135,7 +135,7 @@ typedef struct {
  *
  * @param i Color palette (0-7).
  */
-#define MEM_SPR_PALETTE(i) ((uint16_t*) (0xFF00 + ((i) << 5)))
+#define MEM_SPR_PALETTE(i) ((uint16_t __wf_iram*) (0xFF00 + ((i) << 5)))
 
 /**@}*/
 

@@ -23,4 +23,7 @@
 #pragma once
 
 #define __WONDERFUL_WWITCH__
+#define __wf_rom
+#define __wf_iram __far
+
 #include "../../wswan/wonderful-common.h"

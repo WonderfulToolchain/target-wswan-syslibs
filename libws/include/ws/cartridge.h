@@ -39,7 +39,7 @@ extern const void *__wf_rom_bank_offset;
  * @{
  */
 
-#define MEM_RAM ((uint8_t*) 0x0000)
+#define MEM_RAM ((uint8_t __wf_iram*) 0x00000000)
 #define MEM_SRAM ((uint8_t __far*) 0x10000000)
 #define MEM_ROM0 ((uint8_t __far*) 0x20000000)
 #define MEM_ROM1 ((uint8_t __far*) 0x30000000)

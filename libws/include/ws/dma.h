@@ -43,7 +43,7 @@
  * @param src Source linear (20-bit) address.
  * @param length Length, in bytes. Must be a multiple of 2.
  */
-void ws_dma_copy_words_linear(void *dest, uint32_t src, uint16_t length);
+void ws_dma_copy_words_linear(void __wf_iram* dest, uint32_t src, uint16_t length);
 
 /**
  * @brief Copy words from a source pointer to a destination pointer using DMA.
@@ -54,8 +54,8 @@ void ws_dma_copy_words_linear(void *dest, uint32_t src, uint16_t length);
  * @param src Source pointer, in any location.
  * @param length Length, in bytes. Must be a multiple of 2.
  */
-static inline void ws_dma_copy_words(void *dest, const void __far* src, uint16_t length) {
-	ws_dma_copy_words_linear(dest, (((uint32_t) src) >> 12) + ((uint16_t) ((uint32_t) src)), length);
+static inline void ws_dma_copy_words(void __wf_iram* dest, const void __far* src, uint16_t length) {
+	ws_dma_copy_words_linear(dest, ((((uint32_t) src) >> 12) & 0xFFFF0) + ((uint16_t) ((uint32_t) src)), length);
 }
 
 /**
@@ -65,6 +65,6 @@ static inline void ws_dma_copy_words(void *dest, const void __far* src, uint16_t
  * @param src Source pointer, in any location.
  * @param length Length, in bytes. Must be a multiple of 2.
  */
-void ws_dma_opt_copy_words(void *dest, const void __far* src, uint16_t length);
+void ws_dma_opt_copy_words(void __wf_iram* dest, const void __far* src, uint16_t length);
 
 /**@}*/

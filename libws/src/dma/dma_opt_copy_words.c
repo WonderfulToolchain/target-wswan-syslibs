@@ -27,9 +27,9 @@
 #include "ws/system.h"
 #include "ws/dma.h"
 
-void ws_dma_opt_copy_words(void *dest, const void __far* src, uint16_t length) {
+void ws_dma_opt_copy_words(void __wf_iram* dest, const void __far* src, uint16_t length) {
 	if (ws_system_is_color()) {
-		ws_dma_copy_words_linear(dest, (((uint32_t) src) >> 12) + ((uint16_t) ((uint32_t) src)), length);
+		ws_dma_copy_words(dest, src, length);
 	} else {
 		memcpy(dest, src, length);
 	}
