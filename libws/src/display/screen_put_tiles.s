@@ -65,10 +65,8 @@ ws_screen_put_tiles:
 
 	// CX = width, AX = height
 	mov	cx, [bp + (STACK_OFFSET + 4)]
-	and	cx, 0x1F
 	jz	__ws_screen_put_tiles_done
 	mov	ax, [bp + (STACK_OFFSET + 6)]
-	and	ax, 0x1F
 	jz	__ws_screen_put_tiles_done
 
 	mov	bx, 32

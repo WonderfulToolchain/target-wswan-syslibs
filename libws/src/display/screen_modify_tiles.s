@@ -65,10 +65,8 @@ ws_screen_modify_tiles:
 	mov	bx, cx
 	// CX = width, BP = height
 	mov	cx, [bp + (STACK_OFFSET + 4)]
-	and	cx, 0x1F
 	jz	__ws_screen_modify_tiles_done
 	mov	ax, [bp + (STACK_OFFSET + 6)]
-	and	ax, 0x1F
 	jz	__ws_screen_modify_tiles_done
 	mov	bp, ax
 

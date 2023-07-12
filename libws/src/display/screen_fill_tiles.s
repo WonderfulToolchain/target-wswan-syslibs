@@ -59,10 +59,8 @@ ws_screen_fill_tiles:
 	// CX = width, DX = height, AX = fill value
 	mov	ax, dx
 	mov	cx, [bp + (STACK_OFFSET + 2)]
-	and	cx, 0x1F
 	jz	__ws_screen_fill_tiles_done
 	mov	dx, [bp + (STACK_OFFSET + 4)]
-	and	dx, 0x1F
 	jz	__ws_screen_fill_tiles_done
 
 	mov	bx, 32
