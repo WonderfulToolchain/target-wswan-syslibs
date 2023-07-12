@@ -87,7 +87,7 @@ static inline uint8_t sound_get_output(void) {
 static inline void sound_set_wave(uint8_t channel, const uint8_t __far* data) {
 	uint16_t ax_clobber;
 	__asm volatile (
-		"int $0x13"
+		"int $0x15"
 		: "=a" (ax_clobber)
 		: "a" (0x0500 | channel), "d" (FP_OFF(data)), "Rds" (FP_SEG(data))
 		: "cc", "memory"

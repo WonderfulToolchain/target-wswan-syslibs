@@ -246,7 +246,7 @@
 #define SND_NOISE_RESET  0x08
 
 #define IO_SND_WAVE_BASE 0x8F
-#define SND_WAVE_BASE(a) ((a) >> 6)
+#define SND_WAVE_BASE(x) ((__WF_IRAM_TO_OFFSET(x)) >> 6)
 
 #define IO_SND_CH_CTRL 0x90
 #define SND_CH1_ENABLE 0x01
