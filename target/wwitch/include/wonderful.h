@@ -24,6 +24,7 @@
 
 #define __WONDERFUL_WWITCH__
 #define __wf_rom
-#define __wf_iram __far
+#define __wf_iram __seg_ss
+#define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
 
 #include "../../wswan/wonderful-common.h"

@@ -23,6 +23,7 @@
 #pragma once
 #include <stdbool.h>
 #include <stdint.h>
+#include <wonderful.h>
 
 /** \file display.h
  * Functionality related to the display.
@@ -177,7 +178,7 @@ void ws_display_set_shade_lut(uint32_t lut);
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_put_tiles(void *dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void ws_screen_put_tiles(void __wf_iram* dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Copy a map of tiles from the screen.
@@ -189,7 +190,7 @@ void ws_screen_put_tiles(void *dest, const void __far* src, uint16_t x, uint16_t
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_get_tiles(void __far* dest, const void *src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void ws_screen_get_tiles(void __far* dest, const void __wf_iram* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Fill an area on the screen with a given tile.
@@ -201,7 +202,7 @@ void ws_screen_get_tiles(void __far* dest, const void *src, uint16_t x, uint16_t
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_fill_tiles(void *dest, uint16_t src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void ws_screen_fill_tiles(void __wf_iram* dest, uint16_t src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Modify an area on the screen with given data.
@@ -214,7 +215,7 @@ void ws_screen_fill_tiles(void *dest, uint16_t src, uint16_t x, uint16_t y, uint
  * @param width Width, in tiles.
  * @param height Height, in tiles.
  */
-void ws_screen_modify_tiles(void *dest, uint16_t mask, uint16_t value, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void ws_screen_modify_tiles(void __wf_iram* dest, uint16_t mask, uint16_t value, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 /**
  * @brief Put a tile on the screen.
@@ -224,8 +225,8 @@ void ws_screen_modify_tiles(void *dest, uint16_t mask, uint16_t value, uint16_t 
  * @param x Destination X position, in tiles.
  * @param y Destination Y position, in tiles.
  */
-static inline void ws_screen_put_tile(void *dest, uint16_t src, uint16_t x, uint16_t y) {
-	((uint16_t*) dest)[((y & 0x1F) << 5) | (x & 0x1F)] = src;
+static inline void ws_screen_put_tile(void __wf_iram* dest, uint16_t src, uint16_t x, uint16_t y) {
+	((uint16_t __wf_iram*) dest)[((y & 0x1F) << 5) | (x & 0x1F)] = src;
 }
 
 /**
@@ -235,7 +236,7 @@ static inline void ws_screen_put_tile(void *dest, uint16_t src, uint16_t x, uint
  * @param x Destination X position, in tiles.
  * @param y Destination Y position, in tiles.
  */
-static inline uint16_t ws_screen_get_tile(void *src, uint16_t x, uint16_t y) {
-	return ((uint16_t*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
+static inline uint16_t ws_screen_get_tile(void __wf_iram* src, uint16_t x, uint16_t y) {
+	return ((uint16_t __wf_iram*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
 }
 /**@}*/

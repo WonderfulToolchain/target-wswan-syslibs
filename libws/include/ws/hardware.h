@@ -25,6 +25,7 @@
  */
 
 #pragma once
+#include <wonderful.h>
 
 /**
  * @addtogroup DefinesInt Defines - Interrupt IDs
@@ -87,14 +88,14 @@
 #define IO_LCD_INTERRUPT 0x03
 
 #define IO_SPR_BASE 0x04
-#define SPR_BASE(x) (((uint16_t) (x)) >> 9)
+#define SPR_BASE(x) ((__WF_IRAM_TO_OFFSET(x)) >> 9)
 
 #define IO_SPR_FIRST 0x05
 #define IO_SPR_COUNT 0x06
 
 #define IO_SCR_BASE 0x07
-#define SCR1_BASE(x) ((((uint16_t) (x)) >> 11))
-#define SCR2_BASE(x) ((((uint16_t) (x)) >> 11) << 4)
+#define SCR1_BASE(x) (((__WF_IRAM_TO_OFFSET(x)) >> 11))
+#define SCR2_BASE(x) (((__WF_IRAM_TO_OFFSET(x)) >> 11) << 4)
 
 #define IO_SCR2_WIN_X1 0x08
 #define IO_SCR2_WIN_Y1 0x09
