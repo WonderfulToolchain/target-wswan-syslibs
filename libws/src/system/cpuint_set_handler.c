@@ -26,7 +26,7 @@
 #include "ws/system.h"
 
 void ws_cpuint_set_handler(uint8_t idx, ws_int_handler_t handler) {
-    uint16_t *ptr = ((uint16_t*) (idx << 2));
+    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (idx << 2));
     *(ptr++) = FP_OFF(handler);
     *(ptr++) = FP_SEG(handler);
 }

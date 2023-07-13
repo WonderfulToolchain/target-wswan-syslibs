@@ -169,10 +169,10 @@ wsx_lzsa2_decompress_small:
    xchg di,ax              // compute decompressed size
    sub ax,di
    pop bp
+   pop ds
    pop es
    pop di
    pop si
-   pop ds
    ASM_PLATFORM_RET 0x4
 
 .get_nibble_x:

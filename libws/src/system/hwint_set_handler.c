@@ -27,7 +27,7 @@
 #include "ws/system.h"
 
 void ws_hwint_set_handler(uint8_t idx, ws_int_handler_t handler) {
-    uint16_t *ptr = ((uint16_t*) (((inportb(IO_HWINT_VECTOR) & 0xF8) | idx) << 2));
+    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (((inportb(IO_HWINT_VECTOR) & 0xF8) | idx) << 2));
     *(ptr++) = FP_OFF(handler);
     *(ptr++) = FP_SEG(handler);
 }
