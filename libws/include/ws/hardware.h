@@ -136,6 +136,7 @@
 
 #define LCD_SHADES(c0, c1) ((c0) | ((c1) << 4))
 
+#define IO_SCR_PAL(x) (0x20 + ((x) << 1))
 #define IO_SCR_PAL_0 0x20
 #define IO_SCR_PAL_1 0x22
 #define IO_SCR_PAL_2 0x24
@@ -144,6 +145,7 @@
 #define IO_SCR_PAL_5 0x2A
 #define IO_SCR_PAL_6 0x2C
 #define IO_SCR_PAL_7 0x2E
+#define IO_SPR_PAL(x) (0x30 + ((x) << 1))
 #define IO_SPR_PAL_0 0x30
 #define IO_SPR_PAL_1 0x32
 #define IO_SPR_PAL_2 0x34
