@@ -40,7 +40,7 @@
 /**
  * @brief Unpack 1BPP tiles to 2BPP tiles, using a specified background and foreground color.
  */
-#define WSX_PLANAR_UNPACK_1BPP_TO_2BPP(bg, fg) ((bg) | ((fg) << 2) | (2 << 8))
+#define WSX_PLANAR_UNPACK_1BPP_TO_2BPP(bg, fg) ((fg) | ((bg) << 2) | (2 << 8))
 
 /**
  * @brief Unpack a lower-bitdepth planar image to a higher bitdepth.
