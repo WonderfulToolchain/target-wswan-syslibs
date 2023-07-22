@@ -228,6 +228,7 @@
 #define HYPERV_TARGET_RIGHT  (2 << 13)
 #define HYPERV_TARGET_MONO   (3 << 13)
 
+#define SND_FREQ_HZ(hz) (2048 - (96000 / (hz)))
 #define IO_SND_FREQ_CH1 0x80
 #define IO_SND_FREQ_CH2 0x82
 #define IO_SND_FREQ_CH3 0x84
