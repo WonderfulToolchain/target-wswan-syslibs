@@ -10,6 +10,7 @@
  */
 
 #pragma once
+#include <wonderful.h>
 #include <stddef.h>
 
 void __far* _fmemchr(const void __far* s, int c, size_t n);

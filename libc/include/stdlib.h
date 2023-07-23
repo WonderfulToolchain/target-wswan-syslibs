@@ -10,6 +10,7 @@
  */
 
 #pragma once
+#include <wonderful.h>
 #include <stddef.h>
 
 int abs(int j);

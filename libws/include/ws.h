@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <wonderful.h>
 #include <ws/hardware.h>
 
 #ifndef __ASSEMBLER__

@@ -25,7 +25,6 @@
  */
 
 #pragma once
-#include <wonderful.h>
 #include <sys/types.h>
 
 /**

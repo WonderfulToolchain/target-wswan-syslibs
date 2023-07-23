@@ -27,4 +27,10 @@
 #define __wf_iram
 #define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
 
+#ifndef __ia16__
+/* See wonderful-common.h for rationale. */
+#define __IA16_CMODEL_SMALL__
+#define __IA16_ABI_SEGELF
+#endif
+
 #include "../../wonderful-common.h"

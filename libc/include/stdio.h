@@ -10,6 +10,7 @@
  */
 
 #pragma once
+#include <wonderful.h>
 #include <stdarg.h>
 #include <stddef.h>
 
