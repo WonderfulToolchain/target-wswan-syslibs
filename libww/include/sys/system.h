@@ -24,7 +24,9 @@
  * FreyaBIOS system calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_SYSTEM_H__
+#define __WF_LIBWW_SYSTEM_H__
+
 #include <sys/types.h>
 
 /**
@@ -171,3 +173,5 @@ static inline uint16_t sys_get_version(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_SYSTEM_H__ */

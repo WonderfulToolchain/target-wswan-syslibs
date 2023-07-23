@@ -1,6 +1,7 @@
 //  decompress_small.S - space-efficient decompressor implementation for 8088
 //
 //  Copyright (C) 2019 Emmanuel Marty
+//  Code modified for Wonderful toolchain
 //
 //  This software is provided 'as-is', without any express or implied
 //  warranty.  In no event will the authors be held liable for any damages

@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2021 Emmanuel Marty
  * ZX0 compression (c) 2021 Einar Saukas, https://github.com/einar-saukas/ZX0
+ * Code modified for Wonderful toolchain
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -19,7 +20,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWSX_ZX0_H__
+#define __WF_LIBWSX_ZX0_H__
+
 #include <stdint.h>
 
 /** \file zx0.h
@@ -33,3 +36,5 @@
  * @param src Source memory pointer.
  */
 void wsx_zx0_decompress(void __far* dest, const void __far* src);
+
+#endif /* __WF_LIBWSX_ZX0_H__ */

@@ -24,7 +24,9 @@
 	* Functionality related to the cartridge RTC.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_RTC_H__
+#define __WF_LIBWS_RTC_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include "hardware.h"
@@ -76,3 +78,5 @@ bool ws_rtc_low_write_ctrl(uint8_t value, uint16_t timeout);
 // TODO: high-level commands
 
 /**@}*/
+
+#endif /* __WF_LIBWS_RTC_H__ */

@@ -24,7 +24,9 @@
  * FreyaBIOS timer calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_TIMER_H__
+#define __WF_LIBWW_TIMER_H__
+
 #include <sys/types.h>
 
 /**
@@ -174,3 +176,5 @@ static inline uint16_t timer_get_count(uint8_t type) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_TIMER_H__ */

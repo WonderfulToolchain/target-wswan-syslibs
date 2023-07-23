@@ -24,7 +24,9 @@
  * Functionality related to the cartridge.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_CARTRIDGE_H__
+#define __WF_LIBWS_CARTRIDGE_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <wonderful.h>
@@ -153,3 +155,5 @@ void ws_cart_gpo_disable(uint8_t id);
 void ws_cart_gpo_set(uint8_t id, bool val);
 
 /**@}*/
+
+#endif /* __WF_LIBWS_CARTRIDGE_H__ */

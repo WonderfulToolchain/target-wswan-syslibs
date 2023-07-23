@@ -20,7 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_WS_H__
+#define __WF_LIBWS_WS_H__
 
 #include <wonderful.h>
 #include <ws/hardware.h>
@@ -36,3 +37,5 @@
 #include <ws/cartridge.h>
 #include <ws/rtc.h>
 #endif
+
+#endif /* __WF_LIBWS_WS_H__ */

@@ -20,7 +20,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWSX_PLANAR_UNPACK_H__
+#define __WF_LIBWSX_PLANAR_UNPACK_H__
+
 #include <stdint.h>
 
 /** \file planar_unpack.h
@@ -51,3 +53,5 @@
  * @param mode Unpacking mode, see WSX_PLANAR_UNPACK_MODE defines.
  */
 void wsx_planar_unpack(void __far* dest, uint16_t src_length, const void __far* src, uint16_t mode);
+
+#endif /* __WF_LIBWSX_ZX0_H__ */

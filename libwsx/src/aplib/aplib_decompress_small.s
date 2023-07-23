@@ -1,6 +1,7 @@
 // aplib_8088_small.S - size-optimized aPLib decompressor for 8088 - 145 bytes
 //
 // Copyright (C) 2019 Emmanuel Marty
+// Code modified for Wonderful toolchain
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages

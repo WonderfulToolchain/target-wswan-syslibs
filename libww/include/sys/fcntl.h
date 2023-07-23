@@ -23,7 +23,9 @@
 /** \file sys/fcntl.h
  */
 
-#pragma once
+#ifndef __WF_LIBWW_FCNTL_H__
+#define __WF_LIBWW_FCNTL_H__
+
 #include <sys/types.h>
 
-// TODO
+#endif /* __WF_LIBWW_FCNTL_H__ */

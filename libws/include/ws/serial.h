@@ -24,7 +24,9 @@
 	* Functionality related to the serial port.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_SERIAL_H__
+#define __WF_LIBWS_SERIAL_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include "hardware.h"
@@ -64,3 +66,5 @@ int16_t ws_serial_getc_nonblock(void);
 void ws_serial_putc(uint8_t value);
 
 /**@}*/
+
+#endif /* __WF_LIBWS_SERIAL_H__ */

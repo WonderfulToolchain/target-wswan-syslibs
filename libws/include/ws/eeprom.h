@@ -24,7 +24,9 @@
 	* Functionality related to EEPROM.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_EEPROM_H__
+#define __WF_LIBWS_EEPROM_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include "hardware.h"
@@ -184,3 +186,5 @@ static inline bool ws_ieep_protect_check(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWS_EEPROM_H__ */

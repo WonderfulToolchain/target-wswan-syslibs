@@ -9,7 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_ERRNO_H__
+#define __WF_LIBC_ERRNO_H__
+
 #include <stddef.h>
 
 extern int _errno;
@@ -20,3 +22,5 @@ extern int _errno;
 #define EILSEQ -3
 #define EINVAL -4
 #define ENOMEM -5
+
+#endif /* __WF_LIBC_ERRNO_H__ */

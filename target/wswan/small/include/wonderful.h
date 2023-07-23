@@ -20,7 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_WONDERFUL_H__
+#define __WF_WONDERFUL_H__
 
 #include "../../wonderful-common-pre.h"
 
@@ -36,3 +37,5 @@
 #endif
 
 #include "../../wonderful-common.h"
+
+#endif /* __WF_WONDERFUL_H__ */

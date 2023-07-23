@@ -20,7 +20,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_DISPLAY_H__
+#define __WF_LIBWS_DISPLAY_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <wonderful.h>
@@ -240,3 +242,5 @@ static inline uint16_t ws_screen_get_tile(void __wf_iram* src, uint16_t x, uint1
 	return ((uint16_t __wf_iram*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
 }
 /**@}*/
+
+#endif /* __WF_LIBWS_DISPLAY_H__ */

@@ -20,7 +20,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_UTIL_H__
+#define __WF_LIBWS_UTIL_H__
+
 #include <stdint.h>
 #include <wonderful.h>
 
@@ -40,3 +42,5 @@
  * @param us Approximate number of microseconds.
  */
 void ws_busywait(uint16_t us);
+
+#endif /* __WF_LIBWS_UTIL_H__ */

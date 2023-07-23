@@ -24,7 +24,9 @@
  * Hardware and port defines.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_HARDWARE_H__
+#define __WF_LIBWS_HARDWARE_H__
+
 #include <wonderful.h>
 
 /**
@@ -394,3 +396,5 @@
 #define IO_BANK_2003_ROM1 0xD4
 
 /**@}*/
+
+#endif /* __WF_LIBWS_HARDWARE_H__ */

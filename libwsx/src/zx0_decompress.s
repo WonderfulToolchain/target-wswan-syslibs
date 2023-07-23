@@ -6,6 +6,7 @@
 //
 // Copyright (C) 2021 Emmanuel Marty
 // ZX0 compression (c) 2021 Einar Saukas, https://github.com/einar-saukas/ZX0
+// Code modified for Wonderful toolchain
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages

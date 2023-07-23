@@ -24,7 +24,9 @@
  * FreyaBIOS sound calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_SOUND_H__
+#define __WF_LIBWW_SOUND_H__
+
 #include <sys/types.h>
 
 /**
@@ -179,3 +181,5 @@ static inline uint16_t sound_get_random(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_SOUND_H__ */

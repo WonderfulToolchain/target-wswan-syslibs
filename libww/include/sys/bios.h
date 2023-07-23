@@ -24,7 +24,9 @@
  * FreyaBIOS calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_BIOS_H__
+#define __WF_LIBWW_BIOS_H__
+
 #include <sys/types.h>
 #include <sys/key.h>
 #include <sys/disp.h>
@@ -50,3 +52,5 @@ static inline void bios_exit(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_BIOS_H__ */

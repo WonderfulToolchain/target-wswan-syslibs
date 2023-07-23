@@ -24,7 +24,9 @@
  * FreyaBIOS serial calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_COMM_H__
+#define __WF_LIBWW_COMM_H__
+
 #include <sys/types.h>
 
 /**
@@ -220,3 +222,5 @@ static inline void comm_xmodem(xmodeminfo __far* xmodem_info) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_COMM_H__ */

@@ -24,7 +24,9 @@
  * FreyaBIOS cartridge calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_BANK_H__
+#define __WF_LIBWW_BANK_H__
+
 #include <sys/types.h>
 
 /**
@@ -33,3 +35,5 @@
  */
 
 /**@}*/
+
+#endif /* __WF_LIBWW_BANK_H__ */

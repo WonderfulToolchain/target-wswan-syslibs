@@ -23,5 +23,4 @@
 /** \file fcntl.h
  */
 
-#pragma once
 #include <sys/fcntl.h>

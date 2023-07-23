@@ -24,7 +24,9 @@
  * WonderWitch Color support.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_LIBWWC_H__
+#define __WF_LIBWW_LIBWWC_H__
+
 #include <sys/types.h>
 
 /**
@@ -50,3 +52,5 @@ void wwc_font_set_colordata(uint16_t start, uint16_t count, const void __far* da
 void wwc_clear_font(void);
 
 /**@}*/
+
+#endif /* __WF_LIBWW_LIBWWC_H__ */

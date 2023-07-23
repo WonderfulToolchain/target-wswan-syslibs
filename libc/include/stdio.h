@@ -9,7 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_STDIO_H__
+#define __WF_LIBC_STDIO_H__
+
 #include <wonderful.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -18,3 +20,5 @@ int sprintf(char __far* restrict s, const char __far* restrict format, ...);
 int snprintf(char __far* restrict s, size_t n, const char __far* restrict format, ...);
 int vsprintf(char __far* restrict s, const char __far* restrict format, va_list arg);
 int vsnprintf(char __far* restrict s, size_t n, const char __far* restrict format, va_list arg);
+
+#endif /* __WF_LIBC_STDIO_H__ */

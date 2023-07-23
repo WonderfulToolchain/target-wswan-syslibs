@@ -24,7 +24,9 @@
  * FreyaBIOS keypad calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_KEY_H__
+#define __WF_LIBWW_KEY_H__
+
 #include <sys/types.h>
 
 /**
@@ -110,3 +112,5 @@ static inline uint16_t key_hit_check_with_repeat(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBW_KEY_H__ */

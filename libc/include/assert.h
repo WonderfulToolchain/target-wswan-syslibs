@@ -9,7 +9,8 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_ASSERT_H__
+#define __WF_LIBC_ASSERT_H__
 
 // TODO: Actually implement assert().
 
@@ -20,3 +21,5 @@
 # undef static_assert
 # define static_assert _Static_assert
 #endif
+
+#endif /* __WF_LIBC_ASSERT_H__ */

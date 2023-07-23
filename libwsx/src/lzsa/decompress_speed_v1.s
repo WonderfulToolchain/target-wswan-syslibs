@@ -8,6 +8,7 @@
 //  - Trashes all data and segment registers
 //
 //  Copyright (C) 2019 Jim Leonard, Emmanuel Marty
+//  Code modified for Wonderful toolchain
 //
 //  This software is provided 'as-is', without any express or implied
 //  warranty.  In no event will the authors be held liable for any damages

@@ -9,7 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_STRING_H__
+#define __WF_LIBC_STRING_H__
+
 #include <wonderful.h>
 #include <stddef.h>
 
@@ -52,3 +54,5 @@ char __far* strpbrk(const char __far* s1, const char __far* s2);
 char __far* strrchr(const char __far* s, int c);
 size_t strspn(const char __far* s1, const char __far* s2);
 char __far* strstr(const char __far* s1, const char __far* s2);
+
+#endif /* __WF_LIBC_STRING_H__ */

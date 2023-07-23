@@ -24,7 +24,9 @@
  * FreyaBIOS text calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_TEXT_H__
+#define __WF_LIBWW_TEXT_H__
+
 #include <sys/types.h>
 
 /**
@@ -258,3 +260,5 @@ static inline uint32_t cursor_get_type(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_TEXT_H__ */

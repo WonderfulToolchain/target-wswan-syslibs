@@ -9,7 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_CTYPE_H__
+#define __WF_LIBC_CTYPE_H__
+
 #include <stddef.h>
 
 int isalnum(int c);
@@ -26,3 +28,5 @@ int isupper(int c);
 int isxdigit(int c);
 int tolower(int c);
 int toupper(int c);
+
+#endif /* __WF_LIBC_CTYPE_H__ */

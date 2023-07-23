@@ -9,7 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#pragma once
+#ifndef __WF_LIBC_STDLIB_H__
+#define __WF_LIBC_STDLIB_H__
+
 #include <wonderful.h>
 #include <stddef.h>
 
@@ -41,3 +43,5 @@ lldiv_t lldiv(long long int numer, long long int denom);
 #define RAND_MAX 32767
 int rand(void);
 void srand(unsigned int seed);
+
+#endif /* __WF_LIBC_STDLIB_H__ */

@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2019 Jim Leonard, Emmanuel Marty
+ * Code modified for Wonderful toolchain
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +19,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWSX_LZSA_H__
+#define __WF_LIBWSX_LZSA_H__
+
 #include <stdint.h>
 
 /** \file lzsa.h
@@ -42,3 +45,5 @@ uint16_t wsx_lzsa1_decompress(void __far* dest, const void __far* src);
  * @return The number of bytes decompressed.
  */
 uint16_t wsx_lzsa2_decompress(void __far* dest, const void __far* src);
+
+#endif /* __WF_LIBWSX_LZSA_H__ */

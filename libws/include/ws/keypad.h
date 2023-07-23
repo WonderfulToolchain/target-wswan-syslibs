@@ -24,7 +24,9 @@
  * Functionality related to the keypad.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_KEYPAD_H__
+#define __WF_LIBWS_KEYPAD_H__
+
 #include <stdint.h>
 
 /**
@@ -52,3 +54,5 @@ uint16_t ws_keypad_scan(void);
 #define KEY_START 0x0002
 
 /**@}*/
+
+#endif /* __WF_LIBWS_KEYPAD_H__ */

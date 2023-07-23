@@ -24,7 +24,9 @@
 	* Functionality related to DMA transfers.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_DMA_H__
+#define __WF_LIBWS_DMA_H__
+
 #include <stdint.h>
 #include "hardware.h"
 #include "util.h"
@@ -68,3 +70,5 @@ static inline void ws_dma_copy_words(void __wf_iram* dest, const void __far* src
 void ws_dma_opt_copy_words(void __wf_iram* dest, const void __far* src, uint16_t length);
 
 /**@}*/
+
+#endif /* __WF_LIBWS_DMA_H__ */

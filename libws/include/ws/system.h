@@ -20,7 +20,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#ifndef __WF_LIBWS_SYSTEM_H__
+#define __WF_LIBWS_SYSTEM_H__
+
 #include <stdbool.h>
 #include <stdint.h>
 #include "util.h"
@@ -229,3 +231,5 @@ static inline void ws_hwint_ack(uint8_t mask) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWS_SYSTEM_H__ */

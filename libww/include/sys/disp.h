@@ -24,7 +24,9 @@
  * FreyaBIOS display calls.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_DISP_H__
+#define __WF_LIBWW_DISP_H__
+
 #include <sys/types.h>
 
 /**
@@ -363,3 +365,5 @@ static inline uint16_t lcd_get_sleep(void) {
 }
 
 /**@}*/
+
+#endif /* __WF_LIBWW_DISP_H__ */

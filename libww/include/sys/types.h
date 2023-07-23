@@ -24,7 +24,9 @@
  * General system types.
  */
 
-#pragma once
+#ifndef __WF_LIBWW_TYPES_H__
+#define __WF_LIBWW_TYPES_H__
+
 #include <wonderful.h>
 #include <stdint.h>
 
@@ -37,3 +39,5 @@ typedef uint8_t BOOL;
 
 #define far __far
 #define near 
+
+#endif /* __WF_LIBWW_TYPES_H__ */
