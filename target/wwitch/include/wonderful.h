@@ -22,12 +22,14 @@
 
 #pragma once
 
+#include "../../wswan/wonderful-common-pre.h"
+
 #define __WONDERFUL_WWITCH__
 #define __wf_rom
 #define __wf_iram __seg_ss
 #define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
 
-#ifndef __ia16__
+#ifdef __WF_LS_NO_DEFINE_SUPPORT__
 /* See wonderful-common.h for rationale. */
 #define __IA16_CMODEL_SMALL__
 #define __IA16_ABI_SEGELF

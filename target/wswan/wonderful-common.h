@@ -24,46 +24,6 @@
 
 #define __WONDERFUL__
 
-#ifndef __ia16__
-/* __ia16__ is not defined - this means we're not running under gcc-ia16. */
-/* Typically, this will imply a language server of some kind, like clangd. */
-/* As such, define expected macros to paper over things (except __ia16__). */
-
-/* Defines. */
-#define __FAR
-#define __SEG_SS
-#define __SEG_CS
-#define _M_IX86 100
-
-#define __IA16_FEATURE_SHIFT_IMM
-#define __IA16_FEATURE_PUSH_IMM
-#define __IA16_FEATURE_IMUL_IMM
-#define __IA16_FEATURE_PUSHA
-#define __IA16_FEATURE_ENTER_LEAVE
-#define __IA16_FEATURE_SHIFT_MASKED
-#define __IA16_FEATURE_AAD_IMM
-
-/* Do not set compiler feature defines - they are not supported under this */
-/* environment. */
-
-#define __IA16_ARCH_ANY
-#define __IA16_ARCH_ANY_186
-#define __IA16_ARCH_NEC_V30MZ
-
-#define __IA16_TUNE_ANY
-#define __IA16_TUNE_ANY_186
-#define __IA16_TUNE_NEC_V30MZ
-
-/* Also avoid mapping Open Watcom-specific compatibility macros - we do not */
-/* want to encourage this. */
-
-/* Pragmas. */
-#define __far
-#define __seg_ss
-#define __seg_cs
-
-#endif
-
 #ifdef __ASSEMBLER__
 
 /** Memory model helpers. */
