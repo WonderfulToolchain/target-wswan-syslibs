@@ -161,4 +161,4 @@ wsx_planar_unpack:
 	pop ds
 	pop di
 	pop si
-	ASM_PLATFORM_RET
+	ASM_PLATFORM_RET 0x6
