@@ -29,13 +29,10 @@
 _start:
 	cli
 
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
 	// set DS to the location of rodata
-	.byte	0xB8
-	.reloc	., R_386_SEG16, "__erom!"
-	.word	0
+	.reloc	.+1, R_386_SEG16, "__erom!"
+	mov	ax, 0
 	mov	ds, ax
-#endif
 
 	// configure sp
 	mov	sp, offset "__eheap"
@@ -47,11 +44,6 @@ _start:
 	mov	si, offset "__erom&"
 	mov	di, offset "__sdata"
 	mov	cx, offset "__lwdata"
-#ifndef __IA16_CMODEL_IS_FAR_TEXT
-	// set DS to the location of rodata
-	push cs
-	pop ds
-#endif
 	cld
 	rep	movsw
 
