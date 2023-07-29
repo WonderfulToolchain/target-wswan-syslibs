@@ -41,6 +41,7 @@
  *
  * @param us Approximate number of microseconds.
  */
+__attribute__((no_assume_ds_data, no_assume_ss_data))
 void ws_busywait(uint16_t us);
 
 #endif /* __WF_LIBWS_UTIL_H__ */

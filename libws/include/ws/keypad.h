@@ -39,6 +39,7 @@
  * 
  * @return uint16_t A bitfield representing currently pressed keys.
  */
+__attribute__((no_assume_ds_data, no_assume_ss_data))
 uint16_t ws_keypad_scan(void);
 
 #define KEY_Y4    0x0800
