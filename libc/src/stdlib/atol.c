@@ -24,7 +24,7 @@ long atol(const char __far* str) {
 	else if (*str == '-') { sign = true; str++; }
 
 	while (*str >= '0' && *str <= '9') {
-		result = (result * 10) + (*(str++));
+		result = (result * 10) + (*(str++) - '0');
 	}
 	return sign ? -result : result;
 }
