@@ -44,4 +44,7 @@ lldiv_t lldiv(long long int numer, long long int denom);
 int rand(void);
 void srand(unsigned int seed);
 
+void __far* bsearch(const void __far* key, const void __far* base, size_t nmemb, size_t size, int (*compar)(const void __far*, const void __far*));
+void qsort(void __far* base, size_t nmemb, size_t size, int (*compar)(const void __far*, const void __far*));
+
 #endif /* __WF_LIBC_STDLIB_H__ */
