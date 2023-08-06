@@ -37,7 +37,6 @@
 #define HARDARCH_WS  0
 #define HARDARCH_WSC 1
 
-__attribute__((save_all))
 uint8_t wwc_get_hardarch();
 
 #define COLOR_MODE_GRAYSCALE 0x00

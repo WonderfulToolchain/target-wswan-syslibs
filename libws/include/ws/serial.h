@@ -50,7 +50,7 @@ static inline bool ws_serial_is_overrun(void) {
 }
 
 static inline void ws_serial_ack_overrun(void) {
-	outportb(IO_SERIAL_STATUS, inportb(IO_SERIAL_STATUS) | SERIAL_OVERRUN);
+	outportb(IO_SERIAL_STATUS, inportb(IO_SERIAL_STATUS) | SERIAL_OVERRUN_RESET);
 }
 
 static inline bool ws_serial_is_readable(void) {

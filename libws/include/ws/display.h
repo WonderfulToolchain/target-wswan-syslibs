@@ -168,7 +168,7 @@ typedef struct {
   *
   * @param lut The shade LUT configuration. Usage of the #GRAY_LUT macro is recommended. A default configuration is provided via #GRAY_LUT_DEFAULT .
   */
-__attribute__((no_assume_ds_data, no_assume_ss_data))
+__attribute__((no_assume_ds_data, no_assume_ss_data, save_all))
 void ws_display_set_shade_lut(uint32_t lut);
 
 /**
