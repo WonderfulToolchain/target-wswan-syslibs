@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,16 +20,20 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <stdint.h>
-#include "ws/util.h"
+#include <wonderful.h>
 #include "ws/hardware.h"
-#include "ws/serial.h"
+#include "asm-preamble.h"
+	.intel_syntax noprefix
 
-uint8_t ws_serial_getc(void) {
-	do {
-		if (ws_serial_is_overrun()) {
-			ws_serial_ack_overrun();
-		}
-	} while (!ws_serial_is_readable());
-	return inportb(IO_SERIAL_DATA);
-}
+	.global ws_serial_getc
+ws_serial_getc:
+    in al, IO_SERIAL_STATUS
+    test al, SERIAL_OVERRUN
+    jz ws_serial_getc_no_overrun
+    or al, SERIAL_OVERRUN_RESET
+    out IO_SERIAL_STATUS, al
+ws_serial_getc_no_overrun:
+    test al, SERIAL_RX_READY
+    jz ws_serial_getc
+    in al, IO_SERIAL_DATA
+    ASM_PLATFORM_RET
