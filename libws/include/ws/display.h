@@ -36,20 +36,27 @@
 #define DISPLAY_WIDTH_PX (DISPLAY_WIDTH * TILE_WIDTH)
 #define DISPLAY_HEIGHT_PX (DISPLAY_HEIGHT * TILE_HEIGHT)
 
+#define TILE_WIDTH 8
+#define TILE_HEIGHT 8
+#define TILE_LENGTH 16
+#define TILE_4BPP_LENGTH 32
+
 typedef struct {
-	uint16_t tile : 9;
-	uint8_t palette : 4;
-	uint8_t bank : 1;
-	bool flip_h : 1;
-	bool flip_v : 1;
-} ws_scr_entry_t;
+	uint8_t row[TILE_HEIGHT][2];
+} ws_tile_t;
+
+typedef struct {
+	uint8_t row[TILE_HEIGHT][4];
+} ws_tile_4bpp_t;
 
 #define SCR_ENTRY_TILE(x) (x)
 #define SCR_ENTRY_TILE_MASK (0x1FF)
 #define SCR_ENTRY_PALETTE(x) ((x) << 9)
 #define SCR_ENTRY_PALETTE_MASK (0xF << 9)
 #define SCR_ENTRY_BANK(x) ((x) << 13)
-#define SCR_ENTRY_BANK_MASK (1 << 13)
+#define SCR_ENTRY_BANK_MASK (0x2000)
+#define SCR_ENTRY_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
+#define SCR_ENTRY_TILE_EX_MASK (0x21FF)
 #define SCR_ENTRY_TILE_BANK_MASK (SCR_ENTRY_TILE_MASK | SCR_ENTRY_BANK_MASK)
 
 #define SCR_ENTRY_FLIP_H    0x4000
@@ -57,10 +64,21 @@ typedef struct {
 #define SCR_ENTRY_FLIP      0xC000
 #define SCR_ENTRY_FLIP_MASK 0xC000
 
-#define TILE_WIDTH 8
-#define TILE_HEIGHT 8
-#define TILE_LENGTH 16
-#define TILE_4BPP_LENGTH 32
+typedef struct {
+	union {
+		struct {
+			uint16_t tile : 9;
+			uint8_t palette : 4;
+			uint8_t bank : 1;
+			bool flip_h : 1;
+			bool flip_v : 1;
+		};
+		uint16_t entry;
+	};
+} ws_screen_entry_t;
+
+// legacy
+#define ws_scr_entry_t ws_screen_entry_t
 
 #define SCR_WIDTH 32
 #define SCR_HEIGHT 32
@@ -68,17 +86,23 @@ typedef struct {
 #define SCR_HEIGHT_PX (SCR_HEIGHT * TILE_HEIGHT)
 
 typedef struct {
-	uint16_t tile : 9;
-	uint8_t palette : 3;
-	bool inside : 1;
-	bool priority : 1;
-	bool flip_h : 1;
-	bool flip_v : 1;
-	uint8_t y : 8;
-	uint8_t x : 8;
+	union {
+		struct {
+			uint16_t tile : 9;
+			uint8_t palette : 3;
+			bool inside : 1;
+			bool priority : 1;
+			bool flip_h : 1;
+			bool flip_v : 1;
+		};
+		uint16_t entry;
+	};
+	uint8_t y;
+	uint8_t x;
 } ws_sprite_t;
 
 #define SPR_ENTRY_PALETTE(x) ((x) << 9)
+#define SPR_ENTRY_PALETTE_MASK	(0x7 << 9)
 #define SPR_ENTRY_INSIDE   0x1000
 #define SPR_ENTRY_PRIORITY 0x2000
 #define SPR_ENTRY_FLIP_H   0x4000
