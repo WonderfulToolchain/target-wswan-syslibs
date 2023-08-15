@@ -29,36 +29,53 @@
 _start:
 	cli
 
-	// set DS to the location of rodata
-	.reloc	.+1, R_386_SEG16, "__erom!"
+	// set DS:SI to the location of the data block
+	.reloc	.+1, R_386_SEG16, "__wf_data_block!"
 	mov	ax, 0
 	mov	ds, ax
+	mov	si, offset "__wf_data_block"
 
-	// configure sp
-	mov	sp, offset "__eheap"
-
-	// copy rodata/data from ROM to RAM
+	// configure SP, ES, SS, flags
+	mov	sp, offset "__wf_heap_top"
 	xor	ax, ax
 	mov	es, ax
 	mov	ss, ax
-	mov	si, offset "__erom&"
-	mov	di, offset "__sdata"
-	mov	cx, offset "__lwdata"
 	cld
-	rep	movsw
 
-	// initialize segments
-	// (es/ss) initialized above
-	// xor	ax, ax - done above
+_start_parse_data_block:
+	lodsw
+	mov	cx, ax
+	test	cx, cx
+	jz	_start_finish_data_block
+	lodsw
+	mov	di, ax
+	lodsw
+	test	ah, 0x80
+	jnz	_start_data_block_clear
+
+_start_data_block_move:
+	shr	cx, 1
+	rep	movsw
+	jnc	_start_parse_data_block
+	movsb
+	jmp	_start_parse_data_block
+
+_start_data_block_clear:
+	xor	ax, ax
+	shr	cx, 1
+	rep	stosw
+	jnc	_start_parse_data_block
+	stosb
+	jmp	_start_parse_data_block
+
+_start_finish_data_block:
+
+	// initialize DS
+	xor	ax, ax
 	mov	ds, ax
 
 	// clear int enable
 	out	0xB2, al
-
-	// clear bss
-	mov	di, offset "__edata"
-	mov	cx, offset "__lwbss"
-	rep	stosw
 
 	// configure default interrupt base
 	mov	al, 0x08

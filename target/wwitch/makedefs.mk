@@ -4,7 +4,7 @@ include $(dir $(lastword $(MAKEFILE_LIST)))../wswan/makedefs-common.mk
 
 WF_TARGET_DIR ?= $(WF)/target/wwitch
 
-WF_LDSCRIPT := $(WF_TARGET_DIR)/witch.ld
+WF_LDSCRIPT := $(WF_TARGET_DIR)/link.ld
 WF_CRT0_ASC1 := $(WF_TARGET_DIR)/lib/crt0_asc1.o
 WF_CRT0_ASC2 := $(WF_TARGET_DIR)/lib/crt0_asc2.o
 WF_CRT0_JPN1 := $(WF_TARGET_DIR)/lib/crt0_jpn1.o
