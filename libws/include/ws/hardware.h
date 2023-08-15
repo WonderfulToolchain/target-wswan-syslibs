@@ -362,7 +362,7 @@
 #define IO_BANK_RAM 0xC1
 #define IO_BANK_ROM0 0xC2
 #define IO_BANK_ROM1 0xC3
-#define IO_BANK_LINEAR 0xC0
+#define IO_BANK_ROM_LINEAR 0xC0
 
 #define IO_CART_EEP_DATA 0xC4
 #define IO_CART_EEP_CMD  0xC6

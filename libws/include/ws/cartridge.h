@@ -33,8 +33,7 @@
 #include "hardware.h"
 #include "util.h"
 
-extern const void *__wf_rom_bank_offset;
-#define WF_BANK_INDEX(x) (((uint8_t) (uint16_t) (&__wf_rom_bank_offset)) + (x))
+#define WF_BANK_INDEX(x) (x)
 
 /**
  * @addtogroup DefinesMemoryLayout Defines - Memory layout
@@ -54,83 +53,111 @@ extern const void *__wf_rom_bank_offset;
  * @{
  */
 
+static inline uint8_t __ws_bank_push8(uint8_t port, uint8_t new_bank) {
+	asm volatile("" ::: "memory");
+	uint8_t old_bank = inportb(port);
+	outportb(port, new_bank);
+	asm volatile("" ::: "memory");
+	return old_bank;
+}
+
+static inline uint8_t __ws_bank_push8p(uint8_t port, const void *faux_bank_ptr) {
+	return __ws_bank_push8(port, (uint8_t) ((uint16_t) faux_bank_ptr));
+}
+
+static inline void __ws_bank_set8(uint8_t port, uint8_t new_bank) {
+	asm volatile("" ::: "memory");
+	outportb(port, new_bank);
+	asm volatile("" ::: "memory");
+}
+
+static inline void __ws_bank_set8p(uint8_t port, const void *faux_bank_ptr) {
+	__ws_bank_set8(port, (uint8_t) ((uint16_t) faux_bank_ptr));
+}
+
 /**
  * @brief Switch to a new RAM bank, while preserving the value of the old one.
  * 
  * @param new_bank New RAM bank.
  * @return uint8_t The previous RAM bank.
  */
-static inline uint8_t ws_bank_ram_push(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	uint8_t old_bank = inportb(IO_BANK_RAM);
-	outportb(IO_BANK_RAM, new_bank);
-	asm volatile("" ::: "memory");
-	return old_bank;
-}
+#define ws_bank_ram_push(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_push8p, \
+	default: __ws_bank_push8)(IO_BANK_RAM, new_bank)
 
 /**
  * @brief Switch to a new RAM bank.
  * 
  * @param new_bank New RAM bank.
  */
-static inline void ws_bank_ram_set(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	outportb(IO_BANK_RAM, new_bank);
-	asm volatile("" ::: "memory");
-}
+#define ws_bank_ram_set(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_set8p, \
+	default: __ws_bank_set8)(IO_BANK_RAM, new_bank)
+
 #define ws_bank_ram_pop ws_bank_ram_set
 
 /**
  * @brief Switch to a new ROM bank in slot 0, while preserving the value of the old one.
  * 
- * @param new_bank New ROM bank in slot 0.
- * @return uint8_t The previous ROM bank in slot 0.
+ * @param new_bank New ROM bank.
+ * @return uint8_t The previous ROM bank.
  */
-static inline uint8_t ws_bank_rom0_push(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	uint8_t old_bank = inportb(IO_BANK_ROM0);
-	outportb(IO_BANK_ROM0, WF_BANK_INDEX(new_bank));
-	asm volatile("" ::: "memory");
-	return old_bank;
-}
+#define ws_bank_rom0_push(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_push8p, \
+	default: __ws_bank_push8)(IO_BANK_ROM0, new_bank)
 
 /**
  * @brief Switch to a new ROM bank in slot 0.
  * 
- * @param new_bank New ROM bank in slot 0.
+ * @param new_bank New ROM bank.
  */
-static inline void ws_bank_rom0_set(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	outportb(IO_BANK_ROM0, WF_BANK_INDEX(new_bank));
-	asm volatile("" ::: "memory");
-}
+#define ws_bank_rom0_set(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_set8p, \
+	default: __ws_bank_set8)(IO_BANK_ROM0, new_bank)
+
 #define ws_bank_rom0_pop ws_bank_rom0_set
 
 /**
  * @brief Switch to a new ROM bank in slot 1, while preserving the value of the old one.
  * 
- * @param new_bank New ROM bank in slot 1.
- * @return uint8_t The previous ROM bank in slot 1.
+ * @param new_bank New ROM bank.
+ * @return uint8_t The previous ROM bank.
  */
-static inline uint8_t ws_bank_rom1_push(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	uint8_t old_bank = inportb(IO_BANK_ROM1);
-	outportb(IO_BANK_ROM1, WF_BANK_INDEX(new_bank));
-	asm volatile("" ::: "memory");
-	return old_bank;
-}
+#define ws_bank_rom1_push(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_push8p, \
+	default: __ws_bank_push8)(IO_BANK_ROM1, new_bank)
 
 /**
  * @brief Switch to a new ROM bank in slot 1.
  * 
- * @param new_bank New ROM bank in slot 1.
+ * @param new_bank New ROM bank.
  */
-static inline void ws_bank_rom1_set(uint8_t new_bank) {
-	asm volatile("" ::: "memory");
-	outportb(IO_BANK_ROM1, WF_BANK_INDEX(new_bank));
-	asm volatile("" ::: "memory");
-}
+#define ws_bank_rom1_set(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_set8p, \
+	default: __ws_bank_set8)(IO_BANK_ROM1, new_bank)
+
 #define ws_bank_rom1_pop ws_bank_rom1_set
+
+/**
+ * @brief Switch to a new ROM bank in the linear slot, while preserving the value of the old one.
+ * 
+ * @param new_bank New ROM bank.
+ * @return uint8_t The previous ROM bank.
+ */
+#define ws_bank_rom_linear_push(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_push8p, \
+	default: __ws_bank_push8)(IO_BANK_ROM_LINEAR, new_bank)
+
+/**
+ * @brief Switch to a new ROM bank in the linear slot.
+ * 
+ * @param new_bank New ROM bank.
+ */
+#define ws_bank_rom_linear_set(new_bank) _Generic((new_bank), \
+	const void*: __ws_bank_set8p, \
+	default: __ws_bank_set8)(IO_BANK_ROM_LINEAR, new_bank)
+
+#define ws_bank_rom_linear_pop ws_bank_rom_linear_set
 
 /**
  * @brief Enable general-purpose output.
