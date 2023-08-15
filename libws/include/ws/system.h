@@ -110,14 +110,14 @@ typedef enum {
 	 * pixels per byte, as opposed to four separate consecutive planes.
 	 */
 	WS_MODE_COLOR_4BPP_PACKED = 0xE0
-} ws_mode_t;
+} ws_system_mode_t;
 
 /**
  * @brief Get the current system mode.
  * 
  * @return ws_system_mode_t The current system mode.
  */
-static inline ws_mode_t ws_mode_get(void) {
+static inline ws_system_mode_t ws_system_mode_get(void) {
 	return inportb(IO_SYSTEM_CTRL2) & 0xE0;
 }
 
@@ -130,7 +130,12 @@ static inline ws_mode_t ws_mode_get(void) {
  * @return true If the operation was successful.
  * @return false If the operation was unsuccessful (trying to apply a color mode on a "mono" WonderSwan).
  */
-bool ws_mode_set(ws_mode_t mode);
+bool ws_system_mode_set(ws_system_mode_t mode);
+
+// Legacy defines. TODO: Remove
+#define ws_mode_t ws_system_mode_t
+#define ws_mode_get ws_system_mode_get
+#define ws_mode_set ws_system_mode_set
 
 typedef __attribute__((interrupt)) void __far (*ws_int_handler_t)(void);
 

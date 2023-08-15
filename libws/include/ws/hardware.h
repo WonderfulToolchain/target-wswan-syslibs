@@ -74,6 +74,7 @@
  */
 
 #define IO_DISPLAY_CTRL 0x00
+#define IO_DISPLAY_BACK 0x01
 
 #define DISPLAY_SCR1_ENABLE  0x0001
 #define DISPLAY_SCR2_ENABLE  0x0002
@@ -147,6 +148,14 @@
 #define IO_SCR_PAL_5 0x2A
 #define IO_SCR_PAL_6 0x2C
 #define IO_SCR_PAL_7 0x2E
+#define IO_SCR_PAL_8 0x30
+#define IO_SCR_PAL_9 0x32
+#define IO_SCR_PAL_10 0x34
+#define IO_SCR_PAL_11 0x36
+#define IO_SCR_PAL_12 0x38
+#define IO_SCR_PAL_13 0x3A
+#define IO_SCR_PAL_14 0x3C
+#define IO_SCR_PAL_15 0x3E
 #define IO_SPR_PAL(x) (0x30 + ((x) << 1))
 #define IO_SPR_PAL_0 0x30
 #define IO_SPR_PAL_1 0x32

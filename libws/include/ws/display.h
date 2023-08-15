@@ -49,20 +49,20 @@ typedef struct {
 	uint8_t row[TILE_HEIGHT][4];
 } ws_tile_4bpp_t;
 
-#define SCR_ENTRY_TILE(x) (x)
-#define SCR_ENTRY_TILE_MASK (0x1FF)
-#define SCR_ENTRY_PALETTE(x) ((x) << 9)
-#define SCR_ENTRY_PALETTE_MASK (0xF << 9)
-#define SCR_ENTRY_BANK(x) ((x) << 13)
-#define SCR_ENTRY_BANK_MASK (0x2000)
-#define SCR_ENTRY_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
-#define SCR_ENTRY_TILE_EX_MASK (0x21FF)
-#define SCR_ENTRY_TILE_BANK_MASK (SCR_ENTRY_TILE_MASK | SCR_ENTRY_BANK_MASK)
+#define SCR_ATTR_TILE(x) (x)
+#define SCR_ATTR_TILE_MASK (0x1FF)
+#define SCR_ATTR_PALETTE(x) ((x) << 9)
+#define SCR_ATTR_PALETTE_MASK (0xF << 9)
+#define SCR_ATTR_BANK(x) ((x) << 13)
+#define SCR_ATTR_BANK_MASK (0x2000)
+#define SCR_ATTR_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
+#define SCR_ATTR_TILE_EX_MASK (0x21FF)
+#define SCR_ATTR_TILE_BANK_MASK (SCR_ATTR_TILE_MASK | SCR_ATTR_BANK_MASK)
 
-#define SCR_ENTRY_FLIP_H    0x4000
-#define SCR_ENTRY_FLIP_V    0x8000
-#define SCR_ENTRY_FLIP      0xC000
-#define SCR_ENTRY_FLIP_MASK 0xC000
+#define SCR_ATTR_FLIP_H    0x4000
+#define SCR_ATTR_FLIP_V    0x8000
+#define SCR_ATTR_FLIP      0xC000
+#define SCR_ATTR_FLIP_MASK 0xC000
 
 typedef struct {
 	union {
@@ -73,12 +73,9 @@ typedef struct {
 			bool flip_h : 1;
 			bool flip_v : 1;
 		};
-		uint16_t entry;
+		uint16_t attr;
 	};
-} ws_screen_entry_t;
-
-// legacy
-#define ws_scr_entry_t ws_screen_entry_t
+} ws_screen_cell_t;
 
 #define SCR_WIDTH 32
 #define SCR_HEIGHT 32
@@ -95,11 +92,39 @@ typedef struct {
 			bool flip_h : 1;
 			bool flip_v : 1;
 		};
-		uint16_t entry;
+		uint16_t attr;
 	};
 	uint8_t y;
 	uint8_t x;
 } ws_sprite_t;
+
+#define SPR_ATTR_PALETTE(x) ((x) << 9)
+#define SPR_ATTR_PALETTE_MASK	(0x7 << 9)
+#define SPR_ATTR_INSIDE   0x1000
+#define SPR_ATTR_PRIORITY 0x2000
+#define SPR_ATTR_FLIP_H   0x4000
+#define SPR_ATTR_FLIP_V   0x8000
+
+#define SPR_MAX_COUNT 128
+
+// legacy defines
+
+#define SCR_ENTRY_TILE(x) (x)
+#define SCR_ENTRY_TILE_MASK (0x1FF)
+#define SCR_ENTRY_PALETTE(x) ((x) << 9)
+#define SCR_ENTRY_PALETTE_MASK (0xF << 9)
+#define SCR_ENTRY_BANK(x) ((x) << 13)
+#define SCR_ENTRY_BANK_MASK (0x2000)
+#define SCR_ENTRY_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
+#define SCR_ENTRY_TILE_EX_MASK (0x21FF)
+#define SCR_ENTRY_TILE_BANK_MASK (SCR_ENTRY_TILE_MASK | SCR_ENTRY_BANK_MASK)
+
+#define SCR_ENTRY_FLIP_H    0x4000
+#define SCR_ENTRY_FLIP_V    0x8000
+#define SCR_ENTRY_FLIP      0xC000
+#define SCR_ENTRY_FLIP_MASK 0xC000
+
+#define ws_scr_entry_t ws_screen_tile_t
 
 #define SPR_ENTRY_PALETTE(x) ((x) << 9)
 #define SPR_ENTRY_PALETTE_MASK	(0x7 << 9)
@@ -107,8 +132,6 @@ typedef struct {
 #define SPR_ENTRY_PRIORITY 0x2000
 #define SPR_ENTRY_FLIP_H   0x4000
 #define SPR_ENTRY_FLIP_V   0x8000
-
-#define SPR_MAX_COUNT 128
 
 /**
  * @addtogroup DefinesVideoMem Defines - Video memory

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include "ws/system.h"
 
-bool ws_mode_set(ws_mode_t mode) {
+bool ws_system_mode_set(ws_system_mode_t mode) {
 	if (!ws_system_is_color()) {
 		return mode == 0;
 	}
