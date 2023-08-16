@@ -1,6 +1,7 @@
 OUTPUT_FORMAT("elf32-i386")
 ENTRY(_start)
-SECTIONS {
+SECTIONS
+{
 	. = SEGMENT_START ("text-segment", 0x6800);
 
 	.text : {
