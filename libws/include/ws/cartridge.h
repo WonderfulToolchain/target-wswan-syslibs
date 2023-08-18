@@ -63,18 +63,10 @@ static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	return old_bank;
 }
 
-static inline ws_bank_t __ws_bank_savep(uint8_t port, const void *faux_bank_ptr) {
-	return __ws_bank_save(port, (uint8_t) ((uint16_t) faux_bank_ptr));
-}
-
 static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	outportb(port, new_bank);
 	asm volatile("" ::: "memory");
-}
-
-static inline void __ws_bank_setp(uint8_t port, const void *faux_bank_ptr) {
-	__ws_bank_set(port, (uint8_t) ((uint16_t) faux_bank_ptr));
 }
 
 /**
@@ -83,19 +75,14 @@ static inline void __ws_bank_setp(uint8_t port, const void *faux_bank_ptr) {
  * @param new_bank New RAM bank.
  * @return uint8_t The previous RAM bank.
  */
-#define ws_bank_ram_save(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_savep, \
-	default: __ws_bank_save)(IO_BANK_RAM, new_bank)
+#define ws_bank_ram_save(new_bank) __ws_bank_save(IO_BANK_RAM, (new_bank))
 
 /**
  * @brief Switch to a new RAM bank.
  * 
  * @param new_bank New RAM bank.
  */
-#define ws_bank_ram_set(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_setp, \
-	default: __ws_bank_set)(IO_BANK_RAM, new_bank)
-
+#define ws_bank_ram_set(new_bank) __ws_bank_set(IO_BANK_RAM, (new_bank))
 #define ws_bank_ram_restore ws_bank_ram_set
 
 /**
@@ -104,19 +91,14 @@ static inline void __ws_bank_setp(uint8_t port, const void *faux_bank_ptr) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom0_save(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_savep, \
-	default: __ws_bank_save)(IO_BANK_ROM0, new_bank)
+#define ws_bank_rom0_save(new_bank) __ws_bank_save(IO_BANK_ROM0, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in slot 0.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom0_set(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_setp, \
-	default: __ws_bank_set)(IO_BANK_ROM0, new_bank)
-
+#define ws_bank_rom0_set(new_bank) __ws_bank_set(IO_BANK_ROM0, (new_bank))
 #define ws_bank_rom0_restore ws_bank_rom0_set
 
 /**
@@ -125,19 +107,14 @@ static inline void __ws_bank_setp(uint8_t port, const void *faux_bank_ptr) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom1_save(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_savep, \
-	default: __ws_bank_save)(IO_BANK_ROM1, new_bank)
+#define ws_bank_rom1_save(new_bank) __ws_bank_save(IO_BANK_ROM1, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in slot 1.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom1_set(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_setp, \
-	default: __ws_bank_set)(IO_BANK_ROM1, new_bank)
-
+#define ws_bank_rom1_set(new_bank) __ws_bank_set(IO_BANK_ROM1, (new_bank))
 #define ws_bank_rom1_restore ws_bank_rom1_set
 
 /**
@@ -146,19 +123,14 @@ static inline void __ws_bank_setp(uint8_t port, const void *faux_bank_ptr) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom_linear_save(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_savep, \
-	default: __ws_bank_save)(IO_BANK_ROM_LINEAR, new_bank)
+#define ws_bank_rom_linear_save(new_bank) __ws_bank_save(IO_BANK_ROM_LINEAR, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in the linear slot.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom_linear_set(new_bank) _Generic((new_bank), \
-	const void*: __ws_bank_setp, \
-	default: __ws_bank_set)(IO_BANK_ROM_LINEAR, new_bank)
-
+#define ws_bank_rom_linear_set(new_bank) __ws_bank_set(IO_BANK_ROM_LINEAR, (new_bank))
 #define ws_bank_rom_linear_restore ws_bank_rom_linear_set
 
 /**

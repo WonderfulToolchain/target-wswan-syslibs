@@ -124,7 +124,7 @@ typedef struct {
 #define SCR_ENTRY_FLIP      0xC000
 #define SCR_ENTRY_FLIP_MASK 0xC000
 
-#define ws_scr_entry_t ws_screen_tile_t
+#define ws_scr_entry_t ws_screen_cell_t
 
 #define SPR_ENTRY_PALETTE(x) ((x) << 9)
 #define SPR_ENTRY_PALETTE_MASK	(0x7 << 9)
