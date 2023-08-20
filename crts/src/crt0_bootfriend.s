@@ -27,10 +27,6 @@
 	.section .start, "ax"
 	.global _start
 
-_header:
-	.byte	0x62, 0x46 /* BootFriend magic */
-	.word	offset "_start" /* program counter value */
-
 _start:
 	cli
 
@@ -40,17 +36,27 @@ _start:
 	mov	es, ax
 	mov	ss, ax
 
+	mov si, offset "__wf_data_block"
+
+_start_parse_data_block:
+	lodsw
+	mov	cx, ax
+	test	cx, cx
+	jz	_start_finish_data_block
+	lodsw
+	mov	di, ax
+	xor	ax, ax
+	cld
+	rep	stosb
+	jmp	_start_parse_data_block
+
+_start_finish_data_block:
+
 	// configure SP
-	mov	sp, 0xFE00
+	mov	sp, offset "__wf_heap_top"
 
 	// clear int enable
 	out	0xB2, al
-
-	// clear BSS
-	mov	di, offset "__edata"
-	mov	cx, offset "__lwbss"
-	cld
-	rep	stosw
 
 	// configure default interrupt base
 	mov	al, 0x08

@@ -1,35 +1,24 @@
 OUTPUT_FORMAT("elf32-i386")
 ENTRY(_start)
+FORCE_COMMON_ALLOCATION
+FORCE_GROUP_ALLOCATION
 SECTIONS
 {
-	. = SEGMENT_START ("text-segment", 0x6800);
-
 	.text : {
-		__stext = .;
 		KEEP(*(".start"))
 		*(.text ".text.*")
 		*(".fartext.*")
 		*(".farrodata.*")
-		__etext = .;
 	}
 
 	.data : {
 		. = ALIGN (2);
-		__sdata = .;
 		*(.rodata ".rodata.*")
 		*(.data ".data.*")
-		. = ALIGN (2);
-		__edata = .;
 	}
-	__ldata = SIZEOF(.data);
-	__lwdata = (__ldata + 1) / 2;
 
-	.bss . (NOLOAD) :
-	{
-		*(.bss ".bss.*")
+	.bss . (NOLOAD) : {
 		. = ALIGN (2);
-		__ebss = .;
+		*(.bss ".bss.*")
 	}
-	__lbss = SIZEOF(.bss);
-	__lwbss = (__lbss + 1) / 2;
 }
