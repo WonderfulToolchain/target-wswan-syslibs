@@ -16,6 +16,7 @@ MKFENT := $(WF)/bin/wf-wwitchtool mkfent
 else
 ROMLINK := $(WF)/bin/wf-wswantool romlink
 BUILDROM := $(WF)/bin/wf-wswantool build rom
+BUILDGATE := $(WF)/bin/wf-wswantool build wgate
 endif
 
 WF_ARCH_CFLAGS := -march=v30mz -mtune=v30mz -mregparmcall -ffreestanding
