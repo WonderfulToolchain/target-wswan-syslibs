@@ -31,6 +31,15 @@
  */
 
 /**
+ * @brief Copy memory data to I/O ports, in order.
+ * 
+ * @param port Destination port.
+ * @param src Source pointer.
+ * @param count Count, in bytes.
+ */
+void ws_portcpy(uint16_t port, void __far* src, uint16_t count);
+
+/**
  * @brief Busy wait.
  *
  * This is not recommended - use only when necessary!

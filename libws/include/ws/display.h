@@ -289,6 +289,7 @@ static inline void ws_screen_put_tile(void __wf_iram* dest, uint16_t src, uint16
 static inline uint16_t ws_screen_get_tile(void __wf_iram* src, uint16_t x, uint16_t y) {
 	return ((uint16_t __wf_iram*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
 }
+
 /**@}*/
 
 #endif /* __WF_LIBWS_DISPLAY_H__ */

@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
+/**
+ * Copyright (c) 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,26 +18,40 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
- */
-
-#ifndef __WF_LIBWS_WS_H__
-#define __WF_LIBWS_WS_H__
+*/
 
 #include <wonderful.h>
-#include <ws/hardware.h>
+#include "asm-preamble.h"
+	.intel_syntax noprefix
 
-#ifndef __ASSEMBLER__
-#include <ws/util.h>
-#include <ws/system.h>
-#include <ws/display.h>
-#include <ws/sound.h>
-#include <ws/keypad.h>
-#include <ws/dma.h>
-#include <ws/eeprom.h>
-#include <ws/serial.h>
-#include <ws/cartridge.h>
-#include <ws/rtc.h>
-#include <ws/gate.h>
+	.global ws_portcpy
+ws_portcpy:
+	push	si
+	push	ds
+	push	bp
+	mov	bp, sp
+
+	mov si, dx
+	mov ds, cx
+	mov dx, ax
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+	mov	cx, [bp + 10]
+#else
+	mov	cx, [bp + 8]
 #endif
+	shr	cx, 1
+	cld
+	jz ws_portcpy_words_end
+ws_portcpy_words:
+	outsw
+	add dx, 2
+	loop ws_portcpy_words
+ws_portcpy_words_end:
+	jnc ws_portcpy_bytes_end
+	outsb
+ws_portcpy_bytes_end:
 
-#endif /* __WF_LIBWS_WS_H__ */
+	pop	bp
+	pop	ds
+	pop	si
+	ASM_PLATFORM_RET 0x2

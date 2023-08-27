@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
+ * Copyright (c) 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,24 +20,25 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWS_WS_H__
-#define __WF_LIBWS_WS_H__
+/** \file gate.h
+	* Functionality related to WonderGate control.
+ */
 
-#include <wonderful.h>
-#include <ws/hardware.h>
+#ifndef __WF_LIBWS_GATE_H__
+#define __WF_LIBWS_GATE_H__
 
-#ifndef __ASSEMBLER__
-#include <ws/util.h>
-#include <ws/system.h>
-#include <ws/display.h>
-#include <ws/sound.h>
-#include <ws/keypad.h>
-#include <ws/dma.h>
-#include <ws/eeprom.h>
-#include <ws/serial.h>
-#include <ws/cartridge.h>
-#include <ws/rtc.h>
-#include <ws/gate.h>
-#endif
+#include <stdbool.h>
+#include <stdint.h>
+#include "hardware.h"
+#include "util.h"
 
-#endif /* __WF_LIBWS_WS_H__ */
+/**
+ * @addtogroup Gate Functions - WonderGate
+ * @{
+ */
+
+
+
+/**@}*/
+
+#endif /* __WF_LIBWS_GATE_H__ */
