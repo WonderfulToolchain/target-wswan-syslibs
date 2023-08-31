@@ -74,8 +74,6 @@
  */
 
 #define IO_DISPLAY_CTRL 0x00
-#define IO_DISPLAY_BACK 0x01
-
 #define DISPLAY_SCR1_ENABLE  0x0001
 #define DISPLAY_SCR2_ENABLE  0x0002
 #define DISPLAY_SPR_ENABLE   0x0004
@@ -83,9 +81,8 @@
 #define DISPLAY_SCR2_WIN_INSIDE 0x0020
 #define DISPLAY_SCR2_WIN_OUTSIDE 0x0030
 
-#define DISPLAY_BORDER(x) ((x) << 8)
-#define DISPLAY_COLOR(x) ((x) << 8)
-#define DISPLAY_PALETTE(x) ((x) << 12)
+#define IO_DISPLAY_BACK 0x01
+#define DISPLAY_BACK_COLOR(p, i) (((p) << 4) | (i))
 
 #define IO_LCD_LINE 0x02
 #define IO_LCD_INTERRUPT 0x03
@@ -119,7 +116,7 @@
 #define LCD_CONTRAST      0x02 /* WSC only (not SC!) */
 #define LCD_CONTRAST_LOW  0x00 /* WSC only (not SC!) */
 #define LCD_CONTRAST_HIGH 0x02 /* WSC only (not SC!) */
-#define LCD_SLEEP         0x01
+#define LCD_SLEEP_MASK    0x01
 
 #define IO_LCD_SEG 0x15
 #define LCD_SEG_AUX3     0x20
@@ -131,6 +128,8 @@
 
 #define IO_LCD_VTOTAL 0x16
 #define IO_LCD_VSYNC 0x17 /* WSC only */
+
+#define IO_LCD_STATUS 0x1A
 
 #define IO_LCD_SHADE_01 0x1C
 #define IO_LCD_SHADE_23 0x1D
@@ -175,14 +174,13 @@
 #define IO_DMA_SOURCE_L 0x40
 #define IO_DMA_SOURCE_H 0x42
 #define IO_DMA_DEST 0x44
-#define IO_DMA_COUNTER 0x46
-#define IO_DMA_LENGTH IO_DMA_COUNTER
+#define IO_DMA_LENGTH 0x46
 #define IO_DMA_CTRL 0x48
 
 #define IO_SDMA_SOURCE_L 0x4A
 #define IO_SDMA_SOURCE_H 0x4C
-#define IO_SDMA_COUNTER_L 0x4E
-#define IO_SDMA_COUNTER_H 0x50
+#define IO_SDMA_LENGTH_L 0x4E
+#define IO_SDMA_LENGTH_H 0x50
 #define IO_SDMA_CTRL 0x52
 
 #define DMA_TRANSFER_ENABLE 0x80
@@ -193,6 +191,7 @@
 #define SDMA_RATE_6000     0x01
 #define SDMA_RATE_12000    0x02
 #define SDMA_RATE_24000    0x03
+#define SDMA_RATE_MASK     0x03
 #define SDMA_REPEAT        0x08
 #define SDMA_ONESHOT       0x00
 #define SDMA_TARGET_HYPERV 0x10
@@ -200,21 +199,22 @@
 
 #define IO_SYSTEM_CTRL2 0x60
 
+#define SYSTEM_CTRL2_SRAM_WAIT 0x02
+#define SYSTEM_CTRL2_CART_IO_WAIT 0x08
 #define SYSTEM_CTRL2_PACKED 0x20
 #define SYSTEM_CTRL2_4BPP   0x40
 #define SYSTEM_CTRL2_COLOR  0x80
-#define SYSTEM_CTRL2_SRAM_WAIT 0x02
 
 #define IO_SYSTEM_CTRL3 0x62
 
 #define SYSTEM_CTRL3_POWEROFF    0x01
 #define SYSTEM_CTRL3_SWANCRYSTAL 0x80
 
-#define IO_HYPERV_OUT_L    0x64
-#define IO_HYPERV_OUT_R    0x66
-#define IO_HYPERV_SHADOW_L 0x68
-#define IO_HYPERV_SHADOW_R 0x69
-#define IO_HYPERV_CTRL     0x6A
+#define IO_HYPERV_OUT_L 0x64
+#define IO_HYPERV_OUT_R 0x66
+#define IO_HYPERV_IN_L  0x68
+#define IO_HYPERV_IN_R  0x69
+#define IO_HYPERV_CTRL  0x6A
 
 #define HYPERV_ENABLE 0x0080
 #define HYPERV_RESET  0x1000
@@ -223,10 +223,12 @@
 #define HYPERV_VOLUME_50   (1)
 #define HYPERV_VOLUME_25   (2)
 #define HYPERV_VOLUME_12_5 (3)
+#define HYPERV_VOLUME_MASK (3)
 #define HYPERV_MODE_UNSIGNED        (0 << 2)
 #define HYPERV_MODE_UNSIGNED_NEGATE (1 << 2)
 #define HYPERV_MODE_SIGNED          (2 << 2)
 #define HYPERV_MODE_SIGNED_FULL     (3 << 2)
+#define HYPERV_MODE_MASK            (3 << 2)
 #define HYPERV_RATE_24000 (0 << 4)
 #define HYPERV_RATE_12000 (1 << 4)
 #define HYPERV_RATE_8000  (2 << 4)
@@ -235,10 +237,12 @@
 #define HYPERV_RATE_4000  (5 << 4)
 #define HYPERV_RATE_3000  (6 << 4)
 #define HYPERV_RATE_2000  (7 << 4)
+#define HYPERV_RATE_MASK  (7 << 4)
 #define HYPERV_TARGET_STEREO (0 << 13)
 #define HYPERV_TARGET_LEFT   (1 << 13)
 #define HYPERV_TARGET_RIGHT  (2 << 13)
 #define HYPERV_TARGET_MONO   (3 << 13)
+#define HYPERV_TARGET_MASK   (3 << 13)
 
 #define SND_FREQ_HZ(hz) (2048 - (96000 / (hz)))
 #define IO_SND_FREQ_CH1 0x80
@@ -252,6 +256,9 @@
 #define IO_SND_VOL_CH3 0x8A
 #define IO_SND_VOL_CH4 0x8B
 #define IO_SND_VOL(ch) (0x88 + ((ch) - 1))
+#define SND_VOL_LEFT(l) ((l) << 4)
+#define SND_VOL_RIGHT(r) (r)
+#define SND_VOL(l, r) (((l) << 4) | (r))
 
 #define IO_SND_SWEEP 0x8C
 #define IO_SND_SWEEP_TIME 0x8D
@@ -259,6 +266,23 @@
 #define IO_SND_NOISE_CTRL 0x8E
 #define SND_NOISE_ENABLE 0x10
 #define SND_NOISE_RESET  0x08
+#define SND_NOISE_LEN_32767 0x00
+#define SND_NOISE_LEN_1953  0x01
+#define SND_NOISE_LEN_254   0x02
+#define SND_NOISE_LEN_217   0x03
+#define SND_NOISE_LEN_73    0x04
+#define SND_NOISE_LEN_63    0x05
+#define SND_NOISE_LEN_42    0x06
+#define SND_NOISE_LEN_28    0x07
+#define SND_NOISE_TAP_14    0x00
+#define SND_NOISE_TAP_10    0x01
+#define SND_NOISE_TAP_13    0x02
+#define SND_NOISE_TAP_4     0x03
+#define SND_NOISE_TAP_8     0x04
+#define SND_NOISE_TAP_6     0x05
+#define SND_NOISE_TAP_9     0x06
+#define SND_NOISE_TAP_11    0x07
+#define SND_NOISE_TAP_MASK  0x07
 
 #define IO_SND_WAVE_BASE 0x8F
 #define SND_WAVE_BASE(x) ((__WF_IRAM_TO_OFFSET(x)) >> 6)
