@@ -28,6 +28,7 @@
 #define __WF_LIBWS_DMA_H__
 
 #include <stdint.h>
+#include <wonderful.h>
 #include "hardware.h"
 #include "util.h"
 
@@ -35,6 +36,51 @@
  * @addtogroup DMA Functions - DMA
  * @{
  */
+
+static inline void ws_dma_set_sourcep(const void __far *src) {
+	outportw(IO_DMA_SOURCE_L, (FP_SEG(src) << 4) + FP_OFF(src));
+	outportb(IO_DMA_SOURCE_H, FP_SEG(src) >> 12);
+}
+
+static inline void ws_dma_set_sourcei(uint32_t src) {
+	outportw(IO_DMA_SOURCE_L, src);
+	outportb(IO_DMA_SOURCE_H, src >> 16);
+}
+
+#define ws_dma_set_source(src) _Generic((src), \
+	int8_t: ws_dma_set_sourcei, \
+	int16_t: ws_dma_set_sourcei, \
+	int32_t: ws_dma_set_sourcei, \
+	uint8_t: ws_dma_set_sourcei, \
+	uint16_t: ws_dma_set_sourcei, \
+	uint32_t: ws_dma_set_sourcei, \
+	default: ws_dma_set_sourcep \
+)(src)
+
+static inline void ws_sdma_set_sourcep(const void __far *src) {
+	outportw(IO_SDMA_SOURCE_L, (FP_SEG(src) << 4) + FP_OFF(src));
+	outportb(IO_SDMA_SOURCE_H, FP_SEG(src) >> 12);
+}
+
+static inline void ws_sdma_set_sourcei(uint32_t src) {
+	outportw(IO_SDMA_SOURCE_L, src);
+	outportb(IO_SDMA_SOURCE_H, src >> 16);
+}
+
+#define ws_sdma_set_source(src) _Generic((src), \
+	int8_t: ws_sdma_set_sourcei, \
+	int16_t: ws_sdma_set_sourcei, \
+	int32_t: ws_sdma_set_sourcei, \
+	uint8_t: ws_sdma_set_sourcei, \
+	uint16_t: ws_sdma_set_sourcei, \
+	uint32_t: ws_sdma_set_sourcei, \
+	default: ws_sdma_set_sourcep \
+)(src)
+
+static inline void ws_sdma_set_length(uint32_t length) {
+	outportw(IO_SDMA_LENGTH_L, length);
+	outportb(IO_SDMA_LENGTH_H, length >> 16);
+}
 
 /**
  * @brief Copy words from a source linear address to a destination pointer using DMA.
@@ -57,7 +103,7 @@ void ws_dma_copy_words_linear(void __wf_iram* dest, uint32_t src, uint16_t lengt
  * @param length Length, in bytes. Must be a multiple of 2.
  */
 static inline void ws_dma_copy_words(void __wf_iram* dest, const void __far* src, uint16_t length) {
-	ws_dma_copy_words_linear(dest, ((((uint32_t) src) >> 12) & 0xFFFF0) + ((uint16_t) ((uint32_t) src)), length);
+	ws_dma_copy_words_linear(dest, ws_ptr_to_linear(src), length);
 }
 
 /**

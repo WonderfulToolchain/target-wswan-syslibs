@@ -30,6 +30,10 @@
  * Various utility functions for working with the WonderSwan hardware.
  */
 
+static inline uint32_t ws_ptr_to_linear(const void __far* src) {
+    return ((((uint32_t) src) >> 12) & 0xFFFF0) + ((uint16_t) ((uint32_t) src));
+}
+
 /**
  * @brief Copy memory data to I/O ports, in order.
  * 
