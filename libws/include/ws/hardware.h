@@ -192,6 +192,7 @@
 #define SDMA_RATE_12000    0x02
 #define SDMA_RATE_24000    0x03
 #define SDMA_RATE_MASK     0x03
+#define SDMA_HOLD          0x04
 #define SDMA_REPEAT        0x08
 #define SDMA_ONESHOT       0x00
 #define SDMA_TARGET_HYPERV 0x10
