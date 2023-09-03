@@ -41,7 +41,7 @@ static inline uint32_t ws_ptr_to_linear(const void __far* src) {
  * @param src Source pointer.
  * @param count Count, in bytes.
  */
-void ws_portcpy(uint16_t port, void __far* src, uint16_t count);
+void ws_portcpy(uint16_t port, const void __far* src, uint16_t count);
 
 /**
  * @brief Busy wait.
