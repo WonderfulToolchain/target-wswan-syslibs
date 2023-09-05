@@ -17,7 +17,7 @@
 #undef assert
 #define assert(ignore) ((void)0)
 
-#if defined(__USE_ISOC11)
+#if __STDC_VERSION__ >= 201112L
 # undef static_assert
 # define static_assert _Static_assert
 #endif
