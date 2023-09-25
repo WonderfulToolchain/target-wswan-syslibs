@@ -10,3 +10,9 @@ This repository provides the base system libraries for the WSwan/WWitch targets:
 * **libwsx**, WSwan/WWitch extra library;
 * **libww**, WWitch system library;
 * **target**, additional buildsystem/include files.
+
+## License
+
+The system libraries as a whole are available under the terms of the zlib license.
+
+In addition, code from **libc** may be used under Creative Commons Zero/"public domain" terms.
