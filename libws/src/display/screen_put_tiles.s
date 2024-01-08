@@ -24,8 +24,8 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-	.global ws_screen_put_tiles
-ws_screen_put_tiles:
+	.global __libws_screen_put_tiles
+__libws_screen_put_tiles:
 	// AX - destination
 	// CX:DX - source
 	// stack - X, Y, width, height
@@ -63,21 +63,27 @@ ws_screen_put_tiles:
 	shl	ax, 1
 	add	di, ax
 
-	// CX = width, AX = height
+	// CX = width, AX = height, DX = pitch
 	mov	cx, [bp + (STACK_OFFSET + 4)]
 	jz	__ws_screen_put_tiles_done
 	mov	ax, [bp + (STACK_OFFSET + 6)]
+	jz	__ws_screen_put_tiles_done
+	mov	dx, [bp + (STACK_OFFSET + 8)]
 	jz	__ws_screen_put_tiles_done
 
 	mov	bx, 32
 	sub	bx, cx
 	shl	bx, 1
+	sub	dx, cx
+	shl	dx, 1
 
 	cld
+	.balign 2, 0x90
 __ws_screen_put_tiles_row:
 	push	cx
 	rep	movsw
 	pop	cx
+	add	si, dx
 	add	di, bx
 	dec	ax
 	jnz	__ws_screen_put_tiles_row
@@ -88,4 +94,4 @@ __ws_screen_put_tiles_done:
 	pop	si
 	pop	es
 	pop	ds
-	ASM_PLATFORM_RET 0x8
+	ASM_PLATFORM_RET 10

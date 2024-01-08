@@ -68,6 +68,7 @@ ws_screen_fill_tiles:
 	shl	bx, 1
 
 	cld
+	.balign 2, 0x90
 __ws_screen_fill_tiles_row:
 	push	cx
 	rep	stosw

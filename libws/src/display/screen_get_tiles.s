@@ -74,6 +74,7 @@ ws_screen_get_tiles:
 	shl	bx, 1
 
 	cld
+	.balign 2, 0x90
 __ws_screen_get_tiles_row:
 	push	cx
 	rep	movsw

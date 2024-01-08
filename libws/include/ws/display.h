@@ -225,10 +225,32 @@ void ws_display_set_shade_lut(uint32_t lut);
  * @param src Pointer to the source map.
  * @param x Destination X position, in tiles.
  * @param y Destination Y position, in tiles.
- * @param width Width, in tiles.
- * @param height Height, in tiles.
+ * @param width Destination width, in tiles (1-32).
+ * @param height Destination height, in tiles (1-32).
  */
-void ws_screen_put_tiles(void __wf_iram* dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+static inline void ws_screen_put_tiles(void __wf_iram* dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
+	void __libws_screen_put_tiles(void __wf_iram* dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t pitch);
+	__libws_screen_put_tiles(dest, src, x, y, width, height, width);
+}
+
+/**
+ * @brief Place a map of tiles on the screen.
+ * This varianta llows specifying the source X position, Y position and width.
+ *
+ * @param dest Pointer to the destination screen.
+ * @param src Pointer to the source map.
+ * @param sx Source X position, in tiles.
+ * @param sy Source Y position, in tiles.
+ * @param pitch Source width, in tiles.
+ * @param dx Destination X position, in tiles.
+ * @param dy Destination Y position, in tiles.
+ * @param width Destination width, in tiles (1-32).
+ * @param height Destination height, in tiles (1-32).
+ */
+static inline void ws_screen_put_tiles_ex(void __wf_iram* dest, const void __far* src, uint16_t sx, uint16_t sy, uint16_t pitch, uint16_t dx, uint16_t dy, uint16_t width, uint16_t height) {
+	void __libws_screen_put_tiles(void __wf_iram* dest, const void __far* src, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t pitch);
+	__libws_screen_put_tiles(dest, ((const uint16_t __far*) src) + (sy * pitch) + sx, dx, dy, width, height, pitch);
+}
 
 /**
  * @brief Copy a map of tiles from the screen.
