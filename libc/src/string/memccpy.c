@@ -12,11 +12,10 @@
 #include <stddef.h>
 #include "string.h"
 
-char __far* strcat(char __far* s1, const char __far* s2) {
-	char __far* sp = s1;
+char __far* memccpy(char __far* s1, const char __far* s2, int c, size_t n) {
+	while (n && (*(s1++) = *(s2++)) != c) {
+		n--;
+	}
 
-	if (*s1) while (*(++s1));
-	while ((*(s1++) = *(s2++)));
-
-	return sp;
+	return n ? s1 : NULL;
 }

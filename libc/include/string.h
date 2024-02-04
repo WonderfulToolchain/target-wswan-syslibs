@@ -41,6 +41,7 @@ void* memset(void*s, int c, size_t n);
 #define memset _fmemset
 #endif
 
+char __far* memccpy(char __far* s1, const char __far* s2, int c, size_t n);
 char __far* strcat(char __far* s1, const char __far* s2);
 char __far* strchr(const char __far* s, int c);
 int strcmp(const char __far* s1, const char __far* s2);

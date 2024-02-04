@@ -15,7 +15,7 @@
 char __far* strncat(char __far* s1, const char __far* s2, size_t n) {
 	char __far* sp = s1;
 
-    	if (*sp) while (*(++sp));
+	if (*s1) while (*(++s1));
 	while (n && (*(s1++) = *(s2++))) {
 		n--;
 	}

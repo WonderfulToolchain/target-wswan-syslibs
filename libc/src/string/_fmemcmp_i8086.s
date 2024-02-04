@@ -50,7 +50,6 @@ memcmp:
 	cbw
 
 _fmemcmp_end:
-	// dx:ax is already set to destination
 	pop	bp
 	pop	es
 	pop	ds
