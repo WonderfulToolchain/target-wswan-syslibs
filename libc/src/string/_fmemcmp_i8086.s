@@ -15,41 +15,45 @@
 	.code16
 	.intel_syntax noprefix
 
-	.global _nmemmove
-_nmemmove:
-#ifndef __IA16_CMODEL_IS_FAR_DATA
-	.global memmove
-memmove:
+	.global _fmemcmp
+_fmemcmp:
+#ifdef __IA16_CMODEL_IS_FAR_DATA
+	.global memcmp
+memcmp:
 #endif
 	push	si
 	push	di
+	push	ds
 	push	es
+	push	bp
+	
+	mov	bp, sp
+	mov	es, dx
 	mov	di, ax
-	mov	si, dx
-	mov	bx, ds
-	mov	es, bx
-	cmp	ax, dx
-	ja	_nmemmove_reversed	
-	shr	cx, 1
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+	lds	si, [bp + 14]
+	mov	cx, [bp + 18]
+#else
+	lds	si, [bp + 12]
+	mov	cx, [bp + 16]
+#endif
+	xor ax, ax
 	cld
-	rep	movsw
-	jnc	_nmemmove_no_byte
-	movsb
-_nmemmove_no_byte:
-	pop	es
-	pop	di
-	pop	si
-	ASM_PLATFORM_RET
+	repe cmpsb
+	je _fmemcmp_end
 
-_nmemmove_reversed:
-	// TODO: use rep movsw for performance
-	dec	cx
-	add	si, cx
-	add	di, cx
-	inc	cx
-	std
-	rep	movsb
+	// value mismatch
+	dec si
+	dec di
+	es mov al, [di]
+	sub al, [si]
+	cbw
+
+_fmemcmp_end:
+	// dx:ax is already set to destination
+	pop	bp
 	pop	es
+	pop	ds
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET
+	ASM_PLATFORM_RET 0x4

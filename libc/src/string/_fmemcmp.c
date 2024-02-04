@@ -11,6 +11,8 @@
 
 #include <stddef.h>
 
+#if 0
+
 int _fmemcmp(const void __far* s1, const void __far* s2, size_t n) {
 	const unsigned char __far* p1 = (const unsigned char __far*) s1;
 	const unsigned char __far* p2 = (const unsigned char __far*) s2;
@@ -21,7 +23,7 @@ int _fmemcmp(const void __far* s1, const void __far* s2, size_t n) {
 		p1++;
 		p2++;
 	}
-        return 0;
+	return 0;
 }
 
 #ifdef __IA16_CMODEL_IS_FAR_DATA
@@ -29,3 +31,4 @@ __attribute__ ((alias ("_fmemcmp")))
 void* memcmp(const void* s1, const void* s2, size_t n);
 #endif
 
+#endif

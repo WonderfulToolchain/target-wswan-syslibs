@@ -22,7 +22,7 @@ void __far* _fmemmove(void __far* s1, const void __far* s2, size_t n) {
 	} else if (dest > src) {
 		src += n;
 		dest += n;
-		while (--n) {
+		while (n--) {
 			*(--dest) = *(--src);
 		}
 	}

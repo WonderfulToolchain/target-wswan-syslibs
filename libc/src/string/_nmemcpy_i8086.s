@@ -23,7 +23,6 @@ memcpy:
 #endif
 	push	si
 	push	di
-	push	ds
 	push	es
 	mov	di, ax
 	mov	si, dx
@@ -36,7 +35,6 @@ memcpy:
 	movsb
 _nmemcpy_no_byte:
 	pop	es
-	pop	ds
 	pop	di
 	pop	si
 	ASM_PLATFORM_RET

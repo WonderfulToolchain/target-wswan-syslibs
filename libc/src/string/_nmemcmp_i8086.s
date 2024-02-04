@@ -15,40 +15,33 @@
 	.code16
 	.intel_syntax noprefix
 
-	.global _nmemmove
-_nmemmove:
+	.global _nmemcmp
+_nmemcmp:
 #ifndef __IA16_CMODEL_IS_FAR_DATA
-	.global memmove
-memmove:
+	.global memcmp
+memcmp:
 #endif
 	push	si
 	push	di
 	push	es
 	mov	di, ax
 	mov	si, dx
-	mov	bx, ds
-	mov	es, bx
-	cmp	ax, dx
-	ja	_nmemmove_reversed	
-	shr	cx, 1
+	mov	dx, ds
+	mov	es, dx
+	
+	xor ax, ax
 	cld
-	rep	movsw
-	jnc	_nmemmove_no_byte
-	movsb
-_nmemmove_no_byte:
-	pop	es
-	pop	di
-	pop	si
-	ASM_PLATFORM_RET
+	repe cmpsb
+	je _nmemcmp_end
 
-_nmemmove_reversed:
-	// TODO: use rep movsw for performance
-	dec	cx
-	add	si, cx
-	add	di, cx
-	inc	cx
-	std
-	rep	movsb
+	// value mismatch
+	dec si
+	dec di
+	mov al, [di]
+	sub al, [si]
+	cbw
+
+_nmemcmp_end:
 	pop	es
 	pop	di
 	pop	si
