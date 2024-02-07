@@ -55,4 +55,4 @@ _fmemcmp_end:
 	pop	ds
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET 0x4
+	ASM_PLATFORM_RET 0x6
