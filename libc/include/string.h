@@ -56,4 +56,7 @@ char __far* strrchr(const char __far* s, int c);
 size_t strspn(const char __far* s1, const char __far* s2);
 char __far* strstr(const char __far* s1, const char __far* s2);
 
+int strcasecmp(const char __far* s1, const char __far* s2);
+int strncasecmp(const char __far* s1, const char __far* s2, size_t n);
+
 #endif /* __WF_LIBC_STRING_H__ */
