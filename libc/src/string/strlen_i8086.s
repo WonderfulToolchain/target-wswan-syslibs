@@ -9,15 +9,28 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#include <stddef.h>
-#include "string.h"
+#include "wonderful.h"
 
-#if 0
-size_t strlen(const char __far* s) {
-	size_t l = 0;
+	.arch	i8086
+	.code16
+	.intel_syntax noprefix
 
-	while (s[l]) l++;
+	.global strlen
+strlen:
+	push	di
+	push	es
+	mov	di, ax
+	mov	es, dx
+	
+	xor ax, ax
+	mov cx, 0xFFFF
+	cld
+	repne scasb
 
-	return l;
-}
-#endif
+	inc cx
+	inc cx
+	sub ax, cx
+
+	pop	es
+	pop	di
+	ASM_PLATFORM_RET
