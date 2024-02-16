@@ -34,11 +34,7 @@ ws_portcpy:
 	mov si, dx
 	mov ds, cx
 	mov dx, ax
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-	mov	cx, [bp + 10]
-#else
-	mov	cx, [bp + 8]
-#endif
+	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
 	shr	cx, 1
 	cld
 	jz ws_portcpy_words_end

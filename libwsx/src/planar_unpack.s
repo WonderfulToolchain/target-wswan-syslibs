@@ -142,13 +142,8 @@ wsx_planar_unpack:
 	// load offset+flags in BX
 	mov es, dx
 	mov di, ax
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-	lds si, [bp + 14]
-	mov bx, [bp + 18]
-#else
-	lds si, [bp + 12]
-	mov bx, [bp + 16]
-#endif
+	lds si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
+	mov bx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
 
 	mov ax, bx
 	shr bx, 7

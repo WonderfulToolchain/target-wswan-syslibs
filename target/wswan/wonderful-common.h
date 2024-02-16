@@ -26,30 +26,36 @@
 
 /** Memory model helpers. */
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
-#define ASM_PLATFORM_RET retf
+#define WF_PLATFORM_RET retf
+#define WF_PLATFORM_CALL_STACK_OFFSET(n) ((n)+4)
 #else
-#define ASM_PLATFORM_RET ret
+#define WF_PLATFORM_RET ret
+#define WF_PLATFORM_CALL_STACK_OFFSET(n) ((n)+2)
 #endif
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
-.macro ASM_PLATFORM_CALL tgt:req
+.macro WF_PLATFORM_CALL tgt:req
 	.reloc	.+3, R_386_SEG16, "\tgt\()!"
 	call 0:\tgt
 .endm
 
-.macro ASM_PLATFORM_JMP tgt:req
+.macro WF_PLATFORM_JMP tgt:req
 	.reloc	.+3, R_386_SEG16, "\tgt\()!"
 	jmp 0:\tgt
 .endm
 #else
-.macro ASM_PLATFORM_CALL tgt:req
+.macro WF_PLATFORM_CALL tgt:req
 	call \tgt
 .endm
 
-.macro ASM_PLATFORM_JMP tgt:req
+.macro WF_PLATFORM_JMP tgt:req
 	jmp \tgt
 .endm
 #endif
+
+#define ASM_PLATFORM_RET WF_PLATFORM_RET
+#define ASM_PLATFORM_JMP WF_PLATFORM_JMP
+#define ASM_PLATFORM_CALL WF_PLATFORM_CALL
 
 #endif
 

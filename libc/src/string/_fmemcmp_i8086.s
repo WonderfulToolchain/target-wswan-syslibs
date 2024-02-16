@@ -30,13 +30,8 @@ memcmp:
 	mov	bp, sp
 	mov	es, dx
 	mov	di, ax
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-	lds	si, [bp + 14]
-	mov	cx, [bp + 18]
-#else
-	lds	si, [bp + 12]
-	mov	cx, [bp + 16]
-#endif
+	lds	si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
+	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
 	xor ax, ax
 	cld
 	repe cmpsb

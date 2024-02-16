@@ -30,11 +30,7 @@ memset:
 	mov	di, ax
 	mov	al, cl
 	mov	ah, al
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-	mov	cx, [bp + 12]
-#else
-	mov	cx, [bp + 10]
-#endif
+	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(8)]
 	shr	cx, 1
 	cld
 	rep	stosw

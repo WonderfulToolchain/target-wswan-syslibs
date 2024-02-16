@@ -37,12 +37,6 @@ __libws_screen_put_tiles:
 	push	bp
 	mov	bp, sp
 
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-# define STACK_OFFSET 14
-#else
-# define STACK_OFFSET 12
-#endif
-
 	// adjust values:
 	// DS:SI - source
 	// ES:?? - destination
@@ -54,21 +48,24 @@ __libws_screen_put_tiles:
 
 	// AX = Y, BX = X
 	// => DI = destination
-	mov	ax, [bp + (STACK_OFFSET + 2)]
+	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(12)]
 	and	ax, 0x1F
 	shl	ax, 5
-	mov	bx, [bp + (STACK_OFFSET)]
+	mov	bx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
 	and	bx, 0x1F
 	or	ax, bx
 	shl	ax, 1
 	add	di, ax
 
 	// CX = width, AX = height, DX = pitch
-	mov	cx, [bp + (STACK_OFFSET + 4)]
+	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
+	test	cx, cx
 	jz	__ws_screen_put_tiles_done
-	mov	ax, [bp + (STACK_OFFSET + 6)]
+	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(16)]
+	test	ax, ax
 	jz	__ws_screen_put_tiles_done
-	mov	dx, [bp + (STACK_OFFSET + 8)]
+	mov	dx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(18)]
+	test	dx, dx
 	jz	__ws_screen_put_tiles_done
 
 	mov	bx, 32

@@ -37,11 +37,7 @@ wsx_zx0_decompress:
    push bp
    mov bp, sp
    mov di, ax
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-   lds si, [bp+14]
-#else
-   lds si, [bp+12]
-#endif
+   lds si, [bp+WF_PLATFORM_CALL_STACK_OFFSET(10)]
    mov es, dx
 
         cld                     // make string operations go forward

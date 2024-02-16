@@ -36,19 +36,13 @@ ws_screen_fill_tiles:
 	push	bp
 	mov	bp, sp
 
-#ifdef __IA16_CMODEL_IS_FAR_TEXT
-# define STACK_OFFSET 10
-#else
-# define STACK_OFFSET 8
-#endif
-
 	mov	di, ax
 	xor	ax, ax
 	mov	es, ax
 
 	// AX = Y, CX = X
 	// => DI = destination
-	mov	ax, [bp + (STACK_OFFSET)]
+	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
 	and	ax, 0x1F
 	shl	ax, 5
 	and	cx, 0x1F
@@ -58,9 +52,11 @@ ws_screen_fill_tiles:
 
 	// CX = width, DX = height, AX = fill value
 	mov	ax, dx
-	mov	cx, [bp + (STACK_OFFSET + 2)]
+	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(8)]
+	test	cx, cx
 	jz	__ws_screen_fill_tiles_done
-	mov	dx, [bp + (STACK_OFFSET + 4)]
+	mov	dx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
+	test	dx, dx
 	jz	__ws_screen_fill_tiles_done
 
 	mov	bx, 32
