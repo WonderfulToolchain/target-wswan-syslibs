@@ -78,29 +78,26 @@ __wsx_planar_unpack_1to2:
 	// DX = foreground mask
 
 	// to convert 0,1 (a) to 0,FF (A):
-	// A = (a^1)-1
+	// A = -(a&1)
 	// TODO: this might be faster, smaller, better as a table
-
-	not al
 
 	mov dl, al
 	and dl, 1
-	dec dl
+	neg dl
 	shr al, 1
 
 	mov dh, al
 	and dh, 1
-	dec dh
+	neg dh
 	shr al, 1
 
 	mov bl, al
 	and bl, 1
-	dec bl
-	shr al, 1
+	neg bl
 
 	mov bh, al
-	and bh, 1
-	dec bh
+	shr bh, 1
+	neg bh
 
 #ifdef __IA16_TUNE_NEC_V30MZ
 	.align 2, 0x90
