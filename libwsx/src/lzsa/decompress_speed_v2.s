@@ -50,9 +50,16 @@
 .macro get_nybble
         neg     bh              //nybble ready?
         jns     has_nybble_\@
+#ifdef __IA16_TUNE_NEC_V30MZ
+        push    ax
+        lodsb
+        mov     bl, al
+        pop     ax
+#else
         xchg    bx,ax
         lodsb                   //load two nybbles
         xchg    bx,ax
+#endif
 has_nybble_\@:
 #ifdef __IA16_FEATURE_SHIFT_IMM
         ror     bl,4
@@ -117,8 +124,14 @@ wsx_lzsa2_decompress:
         xchg    cx,ax
         shr     cx,1
         rep     movsw
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .got_literals_big_nobyte
+        movsb
+.got_literals_big_nobyte:
+#else
         adc     cx,0
         rep     movsb
+#endif
         jmp     .check_offset
 
 .got_literals:
@@ -210,11 +223,19 @@ wsx_lzsa2_decompress:
 
 //If we're here, we have a larger match copy and can optimize how we do that
 .got_matchlen_big:
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     cx,ax           //copy match length into cx
+#else
         xchg    cx,ax           //copy match length into cx
+#endif
         mov     dx,ds           //save ds
         mov     ax,es
         mov     ds,ax           //ds:=es
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     ax,si           //dx:ax = old ds:si
+#else
         xchg    si,ax           //dx:ax = old ds:si
+#endif
         mov     si,di           //ds:si now points at back reference in output data
         add     si,bp
 #ifdef HANDLE_WORD_RUN
@@ -233,23 +254,42 @@ wsx_lzsa2_decompress:
 //This won't affect 8088 that much, but it speeds up 8086 and higher.
         shr     cx,1
         rep     movsw
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .got_matchlen_big_nobyte
+        movsb
+.got_matchlen_big_nobyte:
+        mov     si, ax
+#else
         adc     cx,0
         rep     movsb
         xchg    si,ax
+#endif
         mov     ds,dx           //restore ds:si
         jmp     .decode_token  //go decode another token
 
 //Smaller match copies handled here:
 .got_matchlen:
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     cx,ax           //copy match length into cx
+#else
         xchg    cx,ax           //copy match length into cx
+#endif
         mov     dx,ds           //save ds
         mov     ax,es
         mov     ds,ax           //ds:=es
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     ax,si           //dx:ax = old ds:si
+#else
         xchg    si,ax           //dx:ax = old ds:si
+#endif
         mov     si,di           //ds:si = back reference in output data
         add     si,bp
         rep     movsb           //copy match
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     si,ax
+#else
         xchg    si,ax
+#endif
         mov     ds,dx           //restore ds:si
         jmp     .decode_token  //go decode another token
 
@@ -275,8 +315,14 @@ wsx_lzsa2_decompress:
         mov     ah,al
         shr     cx,1
         rep     stosw           //perform word run
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .do_run_1_nobyte
+        stosb
+.do_run_1_nobyte:
+#else
         adc     cx,0
         rep     stosb           //finish word run
+#endif
         pop     si
         mov     ds,dx
         jmp     .decode_token  //go decode another token
@@ -287,8 +333,14 @@ wsx_lzsa2_decompress:
         lodsw                   //load first word of run
         shr     cx,1
         rep     stosw           //perform word run
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .do_run_2_nobyte
+        stosb
+.do_run_2_nobyte:
+#else
         adc     cx,0            //despite 2-byte offset, compressor might
         rep     stosb           //output odd length. better safe than sorry.
+#endif
         pop     si
         mov     ds,dx
         jmp     .decode_token  //go decode another token

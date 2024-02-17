@@ -184,10 +184,17 @@ wsx_lzsa2_decompress_small:
 .get_nibble:
    neg bh                  // nibble ready?
    jns .has_nibble
-   
+
+#ifdef __IA16_TUNE_NEC_V30MZ
+   push    ax
+   lodsb                   // load two nibbles
+   mov     bl, al
+   pop     ax
+#else
    xchg bx,ax
    lodsb                   // load two nibbles
    xchg bx,ax
+#endif
 
 .has_nibble:
 #ifdef __IA16_FEATURE_SHIFT_IMM

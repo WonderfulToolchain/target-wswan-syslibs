@@ -95,8 +95,14 @@ wsx_lzsa1_decompress:
         xchg    cx,ax           //with longer counts, we can save some time
         shr     cx,1            //by doing a word copy instead of a byte copy.
         rep     movsw           //We don't need to account for overlap because
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .mid_literals_nobyte
+        movsb
+.mid_literals_nobyte:
+#else
         adc     cx,0            //source for literals isn't the output buffer.
         rep     movsb
+#endif
         jmp     .check_offset_size
 
 .big_literals:
@@ -104,8 +110,14 @@ wsx_lzsa1_decompress:
         xchg    cx,ax           //with longer counts, we can save some time
         shr     cx,1            //by doing a word copy instead of a byte copy.
         rep     movsw
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .big_literals_nobyte
+        movsb
+.big_literals_nobyte:
+#else
         adc     cx,0
         rep     movsb
+#endif
         jmp     .check_offset_size
 
 .got_literals:
@@ -153,11 +165,19 @@ wsx_lzsa1_decompress:
         mov     bp,ds           //save ds
         mov     ax,es
         mov     ds,ax           //ds=es
-        xchg    ax,si           //save si
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     ax,si           //dx:ax = old ds:si
+#else
+        xchg    si,ax           //dx:ax = old ds:si
+#endif
         mov     si,di           //ds:si now points at back reference in output data
         add     si,dx
         rep     movsb           //copy match
-        xchg    si,ax           //restore si
+#ifdef __IA16_TUNE_NEC_V30MZ
+        mov     si,ax           //restore si
+#else
+        xchg    si,ax
+#endif
         mov     ds,bp           //restore ds
         jmp     .decode_token  //go decode another token
 
@@ -198,8 +218,14 @@ wsx_lzsa1_decompress:
 //This won't affect 8088 that much, but it speeds up 8086 and higher.
         shr     cx,1
         rep     movsw
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .copy_len_preset_nobyte
+        movsb
+.copy_len_preset_nobyte:
+#else
         adc     cx,0
         rep     movsb
+#endif
         mov     si,bp           //restore si
         pop     ds
         jmp     .decode_token  //go decode another token
@@ -212,8 +238,14 @@ wsx_lzsa1_decompress:
         mov     ah,al
         shr     cx,1
         rep     stosw           //perform word run
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .do_run_1_nobyte
+        stosb
+.do_run_1_nobyte:
+#else
         adc     cx,0
         rep     stosb           //finish word run
+#endif
         mov     si,bp           //restore si
         pop     ds
         jmp     .decode_token  //go decode another token
@@ -222,8 +254,14 @@ wsx_lzsa1_decompress:
         lodsw                   //load first word of run
         shr     cx,1
         rep     stosw           //perform word run
+#ifdef __IA16_TUNE_NEC_V30MZ
+        jnc .do_run_2_nobyte
+        stosb
+.do_run_2_nobyte:
+#else
         adc     cx,0            //despite 2-byte offset, compressor might
         rep     stosb           //output odd length. better safe than sorry.
+#endif
         mov     si,bp           //restore si
         pop     ds
         jmp     .decode_token  //go decode another token
