@@ -54,4 +54,4 @@
  */
 void wsx_planar_unpack(void __far* dest, uint16_t src_length, const void __far* src, uint16_t mode);
 
-#endif /* __WF_LIBWSX_ZX0_H__ */
+#endif /* __WF_LIBWSX_PLANAR_UNPACK_H__ */
