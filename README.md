@@ -9,6 +9,7 @@ This repository provides the base system libraries for the WSwan/WWitch targets:
 * **libws**, WSwan system library;
 * **libwsx**, WSwan/WWitch extra library;
 * **libww**, WWitch system library;
+* **libwwcl**, WWitch compatibility layer for WS;
 * **target**, additional buildsystem/include files.
 
 ## License
