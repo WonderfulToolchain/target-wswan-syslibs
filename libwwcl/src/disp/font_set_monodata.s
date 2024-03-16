@@ -96,4 +96,4 @@ font_set_monodata_loop:
     pop es
     pop ds
     pop bp
-    ret
+    WF_PLATFORM_RET 0x4

@@ -36,8 +36,9 @@ wwc_font_set_colordata:
 	// ES:DI - destination pointer
 	xor	bx, bx
 	mov	es, bx
-	shl	ax, 4
 	mov	di, ax
+	shl	di, 4
+	add di, 0x4000
 	// DS:SI - source pointer
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 	lds	si, [bp + 14]

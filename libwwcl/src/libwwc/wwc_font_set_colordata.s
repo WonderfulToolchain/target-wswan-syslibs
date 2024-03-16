@@ -28,27 +28,33 @@
 // TODO: Does this routine check color_mode?
 	.global wwc_font_set_colordata
 wwc_font_set_colordata:
-	push	si
-	push	di
-	push	ds
-	push	es
-	push	bp
-	mov	bp, sp
-	// ES:DI - destination pointer
-	xor	bx, bx
-	mov	es, bx
-	shl	ax, 4
-	mov	di, ax
-	// DS:SI - source pointer
-	lds	si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
-	// CX - length
-	mov	cx, dx
-	shl	cx, 4
-	cld
-	rep	movsw
-	pop	bp
-	pop	es
-	pop	ds
-	pop	di
-	pop	si
+    push bp
+    mov bp, sp
+    push ds
+    push es
+    push si
+    push di
+
+    // DS:SI = source
+    lds si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+
+    // ES:DI = destination
+    push ss
+    pop es
+    mov di, ax
+    shl di, 4
+    add di, 0x4000
+
+    // CX = words
+    mov cx, dx
+    shl cx, 4
+
+    cld
+    rep movsw
+
+    pop di
+    pop si
+    pop es
+    pop ds
+    pop bp
 	WF_PLATFORM_RET 0x4

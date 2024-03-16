@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2024 Adrian "asie" Siekierka
+ * Copyright (c) 2023, 2024 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -25,35 +25,14 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-    .global font_get_data
-font_get_data:
-    push bp
-    mov bp, sp
-    push ds
-    push es
-    push si
-    push di
-
-    // ES:DI = destination
-    les di, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
-
-    // DS:SI = source
-    push ss
-    pop ds
-    mov si, ax
-    shl si, 4
-    add si, 0x2000
-
-    // CX = words
-    mov cx, dx
-    shl cx, 3
-
-    cld
-    rep movsw
-
-    pop di
-    pop si
-    pop es
-    pop ds
-    pop bp
-    WF_PLATFORM_RET 0x4
+    .global sys_wait
+sys_wait:
+    add ax, ss:[__wwcl_vbl_count]
+.loop:
+    cmp ss:[__wwcl_vbl_count], ax
+    jge .done
+    hlt
+    nop
+    jmp .loop
+.done:
+    WF_PLATFORM_RET
