@@ -52,10 +52,10 @@ screen_fill_char:
 .row:
     // write row using STOSW
     push cx
-    push si
+    push di
     xor ch, ch
     rep stosw
-    pop si
+    pop di
     pop cx
 
     // advance to next column

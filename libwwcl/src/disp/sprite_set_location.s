@@ -29,7 +29,8 @@
 sprite_set_location:
     push di
     call __wwcl_int_ax_display_sprite_to_vram_location
-    mov dh, cl
+    mov dh, dl
+    mov dl, cl
     mov ss:[di+2], dx
     pop di
     WF_PLATFORM_RET

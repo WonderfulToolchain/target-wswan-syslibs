@@ -33,6 +33,7 @@ sprite_set_char_location:
     call __wwcl_int_ax_display_sprite_to_vram_location
     mov ss:[di], dx
     mov ch, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    xchg ch, cl
     mov ss:[di+2], cx
     pop di
     pop bp

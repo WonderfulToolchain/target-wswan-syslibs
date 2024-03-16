@@ -54,10 +54,10 @@ screen_set_char:
 .row:
     // copy row using MOVSW
     push cx
-    push si
+    push di
     xor ch, ch
     rep movsw
-    pop si
+    pop di
     pop cx
 
     // advance to next column
