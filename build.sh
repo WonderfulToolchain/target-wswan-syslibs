@@ -31,6 +31,10 @@ for i in wwitch; do
 	build_library libww $i
 done
 
+for i in wswan/bootfriend wswan/small wswan/medium; do
+	build_library libwwcl $i
+done
+
 for i in wswan/bootfriend wswan/small wswan/medium wwitch; do
 	build_library libwsx $i
 done
