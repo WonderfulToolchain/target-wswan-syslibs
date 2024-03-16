@@ -46,7 +46,7 @@ void text_window_init(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint1
 
 void text_set_mode(uint16_t mode);
 uint16_t text_get_mode(void);
-uint16_t text_put_char(uint8_t x, uint8_t y, uint16_t chr);
+void text_put_char(uint8_t x, uint8_t y, uint16_t chr);
 uint16_t text_put_string(uint8_t x, uint8_t y, const char __far* str);
 uint16_t text_put_substring(uint8_t x, uint8_t y, const char __far* str, uint16_t length);
 

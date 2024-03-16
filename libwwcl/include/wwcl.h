@@ -62,7 +62,7 @@
  */
 #define WWCL_INIT_MODE_JAPANESE1() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR2_ENABLE, TEXT_MODE_SJIS, \
+        DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
         0x1800, 0x1800, 0x1600, ".iramx_1600", 0x1600, 0x4000 \
     );
 
@@ -71,9 +71,33 @@
  */
 #define WWCL_INIT_MODE_JAPANESE2() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR2_ENABLE, TEXT_MODE_SJIS, \
+        DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
         0x1000, 0x1800, 0x0E00, ".iramx_0e00", 0x0E00, 0x4000 \
     );
+
+/**
+ * @brief Reserve a specific number (1-1024) of 2bpp tiles for Color mode.
+ *
+ * By default, WWCL_INIT_MODE reserves up to 512 2bpp tiles:
+ *
+ * - for ASCII1/ASCII2 modes, these are tiles 256-511,
+ * - for JAPANESE1/JAPANESE2 modes, these are tiles 0-511.
+ *
+ * However, in Color mode, up to 1024 tiles can be used (via the bank bit).
+ */
+#define WWCL_INIT_RESERVE_TILES_2BPP(count) \
+    __attribute__((section(".iramCx_4000"))) \
+    const uint8_t __wwcl_reserved_2bbp_tiles[(count > 512 ? count - 512 : 0) * 16];
+
+/**
+ * @brief Reserve a specific number (1-1024) of 4bpp tiles for Color modes.
+ *
+ * By default, WWCL_INIT_MODE reserves no 4bpp tiles.
+ */
+#define WWCL_INIT_RESERVE_TILES_4BPP(count) \
+    __attribute__((section(".iramCx_4000"))) \
+    const uint8_t __wwcl_reserved_4bpp_tiles[count * 32];
+
 
 /**
  * @brief Initialize the libwwcl library using a memory layout mode.

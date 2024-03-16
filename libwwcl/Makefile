@@ -6,11 +6,16 @@ WONDERFUL_TOOLCHAIN ?= /opt/wonderful
 TARGET ?= wswan/medium
 include $(WF_TARGET_DIR)/makedefs.mk
 
+PYTHON3 ?= python3
+
 # Source code paths
 # -----------------
 
 INCLUDEDIRS	:= include src/include
 SOURCEDIRS	:= src
+
+ANK_FONT  := assets/unscii.png
+SJIS_FONT := assets/misaki_gothic_2nd.png
 
 # Defines passed to all files
 # ---------------------------
@@ -104,7 +109,7 @@ compile_commands.json: $(OBJS) | Makefile
 # Rules
 # -----
 
-$(BUILDDIR)/%.s.o : %.s
+$(BUILDDIR)/%.s.o : %.s build/font_ank.dat build/font_sjis.dat
 	@echo "  AS      $<"
 	@$(MKDIR) -p $(@D)
 	$(_V)$(CC) $(ASFLAGS) -MMD -MP -MJ $(patsubst %.o,%.cc.json,$@) -c -o $@ $<
@@ -113,6 +118,15 @@ $(BUILDDIR)/%.c.o : %.c
 	@echo "  CC      $<"
 	@$(MKDIR) -p $(@D)
 	$(_V)$(CC) $(CFLAGS) -MMD -MP -MJ $(patsubst %.o,%.cc.json,$@) -c -o $@ $<
+
+build/font_ank.dat: $(ANK_FONT) tools/ank_font_pack.py
+	@mkdir -p $(@D)
+	$(PYTHON3) tools/ank_font_pack.py $(ANK_FONT) $@
+
+build/font_sjis.dat: $(SJIS_FONT) tools/sjis_font_pack.py
+	@mkdir -p $(@D)
+	$(PYTHON3) tools/sjis_font_pack.py $(SJIS_FONT) $@
+
 
 # Include dependency files if they exist
 # --------------------------------------

@@ -102,7 +102,7 @@ __wwcl_display_sprite_to_vram_location:
 
     ret
 
-    .section .bss
+    .section .data
     .global __wwcl_disp_font_color
 __wwcl_disp_font_color:
-    .byte 0
+    .byte 1

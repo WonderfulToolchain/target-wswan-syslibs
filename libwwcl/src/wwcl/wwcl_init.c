@@ -44,13 +44,14 @@ void __wwcl_init_irqs(void) {
     cpu_irq_enable();
 }
 
+void wwcl_init_custom(void) {
+    __wwcl_init_irqs();
+}
+
 void wwcl_init(void) {
     outportw(IO_DISPLAY_CTRL, __wwcl_init_display_control);
     outportb(IO_SCR_BASE, __wwcl_init_scr_base);
     outportb(IO_SPR_BASE, __wwcl_init_spr_base);
+    text_set_mode(__wwcl_init_text_mode);
     wwcl_init_custom();
-}
-
-void wwcl_init_custom(void) {
-    __wwcl_init_irqs();
 }
