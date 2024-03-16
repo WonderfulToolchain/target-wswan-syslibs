@@ -50,6 +50,20 @@ _start_parse_data_block:
 	lodsw
 	mov	di, ax
 	lodsw
+	cmp	di, 0x4000
+	jb	_start_parse_data_block_non_wsc
+
+	// data block requests WSC mode?
+	in	al, 0xA0
+	test	al, 0x02
+	// if the console is not color, skip the block entirely
+	jz	_start_parse_data_block
+	// initialize WSC mode
+	in	al, 0x60
+	or	al, 0x80
+	out	0x60, al
+	
+_start_parse_data_block_non_wsc:
 	test	ah, 0x80
 	jnz	_start_data_block_clear
 
@@ -80,6 +94,11 @@ _start_finish_data_block:
 	// configure default interrupt base
 	mov	al, 0x08
 	out	0xB0, al
+
+	// reset console mode to mono
+	in	al, 0x60
+	and	al, 0x1F
+	out	0x60, al
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 	.reloc	.+3, R_386_SEG16, "main!"
