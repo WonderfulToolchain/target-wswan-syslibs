@@ -223,6 +223,17 @@ static inline void sprite_set_location(uint16_t id, uint8_t x, uint8_t y) {
 	);
 }
 
+static inline uint16_t sprite_get_location(uint16_t id) {
+	uint16_t result;
+	__asm volatile (
+		"int $0x12"
+		: "=a" (result)
+		: "Rah" ((uint8_t) 0x0f), "b" (id)
+		: "cc", "memory"
+	);
+	return result;
+}
+
 static inline void sprite_set_char_location(uint16_t id, uint16_t tile, uint8_t x, uint8_t y) {
 	uint16_t ax_clobber;
 	__asm volatile (
@@ -231,6 +242,17 @@ static inline void sprite_set_char_location(uint16_t id, uint16_t tile, uint8_t 
 		: "Rah" ((uint8_t) 0x10), "b" (id), "c" (tile), "d" ((y << 8) | x)
 		: "cc", "memory"
 	);
+}
+
+static inline uint32_t sprite_get_char_location(void) {
+	uint32_t result;
+	__asm volatile (
+		"int $0x12"
+		: "=A" (result)
+		: "Rah" ((uint8_t) 0x11)
+		: "cc", "memory"
+	);
+	return result;
 }
 
 static inline void sprite_set_data(uint16_t start, uint16_t count, const uint8_t __far* data) {
@@ -253,6 +275,17 @@ static inline void screen_set_scroll(uint8_t screen_id, uint8_t x, uint8_t y) {
 	);
 }
 
+static inline uint32_t screen_get_scroll(uint8_t screen_id) {
+	uint32_t result;
+	__asm volatile (
+		"int $0x12"
+		: "=A" (result)
+		: "a" ((uint16_t) (0x1400 | screen_id))
+		: "cc", "memory"
+	);
+	return result;
+}
+
 static inline void screen2_set_window(uint8_t screen_id, uint8_t x, uint8_t y, uint8_t width, uint8_t height) {
 	uint16_t ax_clobber;
 	__asm volatile (
@@ -263,6 +296,17 @@ static inline void screen2_set_window(uint8_t screen_id, uint8_t x, uint8_t y, u
 	);
 }
 
+static inline uint32_t screen2_get_window(void) {
+	uint32_t result;
+	__asm volatile (
+		"int $0x12"
+		: "=A" (result)
+		: "Rah" ((uint8_t) 0x16)
+		: "cc", "memory"
+	);
+	return result;
+}
+
 static inline void sprite_set_window(uint8_t screen_id, uint8_t x, uint8_t y, uint8_t width, uint8_t height) {
 	uint16_t ax_clobber;
 	__asm volatile (
@@ -271,6 +315,17 @@ static inline void sprite_set_window(uint8_t screen_id, uint8_t x, uint8_t y, ui
 		: "a" ((uint16_t) (0x1700 | screen_id)), "b" ((y << 8) | x), "c" ((height << 8) | width)
 		: "cc", "memory"
 	);
+}
+
+static inline uint32_t sprite_get_window(void) {
+	uint32_t result;
+	__asm volatile (
+		"int $0x12"
+		: "=A" (result)
+		: "Rah" ((uint8_t) 0x18)
+		: "cc", "memory"
+	);
+	return result;
 }
 
 static inline void palette_set_color(uint16_t id, uint16_t pal) {
