@@ -76,7 +76,7 @@
     );
 
 /**
- * @brief Initialize the libwwcl library.
+ * @brief Initialize the libwwcl library using a memory layout mode.
  * 
  * Note that you need to use one of the WWCL_INIT_MODE macros for this call
  * to work properly.
@@ -84,8 +84,11 @@
 void wwcl_init(void);
 
 /**
- * @brief Initialize the libwwcl IRQ handlers only.
+ * @brief Initialize the libwwcl library using a custom memory layout.
+ * 
+ * In this mode, display/sprite/sound functions will not work unless you
+ * set IO_SCR_BASE, IO_SPR_BASE, etc. manually.
  */
-void __wwcl_init_irqs(void);
+void wwcl_init_custom(void);
 
 #endif /* __WF_WWCL_H__ */
