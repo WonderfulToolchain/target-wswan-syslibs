@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2022, 2024 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -118,14 +118,17 @@ static inline uint16_t comm_send_block(const void __far* buf, uint16_t length) {
 	return result;
 }
 
-static inline void comm_receive_block(const void __far* buf, uint16_t length) {
-	uint16_t ax_clobber;
+static inline uint16_t comm_receive_block(const void __far* buf, uint16_t length, uint16_t *out_length) {
+	uint16_t result;
+	uint16_t outlen;
 	__asm volatile (
 		"int $0x14"
-		: "=a" (ax_clobber)
+		: "=a" (result), "=d"(outlen)
 		: "Rah" ((uint8_t) 0x07), "c" (length), "d" (FP_OFF(buf)), "Rds" (FP_SEG(buf))
 		: "cc", "memory"
 	);
+	if (out_length) *out_length = outlen;
+	return result;
 }
 
 static inline void comm_set_timeout(uint16_t recv_timeout, uint16_t send_timeout) {
