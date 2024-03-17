@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023, 2024 Adrian "asie" Siekierka
+ * Copyright (c) 2024 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,26 +20,28 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <stddef.h>
+#include <string.h>
 #include <wonderful.h>
 #include <ws.h>
 #include <sys/bios.h>
 
-extern uint32_t __wwcl_vbl_count;
-extern uint8_t __wwcl_init_display_control;
-extern uint8_t __wwcl_init_scr_base;
-extern uint8_t __wwcl_init_spr_base;
-extern uint8_t __wwcl_init_text_mode;
+intvector_t __wwcl_irq_hook[8];
 
-extern void __wwcl_init_irqs(void);
+void sys_interrupt_set_hook(uint8_t id, intvector_t *new_vector, intvector_t *old_vector) {
+    cpu_irq_disable();
 
-void wwcl_init_custom(void) {
-    __wwcl_init_irqs();
+    if (old_vector) memcpy(old_vector, &__wwcl_irq_hook[id], sizeof(intvector_t));
+    memcpy(&__wwcl_irq_hook[id], new_vector, sizeof(intvector_t));
+
+    cpu_irq_enable();
 }
 
-void wwcl_init(void) {
-    outportw(IO_DISPLAY_CTRL, __wwcl_init_display_control);
-    outportb(IO_SCR_BASE, __wwcl_init_scr_base);
-    outportb(IO_SPR_BASE, __wwcl_init_spr_base);
-    text_set_mode(__wwcl_init_text_mode);
-    wwcl_init_custom();
+void sys_interrupt_reset_hook(uint8_t id, intvector_t *old_vector) {
+    cpu_irq_disable();
+
+    if (old_vector) sys_interrupt_set_hook(id, old_vector, NULL);
+    else memset(&__wwcl_irq_hook[id], 0, sizeof(intvector_t));
+
+    cpu_irq_enable();
 }

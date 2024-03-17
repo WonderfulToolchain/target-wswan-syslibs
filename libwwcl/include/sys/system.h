@@ -35,7 +35,7 @@
  */
 
 struct intvector {
-	void (*callback)(void);
+	void *callback;
 	uint16_t cs;
 	uint16_t ds;
 	uint16_t unknown; /* ? */

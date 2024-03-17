@@ -28,8 +28,10 @@
 __wwcl_timer_set:
 	// AL = timer type (0 = HBlank, 1 = VBlank)
 	// BX = timer value (0 = disabled, 1 = enabled, 3 = autopreset)
+	push bx
 	mov cl, al
 	shl cl, 1 // shift: 0 = HBlank, 2 = VBlank
+	push cx
 
 	mov al, 0xFC
 	rol al, cl // create mask
@@ -41,11 +43,25 @@ __wwcl_timer_set:
 	or al, bl
 	out IO_TIMER_CTRL, al
 
+	pop cx
+	// Disable/enable interrupt
+	mov bh, 0x7F
+	ror bh, cl
+	in al, IO_HWINT_ENABLE
+	and al, bh
+	pop bx
+	shl bl, 7
+	shr bl, cl
+	or al, bl
+	out IO_HWINT_ENABLE, al
+
 	WF_PLATFORM_RET
 
 	.global timer_enable
 timer_enable:
 	push ax
+	push dx
+	push cx
 	push ax
 
 	// disable timer
@@ -59,7 +75,7 @@ timer_enable:
 	mov dl, al
 	add dl, 0xA4
 
-	mov ax, cx
+	pop ax
 	out dx, ax
 
 	// enable timer
@@ -68,6 +84,7 @@ timer_enable:
 	shl bx, 1
 	or bl, 1
 	
+	pop ax
 	jmp __wwcl_timer_set
 
 	.global timer_disable

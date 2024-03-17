@@ -25,13 +25,116 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
+    // AL = IRQ to acknowledge
+    // BX = IRQ offset
+    // assumes AX, BX preserved
+irq_wrap_routine:
+    push ax
+    mov ax, ss:[bx]
+    or ax, ss:[bx + 2]
+    jz irq_wrap_routine_not_found
+
+    push cx
+    push dx
+    push si
+    push di
+    push bp
+    push ds
+    push es
+
+    mov ax, ss:[bx + 4]
+    mov ds, ax
+    ss lcall [bx]
+    
+    pop es
+    pop ds
+    pop bp
+    pop di
+    pop si
+    pop dx
+    pop cx
+irq_wrap_routine_not_found:
+    // Acknowledge interrupt
+    pop ax
+    out IO_HWINT_ACK, al
+    ret
+
+.macro irq_default_handler irq,idx
+    push ax
+    push bx
+    mov al, \irq
+    mov bx, offset (__wwcl_irq_hook + (\idx * 8))
+    call irq_wrap_routine
+    pop bx
+    pop ax
+    iret
+.endm
+
+    .global __wwcl_init_irqs
+__wwcl_init_irqs:
+    mov bx, sp
+    mov sp, 0x0040
+    push cs
+    push offset __wwcl_irq_hblank_timer
+    push cs
+    push offset __wwcl_irq_vblank
+    push cs
+    push offset __wwcl_irq_vblank_timer
+    push cs
+    push offset __wwcl_irq_line
+    push cs
+    push offset __wwcl_irq_serial_rx
+    push cs
+    push offset __wwcl_irq_cartridge
+    push cs
+    push offset __wwcl_irq_key
+    push cs
+    push offset __wwcl_irq_serial_tx
+    mov sp, bx
+
+    mov al, 0xFF
+    out IO_HWINT_ACK, al
+    mov al, 0x40
+    out IO_HWINT_ENABLE, al
+    sti
+    WF_PLATFORM_RET
+
+    .global __wwcl_irq_serial_tx
+__wwcl_irq_serial_tx:
+    irq_default_handler HWINT_SERIAL_TX,HWINT_IDX_SERIAL_TX
+
+    .global __wwcl_irq_key
+__wwcl_irq_key:
+    irq_default_handler HWINT_KEY,HWINT_IDX_KEY
+
+    .global __wwcl_irq_cartridge
+__wwcl_irq_cartridge:
+    irq_default_handler HWINT_CARTRIDGE,HWINT_IDX_CARTRIDGE
+
+    .global __wwcl_irq_serial_rx
+__wwcl_irq_serial_rx:
+    irq_default_handler HWINT_SERIAL_RX,HWINT_IDX_SERIAL_RX
+
+    .global __wwcl_irq_line
+__wwcl_irq_line:
+    irq_default_handler HWINT_LINE,HWINT_IDX_LINE
+
+    .global __wwcl_irq_vblank_timer
+__wwcl_irq_vblank_timer:
+    irq_default_handler HWINT_VBLANK_TIMER,HWINT_IDX_VBLANK_TIMER
+
+    .global __wwcl_irq_hblank_timer
+__wwcl_irq_hblank_timer:
+    irq_default_handler HWINT_HBLANK_TIMER,HWINT_IDX_HBLANK_TIMER
+
     .global __wwcl_irq_vblank
 __wwcl_irq_vblank:
     push ax
+    push bx
     push cx
     push ds
-    xor ax, ax
-    mov ds, ax
+    push ss
+    pop ds
 
     // Increment VBL counter
     add word ptr [__wwcl_vbl_count], 1
@@ -65,12 +168,13 @@ __wwcl_irq_vblank:
     mov word ptr [__wwcl_key_held], cx
     mov word ptr [__wwcl_key_pressed], ax
 
-    // Acknowledge interrupt
     mov al, HWINT_VBLANK
-    out IO_HWINT_ACK, al
+    mov bx, offset (__wwcl_irq_hook + (HWINT_IDX_VBLANK * 8))
+    call irq_wrap_routine
 
     pop ds
     pop cx
+    pop bx
     pop ax
     iret
 

@@ -26,5 +26,5 @@
 #include "sys/bios.h"
 
 uint16_t display_status(void) {
-    return inportw(IO_DISPLAY_BACK);
+    return inportw(IO_DISPLAY_CTRL);
 }
