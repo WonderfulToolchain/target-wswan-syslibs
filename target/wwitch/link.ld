@@ -58,7 +58,7 @@ SECTIONS
 	}
 
 	/* Target data section. */
-	".data" 0x10000: AT(ADDR(".erom") + SIZEOF(".erom"))
+	.data 0x10000 : AT(ADDR(".erom") + SIZEOF(".erom"))
 	{
 		__sdata = .;
 		KEEP(*(".data_pcb"))
@@ -99,6 +99,8 @@ SECTIONS
 
     /* Temporary workaround for avoiding debug relocation problems */
 
+    ".comment!" = 0;
+    .comment 0 : { *(.comment) }
     ".debug!" = 0;
     .debug 0 : { *(.debug) }
     ".line!" = 0;
