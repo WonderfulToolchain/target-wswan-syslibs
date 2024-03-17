@@ -25,34 +25,13 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-	.global key_press_check
-key_press_check:
-    WF_PLATFORM_CALL ws_keypad_scan
-    mov [__wwcl_key_last_pressed], ax
-    WF_PLATFORM_RET
-
-    .global key_hit_check
-key_hit_check:
-    mov bx, [__wwcl_key_last_pressed]
-    WF_PLATFORM_CALL ws_keypad_scan
-    mov [__wwcl_key_last_pressed], ax
-    not bx
-    and ax, bx
-    WF_PLATFORM_RET
-
     .global key_wait
 key_wait:
-    WF_PLATFORM_CALL ws_keypad_scan
+    mov ax, [__wwcl_key_pressed]
     test ax, ax
     jnz key_wait_done
     hlt
     nop
     jmp key_wait
 key_wait_done:
-    mov [__wwcl_key_last_pressed], ax
     WF_PLATFORM_RET
-
-	.section .bss
-	.global __wwcl_key_last_pressed
-__wwcl_key_last_pressed:
-    .short 0

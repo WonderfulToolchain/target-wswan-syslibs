@@ -28,17 +28,49 @@
     .global __wwcl_irq_vblank
 __wwcl_irq_vblank:
     push ax
+    push cx
     push ds
     xor ax, ax
     mov ds, ax
 
+    // Increment VBL counter
     add word ptr [__wwcl_vbl_count], 1
     adc word ptr [__wwcl_vbl_count+2], 0
 
+    // Handle key presses
+    mov al, 0x10
+    out IO_KEY_SCAN, al
+    daa
+    in  al, IO_KEY_SCAN
+    and al, 0x0F
+    mov ch, al
+
+    mov al, 0x20
+    out IO_KEY_SCAN, al
+    daa
+    in  al, IO_KEY_SCAN
+    shl al, 4
+    mov cl, al
+
+    mov al, 0x40
+    out IO_KEY_SCAN, al
+    daa
+    in  al, IO_KEY_SCAN
+    and al, 0x0F
+    or  cl, al
+
+    mov ax, word ptr [__wwcl_key_held]
+    not ax
+    and ax, cx
+    mov word ptr [__wwcl_key_held], cx
+    mov word ptr [__wwcl_key_pressed], ax
+
+    // Acknowledge interrupt
     mov al, HWINT_VBLANK
     out IO_HWINT_ACK, al
 
     pop ds
+    pop cx
     pop ax
     iret
 
@@ -46,3 +78,9 @@ __wwcl_irq_vblank:
     .global __wwcl_vbl_count
 __wwcl_vbl_count:
 .short 0, 0
+    .global __wwcl_key_pressed
+__wwcl_key_pressed:
+.short 0
+    .global __wwcl_key_held
+__wwcl_key_held:
+.short 0
