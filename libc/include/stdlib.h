@@ -47,4 +47,8 @@ void srand(unsigned int seed);
 void __far* bsearch(const void __far* key, const void __far* base, size_t nmemb, size_t size, int (*compar)(const void __far*, const void __far*));
 void qsort(void __far* base, size_t nmemb, size_t size, int (*compar)(const void __far*, const void __far*));
 
+void *malloc(size_t size);
+void free(void *ptr);
+void *realloc(void *ptr, size_t size);
+
 #endif /* __WF_LIBC_STDLIB_H__ */
