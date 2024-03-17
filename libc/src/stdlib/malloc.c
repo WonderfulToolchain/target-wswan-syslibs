@@ -125,7 +125,6 @@ void *malloc(size_t size) {
 }
 
 void free(void *ptr) {
-	void *alloc_end = sbrk(0);
 	alloc_header_t *block = (alloc_header_t*) (ptr - 2);
 	block->size &= ~BLOCK_ALLOCATED;
 }
@@ -157,8 +156,6 @@ void *realloc(void *ptr, size_t size) {
 	if (size <= block_size) {
 		if (size <= (block_size - sizeof(alloc_header_t))) {
 			// split block
-			void *alloc_end = sbrk(0);
-
 			alloc_header_t *following_block = BLOCK_AFTER(block, size);
 			following_block->size = block_size - size - sizeof(alloc_header_t);
 			block_size = size;
