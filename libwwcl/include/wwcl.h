@@ -54,7 +54,7 @@
 #define WWCL_INIT_MODE_ASCII2() \
     WWCL_INIT_MODE( \
         DISPLAY_SCR1_ENABLE | DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK, \
-        0x2800, 0x3000, 0x2600, ".iramx_2600", 0x2600, 0x4000 \
+        0x3000, 0x2800, 0x2600, ".iramx_2600", 0x2600, 0x4000 \
     );
 
 /**
