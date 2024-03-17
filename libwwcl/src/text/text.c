@@ -92,6 +92,10 @@ void text_window_init(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint1
     text_window_clear_screen();
 }
 
+#ifndef __IA16_CMODEL_TINY__
+extern const uint16_t __wf_rom __wwcl_ank_sjis_table[];
+#endif
+
 void text_put_char(uint8_t x, uint8_t y, uint16_t chr) {
     if (x >= window_width || y >= window_height) return;
 
@@ -99,7 +103,14 @@ void text_put_char(uint8_t x, uint8_t y, uint16_t chr) {
         if (chr >= 0x80) chr = '?';
         *TEXT_TILEMAP_AT(x, y) = (text_base + chr) | SCR_ENTRY_PALETTE(text_palette);
     } else {
+#ifndef __IA16_CMODEL_TINY__
+        // Convert ASCII character to SJIS range, if necessary
+        if (text_mode == TEXT_MODE_SJIS && chr >= 0x20 && chr < 0x7F) {
+            chr = __wwcl_ank_sjis_table[chr - 0x20];
+        }
+#endif
         uint8_t data[8];
+        memset(data, 0, sizeof(data));
         text_get_fontdata(chr, data);
         font_set_monodata(text_base + y * window_width + x, 1, data);
     }

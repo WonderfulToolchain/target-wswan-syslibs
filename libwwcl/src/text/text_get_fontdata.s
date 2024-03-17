@@ -48,9 +48,11 @@ text_get_fontdata:
 .no_ascii:
     jb .no_sjis
 
+#ifndef __IA16_CMODEL_TINY__
     call text_sjis_default_font_handler
     mov ax, 0
     jnc .sjis_continue
+#endif
 .no_sjis:
     mov ax, 0x8000
     jmp .finish
@@ -82,6 +84,7 @@ text_get_fontdata:
     xor ax, ax
     jmp .copy
 
+#ifndef __IA16_CMODEL_TINY__
     // input: AX - Shift-JIS character code
     // output: CX:SI - font data location
     // output: carry - set if no data found
@@ -126,13 +129,16 @@ text_sjis_default_font_handler_finish:
     pop si
     stc
     jmp text_sjis_default_font_handler_finish
+#endif
 
     .global __wwcl_font_ank
 __wwcl_font_ank:
     .incbin "build/font_ank.dat"
 
+#ifndef __IA16_CMODEL_TINY__
     // TODO: even if a program doesn't use the SJIS font, this pulls in
     // ~55KB of data...
     .global __wwcl_font_sjis
 __wwcl_font_sjis:
     .incbin "build/font_sjis.dat"
+#endif
