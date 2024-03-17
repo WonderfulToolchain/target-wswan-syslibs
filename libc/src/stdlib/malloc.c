@@ -129,6 +129,10 @@ void free(void *ptr) {
 	block->size &= ~BLOCK_ALLOCATED;
 }
 
+void free_sized(void *ptr, size_t size) {
+	free(ptr);
+}
+
 void *realloc(void *ptr, size_t size) {
 	alloc_header_t *block = (alloc_header_t*) (ptr - 2);
 
@@ -170,4 +174,15 @@ void *realloc(void *ptr, size_t size) {
 		free(ptr);
 	}
 	return new_ptr;
+}
+
+void* calloc(size_t nelem, size_t elsize) {
+	if (nelem <= 0 || elsize <= 0)
+		return NULL;
+	uint32_t size = nelem * elsize;
+	if (size > 0x7FFF)
+		return NULL;
+	void *ptr = malloc(size);
+	memset(ptr, 0, size);
+	return ptr;
 }

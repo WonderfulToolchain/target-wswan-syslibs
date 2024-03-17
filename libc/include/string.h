@@ -47,6 +47,7 @@ char __far* strchr(const char __far* s, int c);
 int strcmp(const char __far* s1, const char __far* s2);
 char __far* strcpy(char __far* s1, const char __far* s2);
 size_t strcspn(const char __far* s1, const char __far* s2);
+char *strdup(const char __far* s);
 size_t strlen(const char __far* s);
 char __far* strncat(char __far* s1, const char __far* s2, size_t n);
 int strncmp(const char __far* s1, const char __far* s2, size_t n);

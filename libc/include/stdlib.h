@@ -49,6 +49,8 @@ void qsort(void __far* base, size_t nmemb, size_t size, int (*compar)(const void
 
 void *malloc(size_t size);
 void free(void *ptr);
+void free_sized(void *ptr, size_t size);
 void *realloc(void *ptr, size_t size);
+void* calloc(size_t nelem, size_t elsize);
 
 #endif /* __WF_LIBC_STDLIB_H__ */
