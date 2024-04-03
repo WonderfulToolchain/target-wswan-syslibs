@@ -67,7 +67,6 @@ wsx_zx0_decompress:
         mov     si,di           // point to destination in es:di + offset in dx
         add     si,dx
         rep     movsb           // copy matched bytes
-
         pop     si              // restore ds:si
         pop     ds
 
@@ -84,11 +83,18 @@ wsx_zx0_decompress:
         mov     cx,1            // initialize match length value to 1
         mov     dl,[si]         // read low byte of offset + 1 bit of len
         inc     si
+#ifdef __IA16_TUNE_NEC_V30MZ
+        shr     dx,1            // shift len bit into carry
+#else
         stc                     // set high bit that is shifted into bit 15
         rcr     dx,1            // shift len bit into carry/offset in place
+#endif
         jc      .got_offs       // if len bit is set, no need for more
         call    .elias_bt       // read rest of elias-encoded match length
 .got_offs:
+#ifdef __IA16_TUNE_NEC_V30MZ
+        or      dh,0x80         // set high bit
+#endif
         inc     cx              // fix match length
         jmp     short .copy_match // go copy match
 
