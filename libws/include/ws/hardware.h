@@ -225,6 +225,7 @@
 #define HYPERV_VOLUME_25   (2)
 #define HYPERV_VOLUME_12_5 (3)
 #define HYPERV_VOLUME_MASK (3)
+#define HYPERV_SHIFT(n)    (n)
 #define HYPERV_MODE_UNSIGNED        (0 << 2)
 #define HYPERV_MODE_UNSIGNED_NEGATE (1 << 2)
 #define HYPERV_MODE_SIGNED          (2 << 2)
@@ -308,6 +309,7 @@
 #define SND_OUT_VOLUME_50         0x02
 #define SND_OUT_VOLUME_25         0x04
 #define SND_OUT_VOLUME_12_5       0x06
+#define SND_OUT_SHIFT(n)          ((n) << 1)
 #define SND_OUT_DIVIDER_1         0x00
 #define SND_OUT_DIVIDER_2         0x02
 #define SND_OUT_DIVIDER_4         0x04
@@ -323,6 +325,13 @@
 #define SND_VOL_CH2_RIGHT_FULL 0x03
 #define SND_VOL_CH2_HALF       0x0A
 #define SND_VOL_CH2_FULL       0x0F
+
+#define IO_SND_TEST 0x95
+#define SND_TEST_CH_OUT_4   0x80
+#define SND_TEST_CH_OUT_2   0x40
+#define SND_TEST_CH_SUM_55  0x20
+#define SND_TEST_FAST_SWEEP 0x02
+#define SND_TEST_HOLD_CH    0x01
 
 #define IO_SND_CH_OUT_R  0x96
 #define IO_SND_CH_OUT_L  0x98
