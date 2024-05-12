@@ -25,6 +25,11 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
+#define ERR_SIO_BUSY      0x8100
+#define ERR_SIO_TIMEOUT   0x8101
+#define ERR_SIO_OVERRUN   0x8102
+#define ERR_SIO_CANCEL    0x8103
+
     .global comm_send_char
 comm_send_char:
     mov bl, al // BL = char
@@ -37,9 +42,9 @@ __wwcl_comm_send_char_inner:
 
 	in al, IO_SERIAL_STATUS
 	test al, SERIAL_TX_READY
-	je .send
+	je comm_send_char_send
 	cmp cx, 0x0000 // instant timeout?
-	je .timeout
+	je comm_send_char_timeout
 
 	// Enable listening on serial TX
 	mov al, HWINT_VBLANK | HWINT_SERIAL_TX

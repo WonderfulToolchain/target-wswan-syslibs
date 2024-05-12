@@ -35,11 +35,11 @@ comm_send_string:
 comm_send_string_loop:
 	mov bl, es:[si]
 	cmp bl, 0
-	je .done
+	je comm_send_string_done
 
 	WF_PLATFORM_CALL __wwcl_comm_send_char_inner
 	test ah, 0x80 // error?
-	jnz .done
+	jnz comm_send_string_done
 
 	inc si
 	jmp comm_send_string_loop

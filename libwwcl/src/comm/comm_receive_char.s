@@ -25,6 +25,11 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
+#define ERR_SIO_BUSY      0x8100
+#define ERR_SIO_TIMEOUT   0x8101
+#define ERR_SIO_OVERRUN   0x8102
+#define ERR_SIO_CANCEL    0x8103
+
     .global comm_receive_char
 comm_receive_char:
 	mov cx, [__wwcl_comm_rx_timeout]
