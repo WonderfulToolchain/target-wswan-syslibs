@@ -22,6 +22,75 @@
 
 #define __WONDERFUL__
 
+#ifdef __WATCOMC__
+
+/* OpenWatcom C support. */
+
+unsigned char inportb(unsigned short port);
+unsigned short inportw(unsigned short port);
+void outportb(unsigned short port, unsigned char value);
+void outportw(unsigned short port, unsigned short value);
+
+#pragma aux inportb = \
+	"in al, dx" \
+	parm [dx] value [al]
+#pragma aux inportw = \
+	"in ax, dx" \
+	parm [dx] value [ax]
+
+#pragma aux outportb = \
+	"out dx, al" \
+	parm [dx] [al]
+#pragma aux outportw = \
+	"out dx, ax" \
+	parm [dx] [ax]
+
+#define _CS __builtin_wonderful_cs()
+#define _DS __builtin_wonderful_ds()
+#define _ES __builtin_wonderful_es()
+#define _SS __builtin_wonderful_ss()
+
+unsigned short __builtin_wonderful_cs();
+#pragma aux __builtin_wonderful_cs = \
+	"mov ax, cs" \
+	value [ax]
+
+unsigned short __builtin_wonderful_ds();
+#pragma aux __builtin_wonderful_ds = \
+	"mov ax, ds" \
+	value [ax]
+
+unsigned short __builtin_wonderful_es();
+#pragma aux __builtin_wonderful_es = \
+	"mov ax, es" \
+	value [ax]
+
+unsigned short __builtin_wonderful_ss();
+#pragma aux __builtin_wonderful_ss = \
+	"mov ax, ss" \
+	value [ax]
+
+void cpu_halt(void);
+#pragma aux cpu_halt = "hlt"
+#define hlt cpu_halt
+
+void cpu_irq_enable(void);
+#pragma aux cpu_irq_enable = "sti"
+#define sti cpu_irq_enable
+
+void cpu_irq_disable(void);
+#pragma aux cpu_irq_disable = "cli"
+#define cli cpu_irq_disable
+
+#pragma aux default "*" \
+	parm routine [ax dx cx] \
+	value [al dl cl ax dx cx] \
+	modify [ax bx cx dx];
+
+#else
+
+/* gcc-ia16 support. */
+
 #ifdef __ASSEMBLER__
 
 /** Memory model helpers. */
@@ -60,19 +129,18 @@
 #endif
 
 #ifndef __ASSEMBLER__
-#include <stdint.h>
 
 /** IA-16 helpers. */
-#define FP_SEG(x) __builtin_ia16_selector ((uint16_t) (((uint32_t) ((void __far*) (x))) >> 16))
+#define FP_SEG(x) __builtin_ia16_selector ((unsigned short) (((unsigned long) ((void __far*) (x))) >> 16))
 #define FP_OFF(x) __builtin_ia16_FP_OFF ((x))
-#define MK_FP(seg, ofs) ((void __far*) (((uint16_t) ofs) | (((uint32_t) ((uint16_t) seg)) << 16)))
+#define MK_FP(seg, ofs) ((void __far*) (((unsigned short) ofs) | (((unsigned long) ((unsigned short) seg)) << 16)))
 #define _CS __builtin_wonderful_cs()
 #define _DS __builtin_wonderful_ds()
 #define _ES __builtin_wonderful_es()
 #define _SS __builtin_wonderful_ss()
 
-static inline uint16_t __builtin_wonderful_cs() {
-	uint16_t result;
+static inline unsigned short __builtin_wonderful_cs() {
+	unsigned short result;
 	__asm (
 		"mov %%cs, %0"
 		: "=r" (result)
@@ -80,8 +148,8 @@ static inline uint16_t __builtin_wonderful_cs() {
 	return result;
 }
 
-static inline uint16_t __builtin_wonderful_ds() {
-	uint16_t result;
+static inline unsigned short __builtin_wonderful_ds() {
+	unsigned short result;
 	__asm (
 		"mov %%ds, %0"
 		: "=r" (result)
@@ -89,8 +157,8 @@ static inline uint16_t __builtin_wonderful_ds() {
 	return result;
 }
 
-static inline uint16_t __builtin_wonderful_es() {
-	uint16_t result;
+static inline unsigned short __builtin_wonderful_es() {
+	unsigned short result;
 	__asm (
 		"mov %%es, %0"
 		: "=r" (result)
@@ -98,8 +166,8 @@ static inline uint16_t __builtin_wonderful_es() {
 	return result;
 }
 
-static inline uint16_t __builtin_wonderful_ss() {
-	uint16_t result;
+static inline unsigned short __builtin_wonderful_ss() {
+	unsigned short result;
 	__asm (
 		"mov %%ss, %0"
 		: "=r" (result)
@@ -111,14 +179,14 @@ static inline uint16_t __builtin_wonderful_ss() {
   * @brief Read a byte from the given port.
   * 
   * @param port Port ID. For more information, see @ref DefinesIOPorts
-  * @return uint8_t The value read.
+  * @return unsigned char The value read.
   */
-static inline uint8_t inportb(uint8_t port) {
-	uint8_t result;
+static inline unsigned char inportb(unsigned char port) {
+	unsigned char result;
 	__asm volatile (
 		"inb %1, %0"
 		: "=Ral" (result)
-		: "Nd" ((uint16_t) port)
+		: "Nd" ((unsigned short) port)
 	);
 	return result;
 }
@@ -127,14 +195,14 @@ static inline uint8_t inportb(uint8_t port) {
   * @brief Read a word from the given port.
   * 
   * @param port Port ID. For more information, see @ref DefinesIOPorts
-  * @return uint8_t The value read.
+  * @return unsigned char The value read.
   */
-static inline uint16_t inportw(uint8_t port) {
-	uint16_t result;
+static inline unsigned short inportw(unsigned char port) {
+	unsigned short result;
 	__asm volatile (
 		"inw %1, %0"
 		: "=a" (result)
-		: "Nd" ((uint16_t) port)
+		: "Nd" ((unsigned short) port)
 	);
 	return result;
 }
@@ -145,11 +213,11 @@ static inline uint16_t inportw(uint8_t port) {
   * @param port Port ID. For more information, see @ref DefinesIOPorts
   * @param value The value to write.
   */
-static inline void outportb(uint8_t port, uint8_t value) {
+static inline void outportb(unsigned char port, unsigned char value) {
 	__asm volatile (
 		"outb %0, %1"
 		:
-		: "Ral" (value), "Nd" ((uint16_t) port)
+		: "Ral" (value), "Nd" ((unsigned short) port)
 	);
 }
 
@@ -159,11 +227,11 @@ static inline void outportb(uint8_t port, uint8_t value) {
   * @param port Port ID. For more information, see @ref DefinesIOPorts
   * @param value The value to write.
   */
-static inline void outportw(uint8_t port, uint16_t value) {
+static inline void outportw(unsigned char port, unsigned short value) {
 	__asm volatile (
 		"outw %0, %1"
 		:
-		: "a" (value), "Nd" ((uint16_t) port)
+		: "a" (value), "Nd" ((unsigned short) port)
 	);
 }
 
@@ -181,5 +249,7 @@ static inline void cpu_irq_disable(void) {
 	__asm volatile ("cli");
 }
 #define cli cpu_irq_disable
+
+#endif
 
 #endif
