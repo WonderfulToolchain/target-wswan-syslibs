@@ -27,7 +27,7 @@
 	.global ws_eeprom_write_lock
 ws_eeprom_write_lock:
 	mov dx, ax
-	mov bl, 0x13
+	mov bl, 0x10
 	call ws_eeprom_internal_addr_to_command
 	add dl, 2
 	out dx, ax
