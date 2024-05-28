@@ -36,6 +36,7 @@ ws_eeprom_read_word:
 	add dl, 2
 	out dx, ax // 0xBE
 	call ws_eeprom_internal_wait_done
+	call ws_eeprom_internal_wait_ready
 	sub dl, 4
 	in ax, dx // 0xBA
 	ASM_PLATFORM_RET

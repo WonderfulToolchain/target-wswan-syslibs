@@ -79,6 +79,7 @@ void ws_eeprom_read_data(ws_eeprom_handle_t handle, uint16_t address, uint8_t *d
  * 
  * @param address The address to write to. The lowest bit is ignored.
  * @param value The word to write.
+ * @return True if the write was successful (no timeout).
  */
 bool ws_eeprom_write_word(ws_eeprom_handle_t handle, uint16_t address, uint16_t value);
 
@@ -86,18 +87,21 @@ bool ws_eeprom_write_word(ws_eeprom_handle_t handle, uint16_t address, uint16_t 
  * @brief Erase a word from the EEPROM, setting it to 0xFFFF.
  * 
  * @param address The address to erase.
+ * @return True if the erase was successful (no timeout).
  */
-void ws_eeprom_erase_word(ws_eeprom_handle_t handle, uint16_t address);
+bool ws_eeprom_erase_word(ws_eeprom_handle_t handle, uint16_t address);
 
 /**
  * @brief Lock the EEPROM, preventing writes and erases.
+ *
+ * @return True if the command was successful (no timeout).
  */
-void ws_eeprom_write_lock(ws_eeprom_handle_t handle);
+bool ws_eeprom_write_lock(ws_eeprom_handle_t handle);
 
 /**
  * @brief Unlock the EEPROM, allowing writes and erases.
  */
-void ws_eeprom_write_unlock(ws_eeprom_handle_t handle);
+bool ws_eeprom_write_unlock(ws_eeprom_handle_t handle);
 
 /**@}*/
 

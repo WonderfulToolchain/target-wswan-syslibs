@@ -57,10 +57,10 @@ ws_eeprom_internal_wait_ready_l1:
 	test al, 0x02 // 1
 	jnz ws_eeprom_internal_wait_ready_ok // 1
 	loop ws_eeprom_internal_wait_ready_l1 // 1
-	mov al, 1
+	xor al, al
 	ret
 ws_eeprom_internal_wait_ready_ok:
-	xor al, al
+	mov al, 1
 	ret
 
 	// AL = 1 if IEEP done, 0 otherwise
@@ -78,4 +78,5 @@ ws_eeprom_internal_wait_done_l1:
 	jnz ws_eeprom_internal_wait_done_ok // 1
 	loop ws_eeprom_internal_wait_done_l1 // 1
 ws_eeprom_internal_wait_done_ok:
+	xor al, 0x01
 	ret
