@@ -23,9 +23,10 @@
 #include <stdint.h>
 #include "ws/util.h"
 #include "ws/hardware.h"
+#include "ws/system.h"
 #include "ws/eeprom.h"
 
 ws_eeprom_handle_t ws_eeprom_handle_internal(void) {
-	ws_eeprom_handle_t handle = {0xBA, inportb(IO_SYSTEM_CTRL2) ? (10 - 2) : (6 - 2)};
+	ws_eeprom_handle_t handle = {0xBA, ws_system_color_active() ? (10 - 2) : (6 - 2)};
 	return handle;
 }
