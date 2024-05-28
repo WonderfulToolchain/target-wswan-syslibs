@@ -36,5 +36,10 @@ ws_eeprom_erase_word:
 	mov ax, 0x40
 	add dl, 2 // 0xBE
 	out dx, ax
+
+	mov cx, 3500 // ~5ms
+ws_eeprom_erase_word_loop:
+	loop ws_eeprom_erase_word_loop
+
 	call ws_eeprom_internal_wait_ready
 	ASM_PLATFORM_RET

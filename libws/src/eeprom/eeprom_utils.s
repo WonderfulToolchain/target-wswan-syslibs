@@ -78,5 +78,4 @@ ws_eeprom_internal_wait_done_l1:
 	jnz ws_eeprom_internal_wait_done_ok // 1
 	loop ws_eeprom_internal_wait_done_l1 // 1
 ws_eeprom_internal_wait_done_ok:
-	xor al, 0x01
 	ret
