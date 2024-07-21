@@ -78,7 +78,7 @@ _start:
 	mov	es, ax
 	mov	ax, cs
 	mov	dx, ax
-	.reloc	.+1, R_386_SEG16, "__erom!"
+	.reloc	.+2, R_386_SEG16, "__erom!"
 	add ax, 0
 	mov	ds, ax
 	mov	cx, offset "__lwdata"
