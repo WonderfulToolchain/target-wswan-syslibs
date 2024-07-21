@@ -55,17 +55,15 @@ screen_fill_attr:
 
     cld
 .row:
-    mov si, di // DS:SI = ES:DI
-
     // modify row
     push cx
     push di
     xor ch, ch
 .loop:
-    lodsw
+    mov ax, [di]
     and ax, bx
     or ax, dx
-    stosw
+    stosw // also increments DI
     loop .loop
 
     pop di
