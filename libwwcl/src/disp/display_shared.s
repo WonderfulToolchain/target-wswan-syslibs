@@ -39,7 +39,7 @@ __wwcl_display_screen_to_vram_location:
 
     in al, IO_SCR_BASE
     shl ax, cl
-    and ah, 0x78
+    and ax, 0x7800
     mov di, ax
 
     pop cx
@@ -60,17 +60,15 @@ __wwcl_display_screen_and_topleft_to_vram_location:
 
     in al, IO_SCR_BASE
     shl ax, cl
-    and ah, 0x78
+    and ax, 0x7800
     mov di, ax
 
     push bx
-    xor bh, bh
-    and bl, 0x1F
+    and bx, 0x001F
     add di, bx
     add di, bx // * 2
     pop bx
-    xor bl, bl
-    and bh, 0x1F
+    and bx, 0x1F00
     shr bx, 1
     shr bx, 1  // (bh >> 2) == ((bx >> 8) << 6)
     add di, bx
