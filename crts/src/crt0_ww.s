@@ -59,7 +59,7 @@
 # define SCR2_ADDR 0x3000
 # define SPR_ADDR 0x2e00
 # define STACK_ADDR 0x2e00
-# define TEXT_MODE TEXT_MODE_ANK_SJIS
+# define TEXT_MODE TEXT_MODE_ANK
 #else
 # error Must specify DISPLAY_MODE!
 #endif
