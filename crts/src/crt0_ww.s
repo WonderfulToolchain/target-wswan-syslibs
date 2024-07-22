@@ -78,8 +78,11 @@ _start:
 	mov	es, ax
 	mov	ax, cs
 	mov	dx, ax
-	.reloc	.+2, R_386_SEG16, "__erom!"
-	add ax, 0
+
+	.reloc	.+1, R_386_SEG16, "__erom!"
+	// add ax, 0
+	.byte 0x05, 0x00, 0x00
+
 	mov	ds, ax
 	mov	cx, offset "__lwdata"
 	cld
