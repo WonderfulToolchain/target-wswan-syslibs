@@ -42,6 +42,16 @@ struct intvector {
 };
 typedef struct intvector intvector_t;
 
+struct ownerinfo {
+	char name[16];
+	uint16_t birth_year;
+	uint8_t birth_month;
+	uint8_t birth_day;
+	uint8_t sex;
+	uint8_t bloodtype;
+};
+typedef struct ownerinfo ownerinfo_t;
+
 #define SYS_INT_SENDREADY      0x00
 #define SYS_INT_KEY            0x01
 #define SYS_INT_CASETTE        0x02
@@ -159,6 +169,17 @@ static inline void sys_set_keepalive_int(uint16_t value) {
 		: "Rah" ((uint8_t) 0x09), "b" (value)
 		: "cc", "memory"
 	);
+}
+
+static inline uint16_t sys_get_ownerinfo(uint16_t size, void __far* buffer) {
+	uint16_t result;
+	__asm volatile (
+		"int $0x17"
+		: "=a" (result)
+		: "Rah" ((uint8_t) 0x0A), "c" (size), "d" (FP_OFF(buffer)), "Rds" (FP_SEG(buffer))
+		: "cc", "memory"
+	);
+	return result;
 }
 
 static inline uint16_t sys_get_version(void) {
