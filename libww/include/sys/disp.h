@@ -131,7 +131,7 @@ static inline uint16_t font_get_color(void) {
 	return result;
 }
 
-static inline void screen_set_char(uint8_t screen_id, uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint16_t __far* tiles ) {
+static inline void screen_set_char(uint8_t screen_id, uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint16_t __far* tiles) {
 	uint16_t ax_clobber;
 	__asm volatile (
 		"int $0x12"
