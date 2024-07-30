@@ -182,6 +182,38 @@ static inline uint16_t sys_get_ownerinfo(uint16_t size, void __far* buffer) {
 	return result;
 }
 
+static inline void __wf_iram *sys_alloc_iram(void __far* ptr, uint16_t size) {
+	uint16_t result;
+	__asm volatile (
+		"int $0x17"
+		: "=a" (result)
+		: "Rah" ((uint8_t) 0x0F), "b" (FP_OFF(ptr)), "c" (size), "Rds" (FP_SEG(ptr))
+		: "cc", "memory"
+	);
+	return (void __wf_iram*) result;
+}
+
+static inline void sys_free_iram(void __wf_iram* address) {
+	uint16_t ax_clobber;
+	__asm volatile (
+		"int $0x17"
+		: "=a" (ax_clobber)
+		: "Rah" ((uint8_t) 0x10), "b" (FP_OFF(address))
+		: "cc", "memory"
+	);
+}
+
+static inline void __wf_iram *sys_get_my_iram(void) {
+	uint16_t result;
+	__asm volatile (
+		"int $0x17"
+		: "=a" (result)
+		: "Rah" ((uint8_t) 0x11)
+		: "cc", "memory"
+	);
+	return (void __wf_iram*) result;
+}
+
 static inline uint16_t sys_get_version(void) {
 	uint16_t result;
 	__asm volatile (
