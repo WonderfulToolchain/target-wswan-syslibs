@@ -60,19 +60,36 @@ static inline bool ws_system_color_active(void) {
 }
 
 /**
- * @brief Check if this device is a SwanCrystal.
- *
- * While the SwanCrystal doesn't provide additional official functionality, this can be used
- * for different color palette sets adapted to the respective models' display panel technology.
- *
- * This function must be used only if @ref system_is_color is true.
- * 
- * @return true This device is a SwanCrystal.
- * @return false This device is not a SwanCrystal.
+ * @brief WonderSwan device model.
  */
-static inline bool ws_system_is_swancrystal(void) {
-	return inportb(IO_SYSTEM_CTRL3) & SYSTEM_CTRL3_SWANCRYSTAL;
-}
+typedef enum {
+	/**
+	 * @brief WonderSwan (mono).
+	 */
+	WS_MODEL_MONO = 0x00,
+
+	/**
+	 * @brief Pocket Challenge V2.
+	 */
+	WS_MODEL_PCV2 = 0x01,
+
+	/**
+	 * @brief WonderSwan Color.
+	 */
+	WS_MODEL_COLOR = 0x82,
+
+	/**
+	 * @brief SwanCrystal.
+	 */
+	WS_MODEL_CRYSTAL = 0x83,
+} ws_system_model_t;
+
+/**
+ * @brief Get the device's model.
+ * 
+ * @return ws_system_model_t The device's model.
+ */
+ws_system_model_t ws_system_get_model(void);
 
 /**
  * @brief WonderSwan system mode. 
