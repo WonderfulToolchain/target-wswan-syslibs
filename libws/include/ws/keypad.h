@@ -54,6 +54,16 @@ uint16_t ws_keypad_scan(void);
 #define KEY_A     0x0004
 #define KEY_START 0x0002
 
+#define KEY_PCV2_PASS   0x0800
+#define KEY_PCV2_CIRCLE 0x0400
+#define KEY_PCV2_CLEAR  0x0100
+#define KEY_PCV2_RIGHT  0x0080
+#define KEY_PCV2_ESC    0x0040
+#define KEY_PCV2_VIEW   0x0010
+#define KEY_PCV2_UP     0x0008
+#define KEY_PCV2_DOWN   0x0004
+#define KEY_PCV2_LEFT   0x0001
+
 /**@}*/
 
 #endif /* __WF_LIBWS_KEYPAD_H__ */
