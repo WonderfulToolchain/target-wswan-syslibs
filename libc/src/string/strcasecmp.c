@@ -14,9 +14,10 @@
 #include "string.h"
 
 int strcasecmp(const char __far* s1, const char __far* s2) {
-	while ((*s1) && (toupper(*s1) == toupper(*s2))) {
+	int result = 0;
+	while ((*s1) && !(result = (toupper((unsigned char) *s1) - toupper((unsigned char) *s2)))) {
 		s1++;
 		s2++;
 	}
-	return ((unsigned char) (*s1)) - ((unsigned char) (*s2));
+	return result;
 }

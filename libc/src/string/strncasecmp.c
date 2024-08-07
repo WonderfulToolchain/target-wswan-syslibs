@@ -14,10 +14,11 @@
 #include "string.h"
 
 int strncasecmp(const char __far* s1, const char __far* s2, size_t n) {
-	while (n && (*s1) && (toupper(*s1) == toupper(*s2))) {
+	int result = 0;
+	while (n && (*s1) && !(result = (toupper((unsigned char) *s1) - toupper((unsigned char) *s2)))) {
 		s1++;
 		s2++;
 		n--;
 	}
-	return (n == 0) ? 0 : (((unsigned char) (*s1)) - ((unsigned char) (*s2)));
+	return (n == 0) ? 0 : result;
 }
