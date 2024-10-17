@@ -20,21 +20,16 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-/** \file sys/bios.h
- * FreyaBIOS calls.
+#ifndef __WF_LIBWW_SERVICE_H__
+#define __WF_LIBWW_SERVICE_H__
+
+/**
+ * @addtogroup Int10 BIOS - INT 10h - Exit
+ * @{
  */
 
-#ifndef __WF_LIBWW_BIOS_H__
-#define __WF_LIBWW_BIOS_H__
+void bios_exit(void);
 
-#include "types.h"
-#include "key.h"
-#include "disp.h"
-#include "text.h"
-#include "comm.h"
-#include "sound.h"
-#include "timer.h"
-#include "system.h"
-// #include "bank.h"
+/**@}*/
 
 #endif /* __WF_LIBWW_BIOS_H__ */

@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2022 Adrian "asie" Siekierka
+/**
+ * Copyright (c) 2024 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,23 +18,15 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
- */
+*/
 
-/** \file sys/bios.h
- * FreyaBIOS calls.
- */
+	.arch	i186
+	.code16
+	.intel_syntax noprefix
 
-#ifndef __WF_LIBWW_BIOS_H__
-#define __WF_LIBWW_BIOS_H__
-
-#include "types.h"
-#include "key.h"
-#include "disp.h"
-#include "text.h"
-#include "comm.h"
-#include "sound.h"
-#include "timer.h"
-#include "system.h"
-// #include "bank.h"
-
-#endif /* __WF_LIBWW_BIOS_H__ */
+	.global sound_set_voice_volume
+sound_set_voice_volume:
+	shl	al, 2
+	or	al, dl
+	out	0x94, al
+	ret

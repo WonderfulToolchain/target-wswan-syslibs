@@ -1,43 +1,52 @@
-/*
- * Copyright (c) 2022 Adrian "asie" Siekierka
- *
- * This software is provided 'as-is', without any express or implied
- * warranty. In no event will the authors be held liable for any damages
- * arising from the use of this software.
- *
- * Permission is granted to anyone to use this software for any purpose,
- * including commercial applications, and to alter it and redistribute it
- * freely, subject to the following restrictions:
- *
- * 1. The origin of this software must not be misrepresented; you must not
- *    claim that you wrote the original software. If you use this software
- *    in a product, an acknowledgment in the product documentation would be
- *    appreciated but is not required.
- *
- * 2. Altered source versions must be plainly marked as such, and must not be
- *    misrepresented as being the original software.
- *
- * 3. This notice may not be removed or altered from any source distribution.
- */
+#ifndef __LIBWW_SYS_TYPES_H__
+#define __LIBWW_SYS_TYPES_H__
 
-/** \file sys/types.h
- * General system types.
- */
-
-#ifndef __WF_LIBWW_TYPES_H__
-#define __WF_LIBWW_TYPES_H__
-
-#include <wonderful.h>
+#include <stddef.h>
 #include <stdint.h>
+#include <wonderful.h>
+
+typedef unsigned short ushort;
+typedef unsigned long ulong;
 
 typedef uint8_t BYTE;
 typedef uint16_t WORD;
-typedef uint8_t BOOL;
+typedef uint32_t DWORD;
+typedef int16_t BOOL;
 
 #define FALSE 0
 #define TRUE 1
 
+// Compatibility shims
 #define far __far
-#define near 
+#define near
 
-#endif /* __WF_LIBWW_TYPES_H__ */
+struct intvector {
+    void (*callback)(void);
+    uint16_t cs;
+    uint16_t ds;
+    uint16_t unknown; /* ? */
+};
+typedef struct intvector intvector_t;
+
+struct ownerinfo {
+    char name[16];
+    uint16_t birth_year;
+    uint8_t birth_month;
+    uint8_t birth_day;
+    uint8_t sex;
+    uint8_t bloodtype;
+};
+typedef struct ownerinfo ownerinfo_t;
+
+struct datetime {
+    uint8_t year;
+    uint8_t month;
+    uint8_t date;
+    uint8_t day_of_week;
+    uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
+};
+typedef struct datetime datetime_t;
+
+#endif /* __LIBWW_SYS_TYPES_H__ */

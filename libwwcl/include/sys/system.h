@@ -34,14 +34,6 @@
  * @{
  */
 
-struct intvector {
-	void *callback;
-	uint16_t cs;
-	uint16_t ds;
-	uint16_t unknown; /* ? */
-};
-typedef struct intvector intvector_t;
-
 #define SYS_INT_SENDREADY      0x00
 #define SYS_INT_KEY            0x01
 #define SYS_INT_CASETTE        0x02
