@@ -29,6 +29,10 @@
 _start:
 	cli
 
+#ifdef SRAM
+	mov	ax, 0x1000
+	mov	es, ax
+#endif
 	// set DS:SI to the location of the data block
 	.reloc	.+1, R_386_SEG16, "__wf_data_block!"
 	mov	ax, 0
@@ -38,7 +42,9 @@ _start:
 	// configure SP, ES, SS, flags
 	mov	sp, offset "__wf_heap_top"
 	xor	ax, ax
+#ifndef SRAM
 	mov	es, ax
+#endif
 	mov	ss, ax
 	cld
 
@@ -50,6 +56,7 @@ _start_parse_data_block:
 	lodsw
 	mov	di, ax
 	lodsw
+#ifndef SRAM
 	cmp	di, 0x4000
 	jb	_start_parse_data_block_non_wsc
 
@@ -64,6 +71,7 @@ _start_parse_data_block:
 	out	0x60, al
 	
 _start_parse_data_block_non_wsc:
+#endif
 	test	ah, 0x80
 	jnz	_start_data_block_clear
 
@@ -85,8 +93,8 @@ _start_data_block_clear:
 _start_finish_data_block:
 
 	// initialize DS
-	xor	ax, ax
-	mov	ds, ax
+	push	es
+	pop	ds
 
 	// clear int enable
 	out	0xB2, al

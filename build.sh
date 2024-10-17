@@ -19,11 +19,11 @@ build_library () {
 	cd ..
 }
 
-for i in wswan/bootfriend wswan/small wswan/medium wwitch; do
+for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram wwitch; do
 	build_library libc $i
 done
 
-for i in wswan/bootfriend wswan/small wswan/medium wwitch; do
+for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram wwitch; do
 	build_library libws $i
 done
 
@@ -39,6 +39,6 @@ for i in wswan/bootfriend wswan/small wswan/medium; do
 	build_library libwwcl $i
 done
 
-for i in wswan/bootfriend wswan/small wswan/medium wwitch; do
+for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram wwitch; do
 	build_library libwsx $i
 done

@@ -34,6 +34,8 @@
 /* See wonderful-common.h for rationale. */
 #define __IA16_CMODEL_SMALL__
 #define __IA16_ABI_SEGELF
+#define __IA16_CALLCVT_REGPARMCALL
+#define __IA16_CALLCVT_NO_ASSUME_SS_DATA
 #endif
 
 #include "../../wswan/wonderful-common.h"

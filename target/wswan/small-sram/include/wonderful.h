@@ -27,16 +27,15 @@
 
 #define __WONDERFUL_WSWAN__
 #define __wf_rom __far
-#define __wf_iram
+#define __wf_iram __seg_ss
 #define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
 
 #ifdef __WF_LS_NO_DEFINE_SUPPORT__
 /* See wonderful-common.h for rationale. */
-#define __IA16_CMODEL_MEDIUM__
-#define __IA16_CMODEL_IS_FAR_TEXT
+#define __IA16_CMODEL_SMALL__
 #define __IA16_ABI_SEGELF
 #define __IA16_CALLCVT_REGPARMCALL
-#define __IA16_CALLCVT_ASSUME_SS_DATA
+#define __IA16_CALLCVT_NO_ASSUME_SS_DATA
 #endif
 
 #include "../../wonderful-common.h"

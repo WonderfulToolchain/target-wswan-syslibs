@@ -9,6 +9,8 @@ OBJECTS := \
 	$(OBJDIR)/crt0_ws_bootfriend.o \
 	$(OBJDIR)/crt0_ws_small.o \
 	$(OBJDIR)/crt0_ws_medium.o \
+	$(OBJDIR)/crt0_ws_small_sram.o \
+	$(OBJDIR)/crt0_ws_medium_sram.o \
 	$(OBJDIR)/crt0_ww_asc1.o \
 	$(OBJDIR)/crt0_ww_asc2.o \
 	$(OBJDIR)/crt0_ww_jpn1.o \
@@ -34,6 +36,12 @@ $(OBJDIR)/crt0_ws_small.o: crt0.s $(OBJDIR)
 
 $(OBJDIR)/crt0_ws_medium.o: crt0.s $(OBJDIR)
 	$(CC) $(ASFLAGS) -mcmodel=medium -msegelf -c -o $@ $<
+
+$(OBJDIR)/crt0_ws_small_sram.o: crt0.s $(OBJDIR)
+	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DSRAM -c -o $@ $<
+
+$(OBJDIR)/crt0_ws_medium_sram.o: crt0.s $(OBJDIR)
+	$(CC) $(ASFLAGS) -mcmodel=medium -msegelf -DSRAM -c -o $@ $<
 
 $(OBJDIR)/crt0_ww_asc1.o: crt0_ww.s $(OBJDIR)
 	$(CC) $(ASFLAGS) -mcmodel=small -msegelf -DDISPLAY_MODE_ASCII1 -c -o $@ $<
@@ -62,6 +70,12 @@ install: $(OBJECTS)
 
 	install -d $(DESTDIR)/target/wswan/medium/lib
 	install -m 644 $(OBJDIR)/crt0_ws_medium.o $(DESTDIR)/target/wswan/medium/lib/crt0.o
+
+	install -d $(DESTDIR)/target/wswan/small-sram/lib
+	install -m 644 $(OBJDIR)/crt0_ws_small_sram.o $(DESTDIR)/target/wswan/small-sram/lib/crt0.o
+
+	install -d $(DESTDIR)/target/wswan/medium-sram/lib
+	install -m 644 $(OBJDIR)/crt0_ws_medium_sram.o $(DESTDIR)/target/wswan/medium-sram/lib/crt0.o
 
 	install -d $(DESTDIR)/target/wwitch/lib
 	install -m 644 $(OBJDIR)/crt0_ww_asc1.o $(DESTDIR)/target/wwitch/lib/crt0_asc1.o

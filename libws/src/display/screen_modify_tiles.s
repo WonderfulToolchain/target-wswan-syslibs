@@ -41,7 +41,7 @@ ws_screen_modify_tiles:
 	// adjust values:
 	// ES:?? - destination
 	mov	di, ax
-	xor	ax, ax
+	mov	ax, ss
 	mov	ds, ax
 	mov	es, ax
 

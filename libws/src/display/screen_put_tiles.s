@@ -41,8 +41,8 @@ __libws_screen_put_tiles:
 	// DS:SI - source
 	// ES:?? - destination
 	mov	di, ax
-	xor	ax, ax
-	mov	es, ax
+	push	ss
+	pop	es
 	mov	si, dx
 	mov	ds, cx
 

@@ -42,8 +42,8 @@ ws_screen_get_tiles:
 	// ES:?? - destination
 	mov	di, ax
 	mov	es, dx
-	xor	ax, ax
-	mov	ds, ax
+	push	ss
+	pop	ds
 	mov	si, cx
 
 	// AX = Y, BX = X

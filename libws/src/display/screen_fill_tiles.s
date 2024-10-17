@@ -37,8 +37,8 @@ ws_screen_fill_tiles:
 	mov	bp, sp
 
 	mov	di, ax
-	xor	ax, ax
-	mov	es, ax
+	push	ss
+	pop	es
 
 	// AX = Y, CX = X
 	// => DI = destination
