@@ -1,0 +1,3 @@
+[submodule "libww"]
+	path = libww
+	url = https://github.com/OpenWitch/ow-libs

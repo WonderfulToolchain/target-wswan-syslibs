@@ -28,7 +28,11 @@ for i in wswan/bootfriend wswan/small wswan/medium wwitch; do
 done
 
 for i in wwitch; do
-	build_library libww $i
+	cd libww/library/gcc
+	make -j1 clean WF_TARGET_DIR=../../../build/target/wwitch TARGET=wwitch
+	make WF_TARGET_DIR=../../../build/target/wwitch TARGET=wwitch
+	make -j1 install WF_TARGET_DIR=../../../build/target/wwitch TARGET=wwitch
+	cd ../../..
 done
 
 for i in wswan/bootfriend wswan/small wswan/medium; do
