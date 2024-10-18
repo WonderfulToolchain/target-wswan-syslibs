@@ -15,7 +15,17 @@
 #include "unistd.h"
 
 #ifdef __WONDERFUL_WWITCH__
-// TODO: brk/sbrk WWitch implementation
+// This points to the heap start pointer in the process's PCB.
+#define brk_addr (*((uint16_t*) 0x005E))
+
+int brk(void *addr) {
+    if (addr < 0x0060) {
+        errno = ENOMEM;
+        return -1;
+    }
+    brk_addr = addr;
+    return 0;
+}
 #else
 extern uint8_t __wf_heap_start;
 extern uint8_t __wf_heap_top;
@@ -29,6 +39,7 @@ int brk(void *addr) {
     brk_addr = addr;
     return 0;
 }
+#endif
 
 void *sbrk(intptr_t incr) {
     if (!incr)
@@ -37,4 +48,3 @@ void *sbrk(intptr_t incr) {
     void *old_addr = brk_addr;
     return brk((void*) brk_addr + incr) ? (void*)-1 : old_addr;
 }
-#endif
