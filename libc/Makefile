@@ -97,9 +97,16 @@ clean:
 
 install: all
 	@echo "  INSTALL $(ARCHIVE)"
+# libww overrides some C headers.
+ifeq ($(WF_TARGET),wwitch)
+	$(_V)$(MKDIR) -p $(WF_TARGET_DIR)/libc/lib
+	$(_V)$(CP) -ar include $(WF_TARGET_DIR)/libc
+	$(_V)$(CP) -ar $(ARCHIVE) $(WF_TARGET_DIR)/libc/lib
+else
 	$(_V)$(MKDIR) -p $(WF_TARGET_DIR)/lib
 	$(_V)$(CP) -ar include $(WF_TARGET_DIR)
 	$(_V)$(CP) -ar $(ARCHIVE) $(WF_TARGET_DIR)/lib
+endif
 
 # Rules
 # -----
