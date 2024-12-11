@@ -47,7 +47,8 @@ ws_eeprom_internal_addr_to_command_address:
 	// trashes CX, DX
 	.global ws_eeprom_internal_wait_ready
 ws_eeprom_internal_wait_ready:
-	// Cartridge EEPROM requires a slight delay here.
+	// Wait for cartridge EEPROM transfers to complete.
+	// (32 bits x 8 cycles/bit = 256 cycles)
 	mov cx, 50
 ws_eeprom_internal_wait_ready_l0:
 	loop ws_eeprom_internal_wait_ready_l0
@@ -67,11 +68,12 @@ ws_eeprom_internal_wait_ready_ok:
 	// trashes CX, DX
 	.global ws_eeprom_internal_wait_done
 ws_eeprom_internal_wait_done:
-	// Cartridge EEPROM requires a slight delay here.
+	// Wait for cartridge EEPROM transfers to complete.
+	// (32 bits x 8 cycles/bit = 256 cycles)
 	mov cx, 50
 ws_eeprom_internal_wait_done_l0:
 	loop ws_eeprom_internal_wait_done_l0
-	mov cx, 50
+	mov cx, 50 // Small timeout
 ws_eeprom_internal_wait_done_l1:
 	in ax, dx // 6
 	and al, 0x01 // 1
