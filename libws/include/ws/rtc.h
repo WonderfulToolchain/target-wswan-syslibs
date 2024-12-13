@@ -38,7 +38,7 @@
  */
 
 #define RTC_MONTH_AMPM 0x80
-#define RTC_MONTH_AM   0x80
+#define RTC_MONTH_AM   0x00
 #define RTC_MONTH_PM   0x80
 
 typedef struct {
