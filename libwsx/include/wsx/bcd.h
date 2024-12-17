@@ -43,4 +43,12 @@ uint8_t wsx_bcd8_to_int(uint8_t value);
  */
 uint16_t wsx_bcd16_to_int(uint16_t value);
 
+/**
+ * @brief Transform an 8-bit integer to a packed BCD number.
+ *
+ * @param value Integer.
+ * @return Packed BCD number.
+ */
+uint8_t wsx_int_to_bcd8(uint8_t value);
+
 #endif /* __WF_LIBWSX_BCD_H__ */
