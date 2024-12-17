@@ -36,8 +36,6 @@ ws_rtc_internal_wait_ready_loop:
 	dec cx // 1 cycle
 	jz ws_rtc_internal_wait_ready_done // 1 cycle (branch not taken)
 	in al, 0xCA // 6 cycles
-	test al, 0x10 // 1 cycle
-	jz ws_rtc_internal_wait_ready_done // 1-4 cycles
 	test al, 0x80 // 1 cycle
 	jz ws_rtc_internal_wait_ready_loop // 1-4 cycles
 ws_rtc_internal_wait_ready_done:
