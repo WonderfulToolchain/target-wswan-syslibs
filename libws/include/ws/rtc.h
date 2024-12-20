@@ -27,11 +27,6 @@
 #ifndef __WF_LIBWS_RTC_H__
 #define __WF_LIBWS_RTC_H__
 
-#include <stdbool.h>
-#include <stdint.h>
-#include "hardware.h"
-#include "util.h"
-
 /**
  * @addtogroup RTC Functions - RTC
  * @{
@@ -40,6 +35,25 @@
 #define RTC_MONTH_AMPM 0x80
 #define RTC_MONTH_AM   0x00
 #define RTC_MONTH_PM   0x80
+
+#define RTC_STATUS_POWER_LOST 0x80
+#define RTC_STATUS_12_HOUR    0x00
+#define RTC_STATUS_24_HOUR    0x40
+#define RTC_STATUS_INTAE      0x20
+#define RTC_STATUS_INTME      0x08
+#define RTC_STATUS_INTFE      0x02
+#define RTC_STATUS_INT_OFF    0
+#define RTC_STATUS_INT_FREQ_STEADY (RTC_STATUS_INTFE)
+#define RTC_STATUS_INT_MINUTE_EDGE (RTC_STATUS_INTME)
+#define RTC_STATUS_INT_MINUTE_STEADY (RTC_STATUS_INTME | RTC_STATUS_INTFE)
+#define RTC_STATUS_INT_ALARM (RTC_STATUS_INTAE)
+
+#ifndef __ASSEMBLER__
+
+#include <stdbool.h>
+#include <stdint.h>
+#include "hardware.h"
+#include "util.h"
 
 typedef struct {
     uint8_t year;
@@ -59,18 +73,6 @@ typedef struct {
     ws_rtc_time_t time;
 } ws_rtc_datetime_t;
 
-#define RTC_STATUS_POWER_LOST 0x80
-#define RTC_STATUS_12_HOUR    0x00
-#define RTC_STATUS_24_HOUR    0x40
-#define RTC_STATUS_INTAE      0x20
-#define RTC_STATUS_INTME      0x08
-#define RTC_STATUS_INTFE      0x02
-#define RTC_STATUS_INT_OFF    0
-#define RTC_STATUS_INT_FREQ_STEADY (RTC_STATUS_INTFE)
-#define RTC_STATUS_INT_MINUTE_EDGE (RTC_STATUS_INTME)
-#define RTC_STATUS_INT_MINUTE_STEADY (RTC_STATUS_INTME | RTC_STATUS_INTFE)
-#define RTC_STATUS_INT_ALARM (RTC_STATUS_INTAE)
-
 int16_t ws_rtc_low_read_byte(uint16_t timeout);
 bool ws_rtc_low_write_byte(uint8_t value, uint16_t timeout);
 bool ws_rtc_low_write_ctrl(uint8_t value, uint16_t timeout);
@@ -78,5 +80,7 @@ bool ws_rtc_low_write_ctrl(uint8_t value, uint16_t timeout);
 // TODO: high-level commands
 
 /**@}*/
+
+#endif /* __ASSEMBLER__ */
 
 #endif /* __WF_LIBWS_RTC_H__ */

@@ -25,18 +25,18 @@
 
 #include <wonderful.h>
 #include <ws/hardware.h>
+#include <ws/keypad.h>
+#include <ws/rtc.h>
+#include <ws/eeprom.h>
 
 #ifndef __ASSEMBLER__
 #include <ws/util.h>
 #include <ws/system.h>
 #include <ws/display.h>
 #include <ws/sound.h>
-#include <ws/keypad.h>
 #include <ws/dma.h>
-#include <ws/eeprom.h>
 #include <ws/serial.h>
 #include <ws/cartridge.h>
-#include <ws/rtc.h>
 #include <ws/gate.h>
 #endif
 

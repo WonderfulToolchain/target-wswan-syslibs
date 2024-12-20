@@ -27,21 +27,6 @@
 #ifndef __WF_LIBWS_KEYPAD_H__
 #define __WF_LIBWS_KEYPAD_H__
 
-#include <stdint.h>
-
-/**
- * @addtogroup Keypad Functions - Keypad
- * @{
- */
- 
-/**
- * @brief Query the current state of the keypad.
- * 
- * @return uint16_t A bitfield representing currently pressed keys.
- */
-__attribute__((no_assume_ds_data, no_assume_ss_data))
-uint16_t ws_keypad_scan(void);
-
 #define KEY_Y4    0x0800
 #define KEY_Y3    0x0400
 #define KEY_Y2    0x0200
@@ -64,6 +49,25 @@ uint16_t ws_keypad_scan(void);
 #define KEY_PCV2_DOWN   0x0004
 #define KEY_PCV2_LEFT   0x0001
 
+#ifndef __ASSEMBLER__
+
+#include <stdint.h>
+
+/**
+ * @addtogroup Keypad Functions - Keypad
+ * @{
+ */
+ 
+/**
+ * @brief Query the current state of the keypad.
+ * 
+ * @return uint16_t A bitfield representing currently pressed keys.
+ */
+__attribute__((no_assume_ds_data, no_assume_ss_data))
+uint16_t ws_keypad_scan(void);
+
 /**@}*/
+
+#endif /* __ASSEMBLER__ */
 
 #endif /* __WF_LIBWS_KEYPAD_H__ */
