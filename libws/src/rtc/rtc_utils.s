@@ -21,6 +21,7 @@
 */
 
 #include <wonderful.h>
+#include "ws/hardware.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -35,8 +36,8 @@ ws_rtc_internal_wait_ready_loop:
 	// 15 cycles per iteration, or so
 	dec cx // 1 cycle
 	jz ws_rtc_internal_wait_ready_done // 1 cycle (branch not taken)
-	in al, 0xCA // 6 cycles
-	test al, 0x80 // 1 cycle
+	in al, IO_CART_RTC_CTRL // 6 cycles
+	test al, CART_RTC_READY // 1 cycle
 	jz ws_rtc_internal_wait_ready_loop // 1-4 cycles
 ws_rtc_internal_wait_ready_done:
 	pop ax

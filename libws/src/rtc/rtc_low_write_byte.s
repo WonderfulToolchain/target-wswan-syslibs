@@ -21,6 +21,7 @@
 */
 
 #include <wonderful.h>
+#include "ws/hardware.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -32,6 +33,6 @@ ws_rtc_internal_low_write_byte:
 	call ws_rtc_internal_wait_ready_timeout
 	and cx, cx
 	jz ws_rtc_low_write_byte_fail
-	out 0xCB, al
+	out IO_CART_RTC_DATA, al
 ws_rtc_low_write_byte_fail:
 	ASM_PLATFORM_RET

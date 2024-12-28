@@ -21,6 +21,7 @@
 */
 
 #include <wonderful.h>
+#include "ws/hardware.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -33,7 +34,7 @@ ws_rtc_internal_low_read_byte:
 	call ws_rtc_internal_wait_ready_timeout
 	and cx, cx
 	jz ws_rtc_low_read_byte_fail
-	in al, 0xCB
+	in al, IO_CART_RTC_DATA
 	ASM_PLATFORM_RET
 ws_rtc_low_read_byte_fail:
 	mov ax, 0xFFFF
