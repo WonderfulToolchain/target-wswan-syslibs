@@ -33,9 +33,9 @@ ws_rtc_internal_low_read_byte:
 	xor ah, ah
 	call ws_rtc_internal_wait_ready_timeout
 	and cx, cx
-	jz ws_rtc_low_read_byte_fail
+	jz 9f
 	in al, IO_CART_RTC_DATA
 	ASM_PLATFORM_RET
-ws_rtc_low_read_byte_fail:
+9:
 	mov ax, 0xFFFF
 	ASM_PLATFORM_RET

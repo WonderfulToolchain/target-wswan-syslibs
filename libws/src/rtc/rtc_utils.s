@@ -32,13 +32,14 @@
 ws_rtc_internal_wait_ready_timeout:
 	push ax
 	shr cx, 2 // 3 cycles ~= 1 us
-ws_rtc_internal_wait_ready_loop:
-	// 15 cycles per iteration, or so
+1:
+	// 14 cycles per iteration, or so
 	dec cx // 1 cycle
-	jz ws_rtc_internal_wait_ready_done // 1 cycle (branch not taken)
+	jz 2f // 1 cycle (branch not taken)
 	in al, IO_CART_RTC_CTRL // 6 cycles
-	test al, CART_RTC_READY // 1 cycle
-	jz ws_rtc_internal_wait_ready_loop // 1-4 cycles
-ws_rtc_internal_wait_ready_done:
+	test al, (CART_RTC_READY | CART_RTC_ACTIVE) // 1 cycle
+	jz 2f // The "not ready and not active" state also allows writing to the RTC. (1 cycle)
+	jns 1b // If not ready, keep waiting. (1-4 cycles)
+2:
 	pop ax
 	ret

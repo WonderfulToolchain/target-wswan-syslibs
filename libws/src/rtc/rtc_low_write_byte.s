@@ -32,7 +32,7 @@ ws_rtc_low_write_byte:
 ws_rtc_internal_low_write_byte:
 	call ws_rtc_internal_wait_ready_timeout
 	and cx, cx
-	jz ws_rtc_low_write_byte_fail
+	jz 9f
 	out IO_CART_RTC_DATA, al
-ws_rtc_low_write_byte_fail:
+9:
 	ASM_PLATFORM_RET
