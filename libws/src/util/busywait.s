@@ -29,7 +29,7 @@ ws_busywait:
 	inc ax // round up
 	shr ax, 1 // 1 us = ~3 cycles
 	mov cx, ax
-ws_busywait_loop:
+1:
 	nop // 1 cycle
-	loop ws_busywait_loop // 2-5 cycles
-	ASM_PLATFORM_RET
+	loop 1b // 2-5 cycles
+	WF_PLATFORM_RET

@@ -57,7 +57,7 @@ typedef uint8_t ws_bank_t;
 
 static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
-	uint8_t old_bank = inportb(port);
+	volatile uint8_t old_bank = inportb(port);
 	outportb(port, new_bank);
 	asm volatile("" ::: "memory");
 	return old_bank;
