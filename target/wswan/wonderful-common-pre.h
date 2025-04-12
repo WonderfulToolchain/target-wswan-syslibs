@@ -69,4 +69,10 @@
 #define __seg_ss
 #define __seg_cs
 
+/* Built-in functions. */
+#define __builtin_ia16_FP_OFF(v) ((size_t) (v))
+#define __builtin_ia16_static_far_cast(p) (p)
+#define __builtin_ia16_near_data_segment() 0
+#define __builtin_ia16_ss() 0
+
 #endif
