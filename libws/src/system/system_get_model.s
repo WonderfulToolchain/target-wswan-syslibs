@@ -35,7 +35,7 @@ ws_system_get_model:
     xor ax, ax
     
     in al, WS_SYSTEM_CTRL_PORT
-    test al, WS_SYSTEM_CTRL_COLOR
+    test al, WS_SYSTEM_CTRL_MODEL_COLOR
     jnz __ws_system_get_model_color
 
 	xor al, al
@@ -54,7 +54,7 @@ __ws_system_get_model_pcv2:
 
 __ws_system_get_model_color:
     in al, WS_SYSTEM_CTRL_COLOR2_PORT
-    test al, WS_SYSTEM_CTRL_COLOR2_CRYSTAL
+    test al, WS_SYSTEM_CTRL_COLOR2_MODEL_CRYSTAL
     jnz __ws_system_get_model_crystal
     mov al, WS_MODEL_COLOR
     WF_PLATFORM_RET

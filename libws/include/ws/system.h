@@ -46,7 +46,7 @@
  * @return false This device is a "mono" WonderSwan.
  */
 static inline bool ws_system_is_color(void) {
-	return inportb(WS_SYSTEM_CTRL_PORT) & WS_SYSTEM_CTRL_COLOR;
+	return inportb(WS_SYSTEM_CTRL_PORT) & WS_SYSTEM_CTRL_MODEL_COLOR;
 }
 
 /**
