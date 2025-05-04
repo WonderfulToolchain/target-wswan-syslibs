@@ -25,19 +25,13 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-	.global ws_serial_getc_nonblock
-ws_serial_getc_nonblock:
-    xor ax, ax
+	.global ws_uart_putc
+ws_uart_putc:
+    mov ah, al
+ws_uart_putc_ready_loop:
     in al, WS_UART_CTRL_PORT
-    test al, WS_UART_CTRL_RX_OVERRUN
-    jz ws_serial_getc_nonblock_no_overrun
-    or al, WS_UART_CTRL_RX_OVERRUN_RESET
-    out WS_UART_CTRL_PORT, al
-ws_serial_getc_nonblock_no_overrun:
-    test al, WS_UART_CTRL_RX_READY
-    jz ws_serial_getc_nonblock_fail
-    in al, WS_UART_DATA_PORT
-    ASM_PLATFORM_RET
-ws_serial_getc_nonblock_fail:
-    mov ax, 0xFFFF
+    test al, WS_UART_CTRL_TX_READY
+    jz ws_uart_putc_ready_loop
+    mov al, ah
+    out WS_UART_DATA_PORT, al
     ASM_PLATFORM_RET

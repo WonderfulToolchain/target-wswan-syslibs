@@ -25,15 +25,15 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-	.global ws_serial_getc
-ws_serial_getc:
+	.global ws_uart_getc
+ws_uart_getc:
     in al, WS_UART_CTRL_PORT
     test al, WS_UART_CTRL_RX_OVERRUN
-    jz ws_serial_getc_no_overrun
+    jz ws_uart_getc_no_overrun
     or al, WS_UART_CTRL_RX_OVERRUN_RESET
     out WS_UART_CTRL_PORT, al
-ws_serial_getc_no_overrun:
+ws_uart_getc_no_overrun:
     test al, WS_UART_CTRL_RX_READY
-    jz ws_serial_getc
+    jz ws_uart_getc
     in al, WS_UART_DATA_PORT
     ASM_PLATFORM_RET

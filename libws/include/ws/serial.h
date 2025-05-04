@@ -24,46 +24,24 @@
 	* Functionality related to the serial port.
  */
 
+#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+# error This file should no longer be included directly. Use <ws/uart.h> going forward.
+#endif
+
 #ifndef __WF_LIBWS_SERIAL_H__
 #define __WF_LIBWS_SERIAL_H__
 
-#include <stdbool.h>
-#include <stdint.h>
-#include "ports.h"
-#include "util.h"
+#include "uart.h"
 
-/**
- * @addtogroup SerialPort Functions - Serial port
- * @{
- */
-
-static inline void ws_serial_open(uint8_t baud_rate) {
-	outportb(WS_UART_CTRL_PORT, WS_UART_CTRL_ENABLE | WS_UART_CTRL_RX_OVERRUN_RESET | baud_rate);
-}
-
-static inline void ws_serial_close(void) {
-	outportb(WS_UART_CTRL_PORT, 0x00);
-}
-
-static inline bool ws_serial_is_overrun(void) {
-	return inportb(WS_UART_CTRL_PORT) & WS_UART_CTRL_RX_OVERRUN;
-}
-
-static inline void ws_serial_ack_overrun(void) {
-	outportb(WS_UART_CTRL_PORT, inportb(WS_UART_CTRL_PORT) | WS_UART_CTRL_RX_OVERRUN_RESET);
-}
-
-static inline bool ws_serial_is_readable(void) {
-	return inportb(WS_UART_CTRL_PORT) & WS_UART_CTRL_RX_READY;
-}
-
-static inline bool ws_serial_is_writable(void) {
-	return inportb(WS_UART_CTRL_PORT) & WS_UART_CTRL_TX_READY;
-}
-
-uint8_t ws_serial_getc(void);
-int16_t ws_serial_getc_nonblock(void);
-void ws_serial_putc(uint8_t value);
+#define ws_serial_open ws_uart_open
+#define ws_serial_close ws_uart_close
+#define ws_serial_is_overrun ws_uart_is_rx_overrun
+#define ws_serial_ack_overrun ws_uart_ack_rx_overrun
+#define ws_serial_is_readable ws_uart_is_rx_ready
+#define ws_serial_is_writable ws_uart_is_tx_ready
+#define ws_serial_getc ws_uart_getc
+#define ws_serial_getc_nonblock ws_uart_getc_nonblock
+#define ws_serial_putc ws_uart_putc
 
 /**@}*/
 

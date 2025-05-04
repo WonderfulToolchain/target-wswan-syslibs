@@ -24,9 +24,6 @@
 #define __WF_LIBWS_WS_H__
 
 #include <wonderful.h>
-#ifndef WF_STRICT
-#include <ws/hardware.h>
-#endif
 #include <ws/ports.h>
 #include <ws/keypad.h>
 #include <ws/rtc.h>
@@ -38,9 +35,14 @@
 #include <ws/display.h>
 #include <ws/sound.h>
 #include <ws/dma.h>
-#include <ws/serial.h>
+#include <ws/uart.h>
 #include <ws/cartridge.h>
 #include <ws/gate.h>
+#endif
+
+#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+# include <ws/hardware.h>
+# include <ws/serial.h>
 #endif
 
 #endif /* __WF_LIBWS_WS_H__ */

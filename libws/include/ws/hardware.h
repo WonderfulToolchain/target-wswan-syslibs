@@ -20,9 +20,13 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-/** \file ports.h
+/** \file hardware.h
  * Hardware and port defines.
  */
+
+#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+# error This file should no longer be included directly. Use <ws/ports.h> going forward.
+#endif
 
 #ifndef __WF_LIBWS_HARDWARE_H__
 #define __WF_LIBWS_HARDWARE_H__
