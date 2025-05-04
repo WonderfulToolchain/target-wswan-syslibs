@@ -24,7 +24,7 @@
  * Hardware and port defines.
  */
 
-#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+#if !(defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L)
 # error This file should no longer be included directly. Use <ws/ports.h> going forward.
 #endif
 

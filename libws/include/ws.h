@@ -40,10 +40,12 @@
 #include <ws/gate.h>
 #endif
 
-#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+#if defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L
 # include <ws/hardware.h>
-# include <ws/serial.h>
 # include <ws/legacy.h>
+# ifndef __ASSEMBLER__
+#  include <ws/serial.h>
+# endif
 #endif
 
 #endif /* __WF_LIBWS_WS_H__ */

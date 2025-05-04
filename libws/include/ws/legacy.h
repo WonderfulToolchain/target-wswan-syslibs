@@ -23,7 +23,7 @@
 #ifndef LIBWS_LEGACY_H_
 #define LIBWS_LEGACY_H_
 
-#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+#if defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L
 
 #define ws_dma_set_sourcei ws_gdma_set_sourcei
 #define ws_dma_set_sourcep ws_gdma_set_sourcep
