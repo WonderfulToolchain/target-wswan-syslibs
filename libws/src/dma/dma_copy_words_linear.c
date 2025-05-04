@@ -22,15 +22,15 @@
 
 #include <stdint.h>
 #include "ws/util.h"
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "ws/dma.h"
 
 void ws_dma_copy_words_linear(void __wf_iram* dest, uint32_t src, uint16_t length) {
 	// This order of port writing provides the best code generation:
 	// dest = AX, src = DX:CX, length = stack
-	outportw(IO_DMA_DEST, (uint16_t) dest);
-	outportw(IO_DMA_SOURCE_L, src);
-	outportb(IO_DMA_SOURCE_H, src >> 16);
-	outportw(IO_DMA_LENGTH, length);
-	outportb(IO_DMA_CTRL, DMA_TRANSFER_ENABLE);
+	outportw(WS_GDMA_DEST_PORT, (uint16_t) dest);
+	outportw(WS_GDMA_SOURCE_L_PORT, src);
+	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
+	outportw(WS_GDMA_LENGTH_PORT, length);
+	outportb(WS_GDMA_CTRL_PORT, WS_GDMA_CTRL_START);
 }

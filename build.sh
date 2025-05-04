@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+cp hardware-definitions/dist/c/wswan/ports.h libws/include/ws/
+
 if [ -d build ]; then
 	rm -r build
 fi

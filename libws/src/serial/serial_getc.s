@@ -21,19 +21,19 @@
 */
 
 #include <wonderful.h>
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
 	.global ws_serial_getc
 ws_serial_getc:
-    in al, IO_SERIAL_STATUS
-    test al, SERIAL_OVERRUN
+    in al, WS_UART_CTRL_PORT
+    test al, WS_UART_CTRL_RX_OVERRUN
     jz ws_serial_getc_no_overrun
-    or al, SERIAL_OVERRUN_RESET
-    out IO_SERIAL_STATUS, al
+    or al, WS_UART_CTRL_RX_OVERRUN_RESET
+    out WS_UART_CTRL_PORT, al
 ws_serial_getc_no_overrun:
-    test al, SERIAL_RX_READY
+    test al, WS_UART_CTRL_RX_READY
     jz ws_serial_getc
-    in al, IO_SERIAL_DATA
+    in al, WS_UART_DATA_PORT
     ASM_PLATFORM_RET

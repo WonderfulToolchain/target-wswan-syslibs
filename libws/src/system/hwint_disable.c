@@ -26,5 +26,5 @@
 #include "ws/system.h"
 
 void ws_hwint_disable(uint8_t mask) {
-    outportb(IO_HWINT_ENABLE, inportb(IO_HWINT_ENABLE) & (~mask));
+    outportb(WS_INT_ENABLE_PORT, inportb(WS_INT_ENABLE_PORT) & (~mask));
 }

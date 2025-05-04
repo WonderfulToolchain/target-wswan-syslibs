@@ -28,7 +28,7 @@ bool ws_system_mode_set(ws_system_mode_t mode) {
 	if (!ws_system_is_color()) {
 		return mode == 0;
 	}
-	outportb(IO_SYSTEM_CTRL2, (inportb(IO_SYSTEM_CTRL2) & 0x1F) | mode);
+	outportb(WS_SYSTEM_CTRL_COLOR_PORT, (inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0x1F) | mode);
 	return true;
 }
 

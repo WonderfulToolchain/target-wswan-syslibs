@@ -29,7 +29,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "hardware.h"
+#include "ports.h"
 #include "util.h"
 
 /**

@@ -26,7 +26,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "util.h"
-#include "hardware.h"
+#include "ports.h"
 
 /** \file system.h
  * Functionality related to system control.
@@ -46,7 +46,7 @@
  * @return false This device is a "mono" WonderSwan.
  */
 static inline bool ws_system_is_color(void) {
-	return inportb(IO_SYSTEM_CTRL1) & SYSTEM_CTRL1_COLOR;
+	return inportb(WS_SYSTEM_CTRL_PORT) & WS_SYSTEM_CTRL_COLOR;
 }
 
 /**
@@ -56,7 +56,7 @@ static inline bool ws_system_is_color(void) {
  * @return false This device is limited to "mono" WonderSwan functionality.
  */
 static inline bool ws_system_color_active(void) {
-	return ws_system_is_color() && (inportb(IO_SYSTEM_CTRL2) & 0x80);
+	return ws_system_is_color() && (inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0x80);
 }
 
 /**
@@ -135,7 +135,7 @@ typedef enum {
  * @return ws_system_mode_t The current system mode.
  */
 static inline ws_system_mode_t ws_system_mode_get(void) {
-	return inportb(IO_SYSTEM_CTRL2) & 0xE0;
+	return inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0xE0;
 }
 
 /**
@@ -212,12 +212,12 @@ void ws_hwint_set_default_handler_hblank_timer(void);
  * @param mask The MASK of an interrupt (HWINT_*).
  */
 static inline void ws_hwint_set(uint8_t mask) {
-	outportb(IO_HWINT_ENABLE, mask);
+	outportb(WS_INT_ENABLE_PORT, mask);
 }
 
 static inline uint8_t ws_hwint_push(uint8_t mask) {
-	uint8_t prev_mask = inportb(IO_HWINT_ENABLE);
-	outportb(IO_HWINT_ENABLE, mask);
+	uint8_t prev_mask = inportb(WS_INT_ENABLE_PORT);
+	outportb(WS_INT_ENABLE_PORT, mask);
 	return prev_mask;
 }
 #define ws_hwint_pop ws_hwint_push
@@ -249,7 +249,7 @@ static inline void ws_hwint_disable_all(void) {
  * @param mask The MASK of an interrupt (HWINT_*).
  */
 static inline void ws_hwint_ack(uint8_t mask) {
-	outportb(IO_HWINT_ACK, mask);
+	outportb(WS_INT_ACK_PORT, mask);
 }
 
 /**@}*/

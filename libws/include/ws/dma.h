@@ -29,7 +29,7 @@
 
 #include <stdint.h>
 #include <wonderful.h>
-#include "hardware.h"
+#include "ports.h"
 #include "util.h"
 
 /**
@@ -38,13 +38,13 @@
  */
 
 static inline void ws_dma_set_sourcep(const void __far *src) {
-	outportw(IO_DMA_SOURCE_L, (FP_SEG(src) << 4) + FP_OFF(src));
-	outportb(IO_DMA_SOURCE_H, FP_SEG(src) >> 12);
+	outportw(WS_GDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
+	outportb(WS_GDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
 }
 
 static inline void ws_dma_set_sourcei(uint32_t src) {
-	outportw(IO_DMA_SOURCE_L, src);
-	outportb(IO_DMA_SOURCE_H, src >> 16);
+	outportw(WS_GDMA_SOURCE_L_PORT, src);
+	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
 }
 
 #define ws_dma_set_source(src) _Generic((src), \
@@ -58,13 +58,13 @@ static inline void ws_dma_set_sourcei(uint32_t src) {
 )(src)
 
 static inline void ws_sdma_set_sourcep(const void __far *src) {
-	outportw(IO_SDMA_SOURCE_L, (FP_SEG(src) << 4) + FP_OFF(src));
-	outportb(IO_SDMA_SOURCE_H, FP_SEG(src) >> 12);
+	outportw(WS_SDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
+	outportb(WS_SDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
 }
 
 static inline void ws_sdma_set_sourcei(uint32_t src) {
-	outportw(IO_SDMA_SOURCE_L, src);
-	outportb(IO_SDMA_SOURCE_H, src >> 16);
+	outportw(WS_SDMA_SOURCE_L_PORT, src);
+	outportb(WS_SDMA_SOURCE_H_PORT, src >> 16);
 }
 
 #define ws_sdma_set_source(src) _Generic((src), \
@@ -78,8 +78,8 @@ static inline void ws_sdma_set_sourcei(uint32_t src) {
 )(src)
 
 static inline void ws_sdma_set_length(uint32_t length) {
-	outportw(IO_SDMA_LENGTH_L, length);
-	outportb(IO_SDMA_LENGTH_H, length >> 16);
+	outportw(WS_SDMA_LENGTH_L_PORT, length);
+	outportb(WS_SDMA_LENGTH_H_PORT, length >> 16);
 }
 
 /**

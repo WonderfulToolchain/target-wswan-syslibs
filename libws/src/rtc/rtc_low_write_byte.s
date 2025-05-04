@@ -21,7 +21,7 @@
 */
 
 #include <wonderful.h>
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -33,6 +33,6 @@ ws_rtc_internal_low_write_byte:
 	call ws_rtc_internal_wait_ready_timeout
 	and cx, cx
 	jz 9f
-	out IO_CART_RTC_DATA, al
+	out WS_CART_RTC_DATA_PORT, al
 9:
 	ASM_PLATFORM_RET

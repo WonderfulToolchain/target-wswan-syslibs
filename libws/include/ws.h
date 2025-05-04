@@ -24,7 +24,10 @@
 #define __WF_LIBWS_WS_H__
 
 #include <wonderful.h>
+#ifndef WF_STRICT
 #include <ws/hardware.h>
+#endif
+#include <ws/ports.h>
 #include <ws/keypad.h>
 #include <ws/rtc.h>
 #include <ws/eeprom.h>

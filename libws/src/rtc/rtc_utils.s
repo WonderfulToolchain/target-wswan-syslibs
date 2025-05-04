@@ -21,7 +21,7 @@
 */
 
 #include <wonderful.h>
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -36,8 +36,8 @@ ws_rtc_internal_wait_ready_timeout:
 	// 14 cycles per iteration, or so
 	dec cx // 1 cycle
 	jz 2f // 1 cycle (branch not taken)
-	in al, IO_CART_RTC_CTRL // 6 cycles
-	test al, (CART_RTC_READY | CART_RTC_ACTIVE) // 1 cycle
+	in al, WS_CART_RTC_CTRL_PORT // 6 cycles
+	test al, (WS_CART_RTC_CTRL_READY | WS_CART_RTC_CTRL_ACTIVE) // 1 cycle
 	jz 2f // The "not ready and not active" state also allows writing to the RTC. (1 cycle)
 	jns 1b // If not ready, keep waiting. (1-4 cycles)
 2:

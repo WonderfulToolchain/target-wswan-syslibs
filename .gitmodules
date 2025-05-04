@@ -1,3 +1,6 @@
 [submodule "libww"]
 	path = libww
 	url = https://github.com/OpenWitch/ow-libs
+[submodule "hardware-definitions"]
+	path = hardware-definitions
+	url = https://github.com/WonderfulToolchain/hardware-definitions

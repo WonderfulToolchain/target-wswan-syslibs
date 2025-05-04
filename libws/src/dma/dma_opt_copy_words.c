@@ -23,7 +23,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "ws/util.h"
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "ws/system.h"
 #include "ws/dma.h"
 

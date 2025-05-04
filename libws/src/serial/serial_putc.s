@@ -21,7 +21,7 @@
 */
 
 #include <wonderful.h>
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -29,9 +29,9 @@
 ws_serial_putc:
     mov ah, al
 ws_serial_putc_ready_loop:
-    in al, IO_SERIAL_STATUS
-    test al, SERIAL_TX_READY
+    in al, WS_UART_CTRL_PORT
+    test al, WS_UART_CTRL_TX_READY
     jz ws_serial_putc_ready_loop
     mov al, ah
-    out IO_SERIAL_DATA, al
+    out WS_UART_DATA_PORT, al
     ASM_PLATFORM_RET

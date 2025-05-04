@@ -21,7 +21,7 @@
 */
 
 #include <wonderful.h>
-#include "ws/hardware.h"
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -34,8 +34,8 @@
 ws_system_get_model:
     xor ax, ax
     
-    in al, IO_SYSTEM_CTRL1
-    test al, SYSTEM_CTRL1_COLOR
+    in al, WS_SYSTEM_CTRL_PORT
+    test al, WS_SYSTEM_CTRL_COLOR
     jnz __ws_system_get_model_color
 
 	xor al, al
@@ -53,8 +53,8 @@ __ws_system_get_model_pcv2:
     WF_PLATFORM_RET
 
 __ws_system_get_model_color:
-    in al, IO_SYSTEM_CTRL3
-    test al, SYSTEM_CTRL3_SWANCRYSTAL
+    in al, WS_SYSTEM_CTRL_COLOR2_PORT
+    test al, WS_SYSTEM_CTRL_COLOR2_CRYSTAL
     jnz __ws_system_get_model_crystal
     mov al, WS_MODEL_COLOR
     WF_PLATFORM_RET

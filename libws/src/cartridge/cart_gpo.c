@@ -25,13 +25,13 @@
 #include "ws/cartridge.h"
 
 void ws_cart_gpo_enable(uint8_t id) {
-	outportb(IO_CART_GPO_CTRL, inportb(IO_CART_GPO_CTRL) | (1 << id));
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) | (1 << id));
 }
 
 void ws_cart_gpo_disable(uint8_t id) {
-	outportb(IO_CART_GPO_CTRL, inportb(IO_CART_GPO_CTRL) & (~(1 << id)));
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) & (~(1 << id)));
 }
 
 void ws_cart_gpo_set(uint8_t id, bool val) {
-	outportb(IO_CART_GPO_DATA, (inportb(IO_CART_GPO_DATA) & (~(1 << id))) | ((val & 1) << id));
+	outportb(WS_CART_GPIO_DATA_PORT, (inportb(WS_CART_GPIO_DATA_PORT) & (~(1 << id))) | ((val & 1) << id));
 }

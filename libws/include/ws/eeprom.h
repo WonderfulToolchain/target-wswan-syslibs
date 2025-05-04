@@ -70,7 +70,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "hardware.h"
+#include "ports.h"
 #include "util.h"
 
 /**
@@ -181,14 +181,14 @@ uint16_t ws_ieep_name_color_to_rgb(uint8_t value);
  * this function can be used to make the area read-only again.
  */
 static inline void ws_ieep_protect_enable(void) {
-	outportb(IO_IEEP_CTRL, IEEP_PROTECT);
+	outportb(WS_IEEP_CTRL_PORT, WS_IEEP_CTRL_PROTECT);
 }
 
 /**
  * @brief Check if the non-cartridge area of the internal EEPROM is currently protected.
  */
 static inline bool ws_ieep_protect_check(void) {
-	return inportb(IO_IEEP_CTRL) & IEEP_PROTECT;
+	return inportb(WS_IEEP_CTRL_PORT) & WS_IEEP_CTRL_PROTECT;
 }
 
 /**@}*/
