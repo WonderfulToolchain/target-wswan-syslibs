@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
+/**
+ * Copyright (c) 2022 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,32 +18,19 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
- */
+*/
 
-#ifndef __WF_LIBWS_WS_H__
-#define __WF_LIBWS_WS_H__
+#include <stdint.h>
+#include "ws/util.h"
+#include "ws/ports.h"
+#include "ws/dma.h"
 
-#include <wonderful.h>
-#include <ws/ports.h>
-#include <ws/keypad.h>
-#include <ws/rtc.h>
-#include <ws/eeprom.h>
-
-#ifndef __ASSEMBLER__
-#include <ws/util.h>
-#include <ws/system.h>
-#include <ws/display.h>
-#include <ws/sound.h>
-#include <ws/dma.h>
-#include <ws/uart.h>
-#include <ws/cartridge.h>
-#include <ws/gate.h>
-#endif
-
-#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
-# include <ws/hardware.h>
-# include <ws/serial.h>
-# include <ws/legacy.h>
-#endif
-
-#endif /* __WF_LIBWS_WS_H__ */
+void ws_gdma_copyi(void __wf_iram* dest, uint32_t src, uint16_t length) {
+	// This order of port writing provides the best code generation:
+	// dest = AX, src = DX:CX, length = stack
+	outportw(WS_GDMA_DEST_PORT, (uint16_t) dest);
+	outportw(WS_GDMA_SOURCE_L_PORT, src);
+	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
+	outportw(WS_GDMA_LENGTH_PORT, length);
+	outportb(WS_GDMA_CTRL_PORT, WS_GDMA_CTRL_START);
+}

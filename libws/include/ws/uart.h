@@ -21,7 +21,7 @@
  */
 
 /** \file uart.h
-	* Functionality related to the UART EXT port.
+ * Functionality related to the UART EXT port.
  */
 
 #ifndef LIBWS_UART_H_

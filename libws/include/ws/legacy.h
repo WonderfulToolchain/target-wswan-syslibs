@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2022 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
@@ -18,19 +18,20 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
-*/
+ */
 
-#include <stdint.h>
-#include "ws/util.h"
-#include "ws/ports.h"
-#include "ws/dma.h"
+#ifndef LIBWS_LEGACY_H_
+#define LIBWS_LEGACY_H_
 
-void ws_dma_copy_words_linear(void __wf_iram* dest, uint32_t src, uint16_t length) {
-	// This order of port writing provides the best code generation:
-	// dest = AX, src = DX:CX, length = stack
-	outportw(WS_GDMA_DEST_PORT, (uint16_t) dest);
-	outportw(WS_GDMA_SOURCE_L_PORT, src);
-	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
-	outportw(WS_GDMA_LENGTH_PORT, length);
-	outportb(WS_GDMA_CTRL_PORT, WS_GDMA_CTRL_START);
-}
+#if defined(LIBWS_VERSION) && LIBWS_VERSION < 202505L
+
+#define ws_dma_set_sourcei ws_gdma_set_sourcei
+#define ws_dma_set_sourcep ws_gdma_set_sourcep
+#define ws_dma_set_source ws_gdma_set_source
+#define ws_dma_copy_words ws_gdma_copyp
+#define ws_dma_copy_words_linear ws_gdma_copyi
+#define ws_dma_opt_copy_words ws_gdma_maybe_copy
+
+#endif
+
+#endif /* LIBWS_LEGACY_H_ */
