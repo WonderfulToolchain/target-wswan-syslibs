@@ -63,7 +63,7 @@ comm_recieve_char_loop:
 
 	// if we're here, the IRQ received was VBLANK
     push cx
-	WF_PLATFORM_CALL key_press_check
+	IA16_CALL key_press_check
     pop cx
 	and ax, [__wwcl_comm_cancel_key]
 	cmp ax, [__wwcl_comm_cancel_key] 
@@ -78,14 +78,14 @@ comm_recieve_char_timeout:
 	pop ax
 	out IO_HWINT_ENABLE, al
 	mov ax, ERR_SIO_TIMEOUT
-	WF_PLATFORM_RET
+	IA16_RET
 
 comm_recieve_char_cancel:
 	// Cancel
 	pop ax
 	out IO_HWINT_ENABLE, al
 	mov ax, ERR_SIO_CANCEL
-	WF_PLATFORM_RET
+	IA16_RET
 
 comm_recieve_char_received:
 	in al, IO_SERIAL_DATA
@@ -102,7 +102,7 @@ comm_recieve_char_received:
 	out IO_HWINT_ENABLE, al
 	mov al, ah
 	xor ah, ah
-	WF_PLATFORM_RET
+	IA16_RET
 
 comm_recieve_char_overrun:
 	or al, SERIAL_OVERRUN_RESET
@@ -111,4 +111,4 @@ comm_recieve_char_overrun:
 	pop ax
 	out IO_HWINT_ENABLE, al
 	mov ax, ERR_SIO_OVERRUN
-	WF_PLATFORM_RET
+	IA16_RET

@@ -37,7 +37,7 @@ comm_receive_block:
 
 comm_receive_block_loop:
     push cx
-	WF_PLATFORM_CALL comm_receive_char
+	IA16_CALL comm_receive_char
     pop cx
 	test ah, 0x80 // error?
 	jnz comm_receive_block_done
@@ -49,9 +49,9 @@ comm_receive_block_done:
     // Save received length
     pop dx
 	sub di, dx
-    mov [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)], di
+    mov [bp + IA16_CALL_STACK_OFFSET(2)], di
 
 	pop di
 	pop es
     pop bp
-	WF_PLATFORM_RET
+	IA16_RET

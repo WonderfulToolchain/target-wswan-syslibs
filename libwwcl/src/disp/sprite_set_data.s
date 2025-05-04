@@ -39,7 +39,7 @@ sprite_set_data:
     call __wwcl_int_ax_display_sprite_to_vram_location
 
     // DS:SI = source
-    lds si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    lds si, [bp + IA16_CALL_STACK_OFFSET(2)]
 
     // CX = (sprites * 4) >> 1
     mov cx, dx
@@ -52,4 +52,4 @@ sprite_set_data:
     pop di
     pop si
     pop bp
-    WF_PLATFORM_RET
+    IA16_RET

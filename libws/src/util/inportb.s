@@ -30,4 +30,4 @@ inportb:
 	mov	dx, ax
 	in	al, dx
 	// xor	ah, ah - cleared above
-	ASM_PLATFORM_RET
+	IA16_RET

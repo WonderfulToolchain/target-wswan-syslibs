@@ -32,4 +32,4 @@ sprite_get_location:
     mov ax, ss:[di + 2]
     xchg ah, al
     pop di
-    WF_PLATFORM_RET
+    IA16_RET

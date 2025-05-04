@@ -30,7 +30,7 @@ memset:
 	mov	di, ax
 	mov	al, cl
 	mov	ah, al
-	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(8)]
+	mov	cx, [bp + IA16_CALL_STACK_OFFSET(8)]
 	shr	cx, 1
 	cld
 	rep	stosw
@@ -41,4 +41,4 @@ _fmemset_no_byte:
 	pop	ax
 	pop	es
 	pop	di
-	ASM_PLATFORM_RET 0x2
+	IA16_RET 0x2

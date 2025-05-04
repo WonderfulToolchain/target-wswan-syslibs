@@ -33,4 +33,4 @@ sprite_set_location:
     mov dl, cl
     mov ss:[di+2], dx
     pop di
-    WF_PLATFORM_RET
+    IA16_RET

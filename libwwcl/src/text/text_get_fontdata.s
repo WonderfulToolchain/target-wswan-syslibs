@@ -74,7 +74,7 @@ text_get_fontdata:
     pop es
     pop ds
 
-    WF_PLATFORM_RET
+    IA16_RET
 
 .ascii:
     mov si, offset __wwcl_font_ank

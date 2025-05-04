@@ -23,17 +23,20 @@
 #include <wonderful.h>
 #include "asm-preamble.h"
 	.intel_syntax noprefix
-	.global ws_hwint_set_default_handler_vblank_timer
+	.global ws_int_set_default_handler_serial_tx
 
-ws_hwint_internal_hwint_default_handler5:
+ws_int_internal_default_handler0:
 	push ax
-	mov al, 0x20
+	in al, 0xB2
+	and al, 0xFE
+	out 0xB2, al
+	mov al, 0x01
 	out 0xB6, al
 	pop ax
 	iret
 
-ws_hwint_set_default_handler_vblank_timer:
-	mov ax, 5
-	mov dx, offset "ws_hwint_internal_hwint_default_handler5"
+ws_int_set_default_handler_serial_tx:
+	mov ax, 0
+	mov dx, offset "ws_int_internal_default_handler0"
 	mov cx, cs
-	ASM_PLATFORM_JMP ws_hwint_set_handler
+	IA16_JMP ws_int_set_handler

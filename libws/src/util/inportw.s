@@ -29,4 +29,4 @@ inportw:
 	xor	ah, ah
 	mov	dx, ax
 	in	ax, dx
-	ASM_PLATFORM_RET
+	IA16_RET

@@ -29,4 +29,4 @@ ws_display_set_shade_lut:
 	out	0x1C, ax
 	mov	ax, dx
 	out	0x1E, ax
-	ASM_PLATFORM_RET
+	IA16_RET

@@ -35,7 +35,7 @@ font_get_data:
     push di
 
     // ES:DI = destination
-    les di, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    les di, [bp + IA16_CALL_STACK_OFFSET(2)]
 
     // DS:SI = source
     push ss
@@ -56,4 +56,4 @@ font_get_data:
     pop es
     pop ds
     pop bp
-    WF_PLATFORM_RET 0x4
+    IA16_RET 0x4

@@ -60,7 +60,7 @@ comm_send_char_loop:
 
 	// if we're here, the IRQ received was VBLANK
     push cx
-    WF_PLATFORM_CALL key_press_check
+    IA16_CALL key_press_check
     pop cx
 	and ax, [__wwcl_comm_cancel_key]
 	cmp ax, [__wwcl_comm_cancel_key] 
@@ -75,14 +75,14 @@ comm_send_char_timeout:
 	pop ax
 	out IO_HWINT_ENABLE, al
 	mov ax, ERR_SIO_TIMEOUT
-	WF_PLATFORM_RET
+	IA16_RET
 
 comm_send_char_cancel:
 	// Cancel
 	pop ax
 	out IO_HWINT_ENABLE, al
 	mov ax, ERR_SIO_CANCEL
-	WF_PLATFORM_RET
+	IA16_RET
 
 comm_send_char_send:
 	mov al, bl
@@ -91,4 +91,4 @@ comm_send_char_send:
 	pop ax
 	out IO_HWINT_ENABLE, al
 	xor ax, ax
-	WF_PLATFORM_RET
+	IA16_RET

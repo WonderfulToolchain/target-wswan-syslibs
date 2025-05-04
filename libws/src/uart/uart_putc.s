@@ -34,4 +34,4 @@ ws_uart_putc_ready_loop:
     jz ws_uart_putc_ready_loop
     mov al, ah
     out WS_UART_DATA_PORT, al
-    ASM_PLATFORM_RET
+    IA16_RET

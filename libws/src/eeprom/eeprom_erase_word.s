@@ -42,4 +42,4 @@ ws_eeprom_erase_word_loop:
 	loop ws_eeprom_erase_word_loop
 
 	call ws_eeprom_internal_wait_ready
-	ASM_PLATFORM_RET
+	IA16_RET

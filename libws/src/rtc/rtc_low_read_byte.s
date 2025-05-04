@@ -35,7 +35,7 @@ ws_rtc_internal_low_read_byte:
 	and cx, cx
 	jz 9f
 	in al, WS_CART_RTC_DATA_PORT
-	ASM_PLATFORM_RET
+	IA16_RET
 9:
 	mov ax, 0xFFFF
-	ASM_PLATFORM_RET
+	IA16_RET

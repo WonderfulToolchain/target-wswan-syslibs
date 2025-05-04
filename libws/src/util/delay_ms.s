@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+ * Copyright (c) 2025 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,11 +20,16 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <wonderful.h>
-#include "ws/system.h"
+#include "asm-preamble.h"
+	.intel_syntax noprefix
 
-void ws_hwint_disable(uint8_t mask) {
-    outportb(WS_INT_ENABLE_PORT, inportb(WS_INT_ENABLE_PORT) & (~mask));
-}
+	.global ws_delay_ms
+ws_delay_ms:
+	mov cx, 2999
+1:
+	nop // 1 cycle
+	loop 1b // 2-5 cycles
+	dec ax
+	jnz ws_delay_ms
+	IA16_RET

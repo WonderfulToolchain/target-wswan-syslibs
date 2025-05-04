@@ -38,4 +38,4 @@ _nmemset_no_byte:
 	pop	ax
 	pop	es
 	pop	di
-	ASM_PLATFORM_RET
+	IA16_RET

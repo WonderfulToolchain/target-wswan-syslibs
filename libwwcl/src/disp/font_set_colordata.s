@@ -35,7 +35,7 @@ font_set_colordata:
     push di
 
     // DS:SI = source
-    lds si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    lds si, [bp + IA16_CALL_STACK_OFFSET(2)]
 
     // ES:DI = destination
     push ss
@@ -56,4 +56,4 @@ font_set_colordata:
     pop es
     pop ds
     pop bp
-    WF_PLATFORM_RET 0x4
+    IA16_RET 0x4

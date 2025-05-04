@@ -41,4 +41,4 @@ ws_eeprom_write_word:
 	add dl, 4
 	out dx, ax // 0xBE
 	call ws_eeprom_internal_wait_ready
-	ASM_PLATFORM_RET
+	IA16_RET

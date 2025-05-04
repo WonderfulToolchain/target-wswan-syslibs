@@ -31,4 +31,4 @@ screen_get_char1:
     call __wwcl_display_screen_and_topleft_to_vram_location
     mov ax, ss:[di]
     pop di
-    WF_PLATFORM_RET
+    IA16_RET

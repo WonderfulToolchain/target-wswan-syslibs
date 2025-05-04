@@ -34,7 +34,7 @@ ws_portcpy:
 	mov si, dx
 	mov ds, cx
 	mov dx, ax
-	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
+	mov	cx, [bp + IA16_CALL_STACK_OFFSET(6)]
 	shr	cx, 1
 	cld
 	jz ws_portcpy_words_end
@@ -50,4 +50,4 @@ ws_portcpy_bytes_end:
 	pop	bp
 	pop	ds
 	pop	si
-	ASM_PLATFORM_RET 0x2
+	IA16_RET 0x2

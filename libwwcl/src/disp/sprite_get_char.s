@@ -31,4 +31,4 @@ sprite_get_char:
     call __wwcl_int_ax_display_sprite_to_vram_location
     mov ax, ss:[di]
     pop di
-    WF_PLATFORM_RET
+    IA16_RET

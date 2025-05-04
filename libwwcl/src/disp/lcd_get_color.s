@@ -30,4 +30,4 @@ lcd_get_color:
     out IO_LCD_SHADE_45, ax
     mov dx, ax
     out IO_LCD_SHADE_01, ax
-    WF_PLATFORM_RET
+    IA16_RET

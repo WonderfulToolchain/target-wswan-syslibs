@@ -22,16 +22,9 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "ws/cartridge.h"
+#include <wonderful.h>
+#include "ws/system.h"
 
-void ws_cart_gpo_enable(uint8_t id) {
-	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) | (1 << id));
-}
-
-void ws_cart_gpo_disable(uint8_t id) {
-	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) & (~(1 << id)));
-}
-
-void ws_cart_gpo_set(uint8_t id, bool val) {
-	outportb(WS_CART_GPIO_DATA_PORT, (inportb(WS_CART_GPIO_DATA_PORT) & (~(1 << id))) | ((val & 1) << id));
+void ws_int_disable(uint8_t mask) {
+    outportb(WS_INT_ENABLE_PORT, inportb(WS_INT_ENABLE_PORT) & (~mask));
 }

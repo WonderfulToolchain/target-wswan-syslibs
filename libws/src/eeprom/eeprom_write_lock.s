@@ -35,4 +35,4 @@ ws_eeprom_write_lock:
 	add dl, 2
 	out dx, ax
 	call ws_eeprom_internal_wait_ready
-	ASM_PLATFORM_RET
+	IA16_RET

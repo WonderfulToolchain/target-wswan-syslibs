@@ -28,10 +28,10 @@
 #include <ws/keypad.h>
 #include <ws/rtc.h>
 #include <ws/eeprom.h>
+#include <ws/system.h>
 
 #ifndef __ASSEMBLER__
 #include <ws/util.h>
-#include <ws/system.h>
 #include <ws/display.h>
 #include <ws/sound.h>
 #include <ws/dma.h>

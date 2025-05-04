@@ -39,7 +39,7 @@ _nmemmove_no_byte:
 	pop	es
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET
+	IA16_RET
 
 _nmemmove_reversed:
 	// TODO: use rep movsw for performance
@@ -52,4 +52,4 @@ _nmemmove_reversed:
 	pop	es
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET
+	IA16_RET

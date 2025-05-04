@@ -36,4 +36,4 @@ sprite_get_window:
     add ax, 0x101
     // DX = top-left, AX = width-height
     xchg ax, dx
-    WF_PLATFORM_RET
+    IA16_RET

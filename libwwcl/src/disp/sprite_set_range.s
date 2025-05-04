@@ -29,4 +29,4 @@
 sprite_set_range:
     mov ah, dl
     out IO_SPR_FIRST, ax
-    WF_PLATFORM_RET
+    IA16_RET

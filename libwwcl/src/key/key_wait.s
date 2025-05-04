@@ -34,4 +34,4 @@ key_wait:
     nop
     jmp key_wait
 key_wait_done:
-    WF_PLATFORM_RET
+    IA16_RET

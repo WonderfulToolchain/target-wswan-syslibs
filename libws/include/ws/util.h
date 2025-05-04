@@ -44,7 +44,7 @@ static inline uint32_t ws_ptr_to_linear(const void __far* src) {
 void ws_portcpy(uint16_t port, const void __far* src, uint16_t count);
 
 /**
- * @brief Busy wait.
+ * @brief Delay for a set number of microseconds.
  *
  * This is not recommended - use only when necessary!
  * Not halting the CPU can lead to higher power consumption.
@@ -55,6 +55,20 @@ void ws_portcpy(uint16_t port, const void __far* src, uint16_t count);
  * @param us Approximate number of microseconds.
  */
 __attribute__((no_assume_ds_data, no_assume_ss_data))
-void ws_busywait(uint16_t us);
+void ws_delay_us(uint16_t us);
+
+/**
+ * @brief Delay for a set number of milliseconds.
+ *
+ * This is not recommended - use only when necessary!
+ * Not halting the CPU can lead to higher power consumption.
+ * The recommended approach is configuring an interrupt handler
+ * and using cpu_halt() - which will then sleep until any interrupt
+ * occurs.
+ *
+ * @param ms Approximate number of milliseconds.
+ */
+__attribute__((no_assume_ds_data, no_assume_ss_data))
+void ws_delay_ms(uint16_t ms);
 
 #endif /* __WF_LIBWS_UTIL_H__ */

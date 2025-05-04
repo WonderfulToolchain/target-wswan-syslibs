@@ -33,31 +33,52 @@
 #include "ports.h"
 #include "util.h"
 
-typedef uint8_t ws_bank_t;
-
 #define WF_BANK_INDEX(x) (x)
-
-/**
- * @addtogroup DefinesMemoryLayout Defines - Memory layout
- * @{
- */
-
-#define MEM_RAM ((uint8_t __wf_iram*) 0x00000000)
-#define MEM_SRAM ((uint8_t __far*) 0x10000000)
-#define MEM_ROM0 ((uint8_t __far*) 0x20000000)
-#define MEM_ROM1 ((uint8_t __far*) 0x30000000)
-#define MEM_ROM_LINEAR ((uint8_t __far*) 0x40000000)
-
-/**@}*/
 
 /**
  * @addtogroup Cartridge Functions - Cartridge/Banking
  * @{
  */
 
+/**
+ * Pointer to internal RAM memory.
+ */
+#define WS_IRAM ((uint8_t __wf_iram*) 0x00000000)
+/**
+ * Pointer to the on-cartridge SRAM bank.
+ */
+#define WS_SRAM ((uint8_t __wf_sram*) 0x10000000)
+/**
+ * Pointer to the on-cartridge ROM0 bank.
+ */
+#define WS_ROM0 ((uint8_t __far*) 0x20000000)
+/**
+ * Pointer to the on-cartridge ROM1 bank.
+ */
+#define WS_ROM1 ((uint8_t __far*) 0x30000000)
+
+#ifdef LIBWS_USE_BANKEXT
+typedef uint16_t ws_bank_t;
+
 static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
-	volatile uint8_t old_bank = inportb(port);
+	volatile ws_bank_t old_bank = inportw(port);
+	outportw(port, new_bank);
+	asm volatile("" ::: "memory");
+	return old_bank;
+}
+
+static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
+	asm volatile("" ::: "memory");
+	outportw(port, new_bank);
+	asm volatile("" ::: "memory");
+}
+#else
+typedef uint8_t ws_bank_t;
+
+static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
+	asm volatile("" ::: "memory");
+	volatile ws_bank_t old_bank = inportb(port);
 	outportb(port, new_bank);
 	asm volatile("" ::: "memory");
 	return old_bank;
@@ -68,6 +89,7 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 	outportb(port, new_bank);
 	asm volatile("" ::: "memory");
 }
+#endif
 
 /**
  * @brief Switch to a new RAM bank, while preserving the value of the old one.
@@ -123,37 +145,26 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom_linear_save(new_bank) __ws_bank_save(WS_CART_BANK_ROML_PORT, (new_bank))
+#define ws_bank_roml_save(new_bank) __ws_bank_save(WS_CART_BANK_ROML_PORT, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in the linear slot.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom_linear_set(new_bank) __ws_bank_set(WS_CART_BANK_ROML_PORT, (new_bank))
-#define ws_bank_rom_linear_restore ws_bank_rom_linear_set
+#define ws_bank_roml_set(new_bank) __ws_bank_set(WS_CART_BANK_ROML_PORT, (new_bank))
+#define ws_bank_roml_restore ws_bank_roml_set
 
-/**
- * @brief Enable general-purpose output.
- * 
- * @param id General-purpose output ID (0-3)
- */
-void ws_cart_gpo_enable(uint8_t id);
+#define WS_CART_GPIO_PIN(n) (1 << (n))
+#define WS_CART_GPIO_PIN_0 0x01
+#define WS_CART_GPIO_PIN_1 0x02
+#define WS_CART_GPIO_PIN_2 0x04
+#define WS_CART_GPIO_PIN_3 0x08
 
-/**
- * @brief Disable general-purpose output.
- * 
- * @param id General-purpose output ID (0-3)
- */
-void ws_cart_gpo_disable(uint8_t id);
-
-/**
- * @brief Set general-purpose output value.
- * 
- * @param id General-purpose output ID (0-3)
- * @param val Value (true or false).
- */
-void ws_cart_gpo_set(uint8_t id, bool val);
+void ws_cart_gpio_set_output(uint8_t mask);
+void ws_cart_gpio_set_input(uint8_t mask);
+void ws_cart_gpio_set(uint8_t mask);
+void ws_cart_gpio_clear(uint8_t mask);
 
 /**@}*/
 

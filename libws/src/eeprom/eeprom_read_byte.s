@@ -28,6 +28,6 @@
 ws_eeprom_read_byte:
 	test dl, 0x01
 	jz ws_eeprom_read_word // Returns with AX = word (incl. low byte)
-	ASM_PLATFORM_CALL ws_eeprom_read_word
+	IA16_CALL ws_eeprom_read_word
 	mov al, ah
-	ASM_PLATFORM_RET
+	IA16_RET

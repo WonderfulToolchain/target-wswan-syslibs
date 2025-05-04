@@ -20,16 +20,14 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <wonderful.h>
-#include "asm-preamble.h"
-	.intel_syntax noprefix
+#include "ws/ports.h"
+#include "ws/system.h"
 
-	.global ws_busywait
-ws_busywait:
-	inc ax // round up
-	shr ax, 1 // 1 us = ~3 cycles
-	mov cx, ax
-1:
-	nop // 1 cycle
-	loop 1b // 2-5 cycles
-	WF_PLATFORM_RET
+void ws_int_set_handler(uint8_t idx, ia16_int_handler_t handler) {
+    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (((inportb(WS_INT_VECTOR_PORT) & 0xF8) | idx) << 2));
+    *(ptr++) = FP_OFF(handler);
+    *(ptr++) = FP_SEG(handler);
+}

@@ -102,7 +102,7 @@
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 #define IA16_RET retf
-#define IA16_CALL_STACK_ARG(n) ((n)+4)
+#define IA16_CALL_STACK_OFFSET(n) ((n)+4)
 
 .macro IA16_CALL tgt:req
 	.reloc	.+3, R_386_SEG16, "\tgt\()!"
@@ -114,7 +114,7 @@
 .endm
 #else
 #define IA16_RET ret
-#define IA16_CALL_STACK_ARG(n) ((n)+2)
+#define IA16_CALL_STACK_OFFSET(n) ((n)+2)
 
 .macro IA16_CALL tgt:req
 	call \tgt
@@ -171,8 +171,8 @@ static inline uint16_t ia16_get_flags() {
 static inline void ia16_set_flags(uint16_t flags) {
 	__asm volatile (
 		"push %0\npopf"
-		: "r" (flags)
-		: : "cc"
+		: : "r" (flags)
+		: "cc"
 	);
 }
 
@@ -254,6 +254,16 @@ static inline void ia16_disable_irq(void) {
 		__VA_ARGS__; \
 		ia16_enable_irq(); \
 	} while(0)
+
+typedef __attribute__((interrupt)) void __far (*ia16_int_handler_t)(void);
+
+/**
+ * @brief Register a CPU interrupt handler.
+ *
+ * @param idx The interrupt (IA16_INT_*)
+ * @param handler The interrupt handler function.
+ */
+void ia16_int_set_handler(uint8_t idx, ia16_int_handler_t handler);
 
 #endif
 

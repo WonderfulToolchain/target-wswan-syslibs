@@ -38,15 +38,15 @@ screen_fill_char:
     call __wwcl_display_screen_and_topleft_to_vram_location
 
     // CL, CH = width, height
-    mov cl, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    mov cl, [bp + IA16_CALL_STACK_OFFSET(2)]
     test cl, cl
     jz .ret
-    mov ch, [bp + WF_PLATFORM_CALL_STACK_OFFSET(4)]
+    mov ch, [bp + IA16_CALL_STACK_OFFSET(4)]
     test ch, ch
     jz .ret
 
     // AX = source
-    mov ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
+    mov ax, [bp + IA16_CALL_STACK_OFFSET(6)]
 
     cld
 .row:
@@ -67,4 +67,4 @@ screen_fill_char:
     pop es
     pop di
     pop bp
-    WF_PLATFORM_RET 6
+    IA16_RET 6

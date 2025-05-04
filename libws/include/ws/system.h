@@ -23,11 +23,6 @@
 #ifndef __WF_LIBWS_SYSTEM_H__
 #define __WF_LIBWS_SYSTEM_H__
 
-#include <stdbool.h>
-#include <stdint.h>
-#include "util.h"
-#include "ports.h"
-
 /** \file system.h
  * Functionality related to system control.
  */
@@ -36,7 +31,48 @@
  * @addtogroup SystemControl Functions - System control
  * @{
  */
- 
+
+/**
+ * UART TX ready interrupt.
+ */
+#define WS_INT_UART_TX 0
+/**
+ * Key scan column non-zero interrupt.
+ */
+#define WS_INT_KEY_SCAN 1
+/**
+ * Cartridge IRQ pin interrupt.
+ */
+#define WS_INT_CARTRIDGE 2
+/**
+ * UART RX ready interrupt.
+ */
+#define WS_INT_UART_RX 3
+/**
+ * Display line match interrupt.
+ */
+#define WS_INT_LINE_MATCH 4
+/**
+ * Vertical blank timer interrupt.
+ */
+#define WS_INT_VBL_TIMER 5
+/**
+ * Vertical blank interrupt.
+ */
+#define WS_INT_VBLANK 6
+/**
+ * Horizontal blank timer interrupt.
+ */
+#define WS_INT_HBL_TIMER 7
+
+#ifndef __ASSEMBLER__
+
+#include <stdbool.h>
+#include <stdint.h>
+#include <wonderful.h>
+#include "util.h"
+#include "ports.h"
+
 /**
  * @brief Check if this device is capable of supporting Color mode (= is a WonderSwan Color or above).
  *
@@ -45,7 +81,7 @@
  * @return true This device is a WonderSwan Color or above.
  * @return false This device is a "mono" WonderSwan.
  */
-static inline bool ws_system_is_color(void) {
+static inline bool ws_system_is_color_model(void) {
 	return inportb(WS_SYSTEM_CTRL_PORT) & WS_SYSTEM_CTRL_MODEL_COLOR;
 }
 
@@ -55,8 +91,8 @@ static inline bool ws_system_is_color(void) {
  * @return true This device can currently access WonderSwan Color functionality.
  * @return false This device is limited to "mono" WonderSwan functionality.
  */
-static inline bool ws_system_color_active(void) {
-	return ws_system_is_color() && (inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0x80);
+static inline bool ws_system_is_color_active(void) {
+	return ws_system_is_color_model() && (inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0x80);
 }
 
 /**
@@ -102,7 +138,7 @@ typedef enum {
 	 * typically the default mode after boot.
 	 */
 	WS_MODE_MONO = 0x00,
-	
+
 	/**
 	 * @brief Color mode.
 	 * 
@@ -134,7 +170,7 @@ typedef enum {
  * 
  * @return ws_system_mode_t The current system mode.
  */
-static inline ws_system_mode_t ws_system_mode_get(void) {
+static inline ws_system_mode_t ws_system_get_mode(void) {
 	return inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0xE0;
 }
 
@@ -147,100 +183,85 @@ static inline ws_system_mode_t ws_system_mode_get(void) {
  * @return true If the operation was successful.
  * @return false If the operation was unsuccessful (trying to apply a color mode on a "mono" WonderSwan).
  */
-bool ws_system_mode_set(ws_system_mode_t mode);
-
-// Legacy defines. TODO: Remove
-#define ws_mode_t ws_system_mode_t
-#define ws_mode_get ws_system_mode_get
-#define ws_mode_set ws_system_mode_set
-
-typedef __attribute__((interrupt)) void __far (*ws_int_handler_t)(void);
-
-/**
- * @brief Register a CPU interrupt handler.
- * 
- * @param idx The INDEX of an interrupt (CPUINT_IDX_*).
- * @param handler The interrupt handler function.
- */
-void ws_cpuint_set_handler(uint8_t idx, ws_int_handler_t handler);
+bool ws_system_set_mode(ws_system_mode_t mode);
 
 /**
  * @brief Register a hardware interrupt handler.
  *
  * Note that hardware interrupts are level-triggered and thus must be acknowledged.
- * See @ref ws_hwint_ack for more information.
+ * See @ref ws_int_ack for more information.
  * 
- * @param idx The INDEX of an interrupt (HWINT_IDX_*).
+ * @param idx The interrupt (WS_INT_*)
  * @param handler The interrupt handler function.
  */
-void ws_hwint_set_handler(uint8_t idx, ws_int_handler_t handler);
+void ws_int_set_handler(uint8_t idx, ia16_int_handler_t handler);
 
 /**
  * @brief Register a default interrupt handler for serial transmission.
  * This handler will automatically disable and acknowledge @ref HWINT_SERIAL_TX .
  */
-void ws_hwint_set_default_handler_serial_tx(void);
+void ws_int_set_default_handler_serial_tx(void);
 /**
  * @brief Register a default, acknowledge-only interrupt handler.
  */
-void ws_hwint_set_default_handler_key(void);
+void ws_int_set_default_handler_key(void);
 /**
  * @brief Register a default interrupt handler for serial receiving.
  * This handler will automatically disable and acknowledge @ref HWINT_SERIAL_RX .
  */
-void ws_hwint_set_default_handler_serial_rx(void);
+void ws_int_set_default_handler_serial_rx(void);
 /**
  * @brief Register a default, acknowledge-only interrupt handler.
  */
-void ws_hwint_set_default_handler_line(void);
+void ws_int_set_default_handler_line(void);
 /**
  * @brief Register a default, acknowledge-only interrupt handler.
  */
-void ws_hwint_set_default_handler_vblank_timer(void);
+void ws_int_set_default_handler_vblank_timer(void);
 /**
  * @brief Register a default, acknowledge-only interrupt handler.
  */
-void ws_hwint_set_default_handler_vblank(void);
+void ws_int_set_default_handler_vblank(void);
 /**
  * @brief Register a default, acknowledge-only interrupt handler.
  */
-void ws_hwint_set_default_handler_hblank_timer(void);
+void ws_int_set_default_handler_hblank_timer(void);
 
 /**
  * @brief Set selected hardware interrupts.
  * 
  * @param mask The MASK of an interrupt (HWINT_*).
  */
-static inline void ws_hwint_set(uint8_t mask) {
+static inline void ws_int_enable_set(uint8_t mask) {
 	outportb(WS_INT_ENABLE_PORT, mask);
 }
 
-static inline uint8_t ws_hwint_push(uint8_t mask) {
+static inline uint8_t ws_int_enable_push(uint8_t mask) {
 	uint8_t prev_mask = inportb(WS_INT_ENABLE_PORT);
 	outportb(WS_INT_ENABLE_PORT, mask);
 	return prev_mask;
 }
-#define ws_hwint_pop ws_hwint_push
+#define ws_int_enable_pop ws_int_enable_set
 
 /**
  * @brief Enable selected hardware interrupts.
  * 
  * @param mask The MASK of an interrupt (HWINT_*).
  */
-void ws_hwint_enable(uint8_t mask);
+void ws_int_enable(uint8_t mask);
 
 /**
  * @brief Disable selected hardware interrupts.
  * 
  * @param mask The MASK of an interrupt (HWINT_*).
  */
-void ws_hwint_disable(uint8_t mask);
+void ws_int_disable(uint8_t mask);
 
 /**
  * @brief Disable all hardware interrupts.
  */
-static inline void ws_hwint_disable_all(void) {
-	ws_hwint_disable(0xFF);
+static inline void ws_int_disable_all(void) {
+	ws_int_disable(0xFF);
 }
 
 /**
@@ -248,9 +269,11 @@ static inline void ws_hwint_disable_all(void) {
  * 
  * @param mask The MASK of an interrupt (HWINT_*).
  */
-static inline void ws_hwint_ack(uint8_t mask) {
+static inline void ws_int_ack(uint8_t mask) {
 	outportb(WS_INT_ACK_PORT, mask);
 }
+
+#endif
 
 /**@}*/
 

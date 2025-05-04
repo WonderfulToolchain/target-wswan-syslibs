@@ -41,13 +41,13 @@ screen_get_char:
     mov si, di
 
     // ES:DI = destination
-    les di, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
+    les di, [bp + IA16_CALL_STACK_OFFSET(6)]
 
     // CL, CH = width, height
-    mov cl, [bp + WF_PLATFORM_CALL_STACK_OFFSET(2)]
+    mov cl, [bp + IA16_CALL_STACK_OFFSET(2)]
     test cl, cl
     jz .ret
-    mov ch, [bp + WF_PLATFORM_CALL_STACK_OFFSET(4)]
+    mov ch, [bp + IA16_CALL_STACK_OFFSET(4)]
     test ch, ch
     jz .ret
 
@@ -72,4 +72,4 @@ screen_get_char:
     pop di
     pop si
     pop bp
-    WF_PLATFORM_RET 8
+    IA16_RET 8

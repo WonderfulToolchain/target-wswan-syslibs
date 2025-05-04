@@ -31,4 +31,4 @@ screen2_set_window:
     add ax, dx
     sub ax, 0x101
     out IO_SCR2_WIN_X2, ax
-    WF_PLATFORM_RET
+    IA16_RET

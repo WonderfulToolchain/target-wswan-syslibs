@@ -30,4 +30,4 @@ wsx_bcd8_to_int:
 	shr ah, 4     // AH = upper digit
 	and al, 0x0F  // AL = lower digit
 	aad // AL = (AL + (AH * 10)), AH = 0
-	WF_PLATFORM_RET	
+	IA16_RET	

@@ -29,8 +29,8 @@ memcpy:
 	mov	bp, sp
 	mov	es, dx
 	mov	di, ax
-	lds	si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
-	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
+	lds	si, [bp + IA16_CALL_STACK_OFFSET(10)]
+	mov	cx, [bp + IA16_CALL_STACK_OFFSET(14)]
 	shr	cx, 1
 	cld
 	rep	movsw
@@ -43,4 +43,4 @@ _fmemcpy_no_byte:
 	pop	ds
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET 0x6
+	IA16_RET 0x6

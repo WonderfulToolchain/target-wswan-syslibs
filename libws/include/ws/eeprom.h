@@ -180,14 +180,14 @@ uint16_t ws_ieep_name_color_to_rgb(uint8_t value);
  * By setting a bit in the cartridge's header (--unlock-ieep in swanlink), the non-cartridge area remains writable. In this case,
  * this function can be used to make the area read-only again.
  */
-static inline void ws_ieep_protect_enable(void) {
+static inline void ws_ieep_set_protect(void) {
 	outportb(WS_IEEP_CTRL_PORT, WS_IEEP_CTRL_PROTECT);
 }
 
 /**
  * @brief Check if the non-cartridge area of the internal EEPROM is currently protected.
  */
-static inline bool ws_ieep_protect_check(void) {
+static inline bool ws_ieep_is_protected(void) {
 	return inportb(WS_IEEP_CTRL_PORT) & WS_IEEP_CTRL_PROTECT;
 }
 

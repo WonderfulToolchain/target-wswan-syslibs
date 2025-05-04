@@ -37,7 +37,7 @@ wsx_zx0_decompress:
    push bp
    mov bp, sp
    mov di, ax
-   lds si, [bp+WF_PLATFORM_CALL_STACK_OFFSET(10)]
+   lds si, [bp+IA16_CALL_STACK_OFFSET(10)]
    mov es, dx
 
         cld                     // make string operations go forward
@@ -119,4 +119,4 @@ wsx_zx0_decompress:
    pop es
    pop di
    pop si
-   ASM_PLATFORM_RET 0x4
+   IA16_RET 0x4

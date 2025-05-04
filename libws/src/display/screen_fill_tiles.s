@@ -42,7 +42,7 @@ ws_screen_fill_tiles:
 
 	// AX = Y, CX = X
 	// => DI = destination
-	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)]
+	mov	ax, [bp + IA16_CALL_STACK_OFFSET(6)]
 	and	ax, 0x1F
 	shl	ax, 5
 	and	cx, 0x1F
@@ -52,10 +52,10 @@ ws_screen_fill_tiles:
 
 	// CX = width, DX = height, AX = fill value
 	mov	ax, dx
-	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(8)]
+	mov	cx, [bp + IA16_CALL_STACK_OFFSET(8)]
 	test	cx, cx
 	jz	__ws_screen_fill_tiles_done
-	mov	dx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
+	mov	dx, [bp + IA16_CALL_STACK_OFFSET(10)]
 	test	dx, dx
 	jz	__ws_screen_fill_tiles_done
 
@@ -77,4 +77,4 @@ __ws_screen_fill_tiles_done:
 	pop	bp
 	pop	di
 	pop	es
-	ASM_PLATFORM_RET 0x6
+	IA16_RET 0x6

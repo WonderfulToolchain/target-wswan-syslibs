@@ -35,4 +35,4 @@ sys_wait:
     nop
     jmp .loop
 .done:
-    WF_PLATFORM_RET
+    IA16_RET

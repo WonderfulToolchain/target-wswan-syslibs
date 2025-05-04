@@ -63,5 +63,5 @@ __wsx_planar_convert_4bpp_packed_row_done:
     pop ds
     pop bp
     mov dx, cx
-    WF_PLATFORM_RET
+    IA16_RET
 

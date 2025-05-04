@@ -45,4 +45,4 @@ _nmemcmp_end:
 	pop	es
 	pop	di
 	pop	si
-	ASM_PLATFORM_RET
+	IA16_RET

@@ -37,7 +37,7 @@ comm_send_string_loop:
 	cmp bl, 0
 	je comm_send_string_done
 
-	WF_PLATFORM_CALL __wwcl_comm_send_char_inner
+	IA16_CALL __wwcl_comm_send_char_inner
 	test ah, 0x80 // error?
 	jnz comm_send_string_done
 
@@ -47,4 +47,4 @@ comm_send_string_loop:
 comm_send_string_done:
 	pop si
     pop es
-	WF_PLATFORM_RET
+	IA16_RET

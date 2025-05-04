@@ -20,23 +20,12 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <wonderful.h>
-#include "asm-preamble.h"
-	.intel_syntax noprefix
-	.global ws_hwint_set_default_handler_serial_rx
 
-ws_hwint_internal_hwint_default_handler3:
-	push ax
-	in al, 0xB2
-	and al, 0xF7
-	out 0xB2, al
-	mov al, 0x08
-	out 0xB6, al
-	pop ax
-	iret
-
-ws_hwint_set_default_handler_serial_rx:
-	mov ax, 3
-	mov dx, offset "ws_hwint_internal_hwint_default_handler3"
-	mov cx, cs
-	ASM_PLATFORM_JMP ws_hwint_set_handler
+void ia16_int_set_handler(uint8_t idx, ia16_int_handler_t handler) {
+    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (idx << 2));
+    *(ptr++) = FP_OFF(handler);
+    *(ptr++) = FP_SEG(handler);
+}

@@ -22,11 +22,20 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <wonderful.h>
-#include "ws/system.h"
+#include "ws/cartridge.h"
 
-void ws_cpuint_set_handler(uint8_t idx, ws_int_handler_t handler) {
-    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (idx << 2));
-    *(ptr++) = FP_OFF(handler);
-    *(ptr++) = FP_SEG(handler);
+void ws_cart_gpio_set_output(uint8_t mask) {
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) | mask);
+}
+
+void ws_cart_gpio_set_input(uint8_t mask) {
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) & (~mask));
+}
+
+void ws_cart_gpio_set(uint8_t mask) {
+	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) | mask);
+}
+
+void ws_cart_gpio_clear(uint8_t mask) {
+	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) & (~mask));
 }

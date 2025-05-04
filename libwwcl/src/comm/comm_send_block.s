@@ -36,7 +36,7 @@ comm_send_block_loop:
 	mov bl, [si]
 
     push cx
-	WF_PLATFORM_CALL __wwcl_comm_send_char_inner
+	IA16_CALL __wwcl_comm_send_char_inner
     pop cx
 	test ah, 0x80 // error?
 	jnz comm_send_block_done
@@ -47,4 +47,4 @@ comm_send_block_loop:
 comm_send_block_done:
 	pop si
     pop es
-	WF_PLATFORM_RET
+	IA16_RET

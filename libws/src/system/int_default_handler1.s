@@ -20,11 +20,20 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <wonderful.h>
-#include "ws/system.h"
+#include "asm-preamble.h"
+	.intel_syntax noprefix
+	.global ws_int_set_default_handler_key
 
-void ws_hwint_enable(uint8_t mask) {
-    outportb(WS_INT_ENABLE_PORT, inportb(WS_INT_ENABLE_PORT) | mask);
-}
+ws_int_internal_default_handler1:
+	push ax
+	mov al, 0x02
+	out 0xB6, al
+	pop ax
+	iret
+
+ws_int_set_default_handler_key:
+	mov ax, 1
+	mov dx, offset "ws_int_internal_default_handler1"
+	mov cx, cs
+	IA16_JMP ws_int_set_handler

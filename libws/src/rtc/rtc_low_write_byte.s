@@ -35,4 +35,4 @@ ws_rtc_internal_low_write_byte:
 	jz 9f
 	out WS_CART_RTC_DATA_PORT, al
 9:
-	ASM_PLATFORM_RET
+	IA16_RET

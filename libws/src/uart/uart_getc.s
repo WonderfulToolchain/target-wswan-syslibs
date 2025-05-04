@@ -36,4 +36,4 @@ ws_uart_getc_no_overrun:
     test al, WS_UART_CTRL_RX_READY
     jz ws_uart_getc
     in al, WS_UART_DATA_PORT
-    ASM_PLATFORM_RET
+    IA16_RET

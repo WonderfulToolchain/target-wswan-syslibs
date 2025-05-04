@@ -29,4 +29,4 @@ wsx_int_to_bcd8:
 	aam // AH = AL / 10, AL = AL % 10
 	shl ah, 4
 	or al, ah
-	WF_PLATFORM_RET	
+	IA16_RET	

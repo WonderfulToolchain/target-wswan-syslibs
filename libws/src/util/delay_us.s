@@ -23,17 +23,13 @@
 #include <wonderful.h>
 #include "asm-preamble.h"
 	.intel_syntax noprefix
-	.global ws_hwint_set_default_handler_line
 
-ws_hwint_internal_hwint_default_handler4:
-	push ax
-	mov al, 0x10
-	out 0xB6, al
-	pop ax
-	iret
-
-ws_hwint_set_default_handler_line:
-	mov ax, 4
-	mov dx, offset "ws_hwint_internal_hwint_default_handler4"
-	mov cx, cs
-	ASM_PLATFORM_JMP ws_hwint_set_handler
+	.global ws_delay_us
+ws_delay_us:
+	inc ax // round up
+	shr ax, 1 // 1 us = ~3 cycles
+	mov cx, ax
+1:
+	nop // 1 cycle
+	loop 1b // 2-5 cycles
+	IA16_RET

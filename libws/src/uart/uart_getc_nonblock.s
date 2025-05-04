@@ -37,7 +37,7 @@ ws_uart_getc_nonblock_no_overrun:
     test al, WS_UART_CTRL_RX_READY
     jz ws_uart_getc_nonblock_fail
     in al, WS_UART_DATA_PORT
-    ASM_PLATFORM_RET
+    IA16_RET
 ws_uart_getc_nonblock_fail:
     mov ax, 0xFFFF
-    ASM_PLATFORM_RET
+    IA16_RET

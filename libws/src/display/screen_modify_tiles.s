@@ -47,10 +47,10 @@ ws_screen_modify_tiles:
 
 	// AX = Y, BX = X
 	// => DI = destination
-	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(12)]
+	mov	ax, [bp + IA16_CALL_STACK_OFFSET(12)]
 	and	ax, 0x1F
 	shl	ax, 5
-	mov	bx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
+	mov	bx, [bp + IA16_CALL_STACK_OFFSET(10)]
 	and	bx, 0x1F
 	or	ax, bx
 	shl	ax, 1
@@ -58,10 +58,10 @@ ws_screen_modify_tiles:
 
 	mov	bx, cx
 	// CX = width, BP = height
-	mov	cx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
+	mov	cx, [bp + IA16_CALL_STACK_OFFSET(14)]
 	test	cx, cx
 	jz	__ws_screen_modify_tiles_done
-	mov	ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(16)]
+	mov	ax, [bp + IA16_CALL_STACK_OFFSET(16)]
 	test	ax, ax
 	jz	__ws_screen_modify_tiles_done
 	mov	bp, ax
@@ -91,4 +91,4 @@ __ws_screen_modify_tiles_done:
 	pop	si
 	pop	es
 	pop	ds
-	ASM_PLATFORM_RET 0x8
+	IA16_RET 0x8

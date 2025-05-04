@@ -61,7 +61,7 @@ wsx_lzsa1_decompress:
    push bp
    mov bp, sp
    mov di, ax
-   lds si, [bp+WF_PLATFORM_CALL_STACK_OFFSET(10)]
+   lds si, [bp+IA16_CALL_STACK_OFFSET(10)]
    mov es, dx
 
         push    di              //remember decompression offset
@@ -190,7 +190,7 @@ wsx_lzsa1_decompress:
    pop es
    pop di
    pop si
-   ASM_PLATFORM_RET 0x4
+   IA16_RET 0x4
 
 //With a confirmed longer match length, we have an opportunity to optimize for
 //the case where a single byte is repeated long enough that we can benefit

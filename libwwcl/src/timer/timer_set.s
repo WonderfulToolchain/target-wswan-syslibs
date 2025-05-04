@@ -55,7 +55,7 @@ __wwcl_timer_set:
 	or al, bl
 	out IO_HWINT_ENABLE, al
 
-	WF_PLATFORM_RET
+	IA16_RET
 
 	.global timer_enable
 timer_enable:
@@ -66,7 +66,7 @@ timer_enable:
 
 	// disable timer
 	xor bx, bx
-	WF_PLATFORM_CALL __wwcl_timer_set
+	IA16_CALL __wwcl_timer_set
 
 	// set reload preset
 	pop ax

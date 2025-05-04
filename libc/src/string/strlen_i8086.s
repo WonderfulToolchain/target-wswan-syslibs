@@ -33,4 +33,4 @@ strlen:
 
 	pop	es
 	pop	di
-	ASM_PLATFORM_RET
+	IA16_RET

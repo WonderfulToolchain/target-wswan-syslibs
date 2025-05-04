@@ -27,12 +27,12 @@
 	.global wsx_bcd16_to_int
 wsx_bcd16_to_int:
 	push ax
-	WF_PLATFORM_CALL wsx_bcd8_to_int
+	IA16_CALL wsx_bcd8_to_int
 	mov bx, ax
 	pop ax
 	mov al, ah
-	WF_PLATFORM_CALL wsx_bcd8_to_int
+	IA16_CALL wsx_bcd8_to_int
 	// AX = lower 0-99, BX = upper 0-99
 	imul bx, 100 // BX = BX * 100
 	add ax, bx
-	WF_PLATFORM_RET
+	IA16_RET

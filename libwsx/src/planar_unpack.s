@@ -139,8 +139,8 @@ wsx_planar_unpack:
 	// load offset+flags in BX
 	mov es, dx
 	mov di, ax
-	lds si, [bp + WF_PLATFORM_CALL_STACK_OFFSET(10)]
-	mov bx, [bp + WF_PLATFORM_CALL_STACK_OFFSET(14)]
+	lds si, [bp + IA16_CALL_STACK_OFFSET(10)]
+	mov bx, [bp + IA16_CALL_STACK_OFFSET(14)]
 
 	mov ax, bx
 	shr bx, 7
@@ -153,4 +153,4 @@ wsx_planar_unpack:
 	pop ds
 	pop di
 	pop si
-	ASM_PLATFORM_RET 0x6
+	IA16_RET 0x6

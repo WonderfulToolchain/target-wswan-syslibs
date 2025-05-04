@@ -23,19 +23,17 @@
 #include <wonderful.h>
 #include "asm-preamble.h"
 	.intel_syntax noprefix
+	.global ws_int_set_default_handler_vblank_timer
 
-	.global ws_eeprom_read_word
-ws_eeprom_read_word:
-	xchg ax, dx // AX = address, DL = port, DH = dwords
+ws_int_internal_int_default_handler5:
+	push ax
+	mov al, 0x20
+	out 0xB6, al
+	pop ax
+	iret
 
-	mov bl, 0x18
-	call ws_eeprom_internal_addr_to_command
-	add dl, 2
-	out dx, ax // 0xBC
-	mov ax, 0x10
-	add dl, 2
-	out dx, ax // 0xBE
-	call ws_eeprom_internal_wait_done
-	sub dl, 4
-	in ax, dx // 0xBA
-	IA16_RET
+ws_int_set_default_handler_vblank_timer:
+	mov ax, 5
+	mov dx, offset "ws_int_internal_int_default_handler5"
+	mov cx, cs
+	IA16_JMP ws_int_set_handler

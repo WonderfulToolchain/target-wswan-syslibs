@@ -46,19 +46,19 @@ ws_system_get_model:
     jnz __ws_system_get_model_pcv2
 
     mov al, WS_MODEL_MONO
-	WF_PLATFORM_RET
+	IA16_RET
 
 __ws_system_get_model_pcv2:
     mov al, WS_MODEL_PCV2
-    WF_PLATFORM_RET
+    IA16_RET
 
 __ws_system_get_model_color:
     in al, WS_SYSTEM_CTRL_COLOR2_PORT
     test al, WS_SYSTEM_CTRL_COLOR2_MODEL_CRYSTAL
     jnz __ws_system_get_model_crystal
     mov al, WS_MODEL_COLOR
-    WF_PLATFORM_RET
+    IA16_RET
 
 __ws_system_get_model_crystal:
     mov al, WS_MODEL_CRYSTAL
-    WF_PLATFORM_RET
+    IA16_RET

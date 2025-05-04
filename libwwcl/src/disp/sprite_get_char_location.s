@@ -33,4 +33,4 @@ sprite_get_char_location:
     mov dx, ss:[di+2]
     xchg dh, dl
     pop di
-    WF_PLATFORM_RET
+    IA16_RET

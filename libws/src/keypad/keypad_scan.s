@@ -50,4 +50,4 @@ ws_keypad_scan:
 	or	cl, al
 
 	mov	ax, cx
-	ASM_PLATFORM_RET
+	IA16_RET

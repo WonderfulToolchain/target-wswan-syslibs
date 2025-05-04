@@ -29,4 +29,4 @@ outportw:
 	xor	ah, ah
 	xchg	ax, dx
 	out	dx, ax
-	ASM_PLATFORM_RET
+	IA16_RET

@@ -49,7 +49,7 @@ text_num_put_char_or_memory:
     mov cx, ax
     mov al, bl
     mov dl, bh
-    WF_PLATFORM_CALL text_put_char
+    IA16_CALL text_put_char
     pop dx
     pop cx
     pop bx
@@ -73,9 +73,9 @@ text_put_numeric:
 
     mov bl, al // BL = X
     mov bh, dl // BH = Y
-    mov ch, [bp + WF_PLATFORM_CALL_STACK_OFFSET(4)] // CH = flags
+    mov ch, [bp + IA16_CALL_STACK_OFFSET(4)] // CH = flags
     // CL = width
-    mov ax, [bp + WF_PLATFORM_CALL_STACK_OFFSET(6)] // AX = number
+    mov ax, [bp + IA16_CALL_STACK_OFFSET(6)] // AX = number
 
     // allocate string buffer
     // BP = pointer
@@ -186,4 +186,4 @@ text_put_numeric:
 
     pop bp
     pop di
-    WF_PLATFORM_RET 0x4
+    IA16_RET 0x4

@@ -97,7 +97,7 @@ __wwcl_init_irqs:
     mov al, 0x40
     out IO_HWINT_ENABLE, al
     sti
-    WF_PLATFORM_RET
+    IA16_RET
 
     .global __wwcl_irq_serial_tx
 __wwcl_irq_serial_tx:
