@@ -9,13 +9,9 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef _UNISTD_H_
-#define _UNISTD_H_
+#ifndef _STDCOUNTOF_H_
+#define _STDCOUNTOF_H_
 
-#include <stdint.h>
-#include <wonderful.h>
+#define countof(a) (sizeof(a)/sizeof((a)[0]))
 
-int brk(void *addr);
-void *sbrk(intptr_t incr);
-
-#endif /* _UNISTD_H_ */
+#endif /* _STDCOUNTOF_H_ */

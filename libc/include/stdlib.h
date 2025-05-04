@@ -9,8 +9,8 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef __WF_LIBC_STDLIB_H__
-#define __WF_LIBC_STDLIB_H__
+#ifndef _STDLIB_H_
+#define _STDLIB_H_
 
 #include <wonderful.h>
 #include <stddef.h>
@@ -53,4 +53,4 @@ void free_sized(void *ptr, size_t size);
 void *realloc(void *ptr, size_t size);
 void* calloc(size_t nelem, size_t elsize);
 
-#endif /* __WF_LIBC_STDLIB_H__ */
+#endif /* _STDLIB_H_ */

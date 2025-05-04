@@ -1,16 +1,16 @@
 /**
- * wonderful-i8086 libc
+ * wonderful ia16 libc
  *
  * To the extent possible under law, the person who associated CC0 with
- * wonderful-i8086 libc has waived all copyright and related or neighboring rights
- * to wonderful-i8086 libc.
+ * wonderful ia16 libc has waived all copyright and related or neighboring rights
+ * to wonderful ia16 libc.
  *
  * You should have received a copy of the CC0 legalcode along with this
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef __WF_LIBC_CTYPE_H__
-#define __WF_LIBC_CTYPE_H__
+#ifndef _CTYPE_H_
+#define _CTYPE_H_
 
 #include <stddef.h>
 
@@ -29,4 +29,4 @@ int isxdigit(int c);
 int tolower(int c);
 int toupper(int c);
 
-#endif /* __WF_LIBC_CTYPE_H__ */
+#endif /* _CTYPE_H_ */

@@ -9,8 +9,8 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef __WF_LIBC_TIME_H__
-#define __WF_LIBC_TIME_H__
+#ifndef _TIME_H_
+#define _TIME_H_
 
 #include <stdint.h>
 #include <wonderful.h>
@@ -37,4 +37,4 @@ struct tm {
     int tm_isdst;
 };
 
-#endif /* __WF_LIBC_TIME_H__ */
+#endif /* _TIME_H_ */

@@ -51,6 +51,8 @@
 #define ws_hwint_pop ws_int_enable_push
 #define ws_hwint_disable_all ws_int_disable_all
 #define ws_hwint_ack ws_int_ack
+#define ws_hwint_enable ws_int_enable
+#define ws_hwint_disable ws_int_disable
 
 #define ws_busywait ws_delay_us
 
@@ -63,6 +65,10 @@
 #define ASM_PLATFORM_CALL IA16_CALL
 #define ASM_PLATFORM_JMP IA16_JMP
 #define ASM_PLATFORM_RET IA16_RET
+
+#define cpu_irq_disable ia16_disable_irq
+#define cpu_irq_enable ia16_enable_irq
+#define cpu_halt ia16_halt
 
 #define MEM_RAM WS_IRAM
 #define MEM_SRAM WS_SRAM

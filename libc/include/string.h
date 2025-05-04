@@ -9,8 +9,8 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef __WF_LIBC_STRING_H__
-#define __WF_LIBC_STRING_H__
+#ifndef _STRING_H_
+#define _STRING_H_
 
 #include <wonderful.h>
 #include <stddef.h>
@@ -60,4 +60,4 @@ char __far* strstr(const char __far* s1, const char __far* s2);
 int strcasecmp(const char __far* s1, const char __far* s2);
 int strncasecmp(const char __far* s1, const char __far* s2, size_t n);
 
-#endif /* __WF_LIBC_STRING_H__ */
+#endif /* _STRING_H_ */

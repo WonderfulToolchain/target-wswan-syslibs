@@ -9,8 +9,8 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef __WF_LIBC_STDIO_H__
-#define __WF_LIBC_STDIO_H__
+#ifndef _STDIO_H_
+#define _STDIO_H_
 
 #include <wonderful.h>
 #include <stdarg.h>
@@ -21,4 +21,4 @@ int snprintf(char __far* restrict s, size_t n, const char __far* restrict format
 int vsprintf(char __far* restrict s, const char __far* restrict format, va_list arg);
 int vsnprintf(char __far* restrict s, size_t n, const char __far* restrict format, va_list arg);
 
-#endif /* __WF_LIBC_STDIO_H__ */
+#endif /* _STDIO_H_ */
