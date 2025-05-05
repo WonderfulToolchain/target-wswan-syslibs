@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWS_UTIL_H__
-#define __WF_LIBWS_UTIL_H__
+#ifndef LIBWS_UTIL_H_
+#define LIBWS_UTIL_H_
 
 #include <stdint.h>
 #include <wonderful.h>
@@ -71,4 +71,4 @@ void ws_delay_us(uint16_t us);
 __attribute__((no_assume_ds_data, no_assume_ss_data))
 void ws_delay_ms(uint16_t ms);
 
-#endif /* __WF_LIBWS_UTIL_H__ */
+#endif /* LIBWS_UTIL_H_ */

@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWS_WS_H__
-#define __WF_LIBWS_WS_H__
+#ifndef LIBWS_WS_H_
+#define LIBWS_WS_H_
 
 #include <wonderful.h>
 #include <ws/ports.h>
@@ -49,4 +49,4 @@
 # endif
 #endif
 
-#endif /* __WF_LIBWS_WS_H__ */
+#endif /* LIBWS_WS_H_ */

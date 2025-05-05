@@ -24,8 +24,8 @@
  * Functionality related to the keypad.
  */
 
-#ifndef __WF_LIBWS_KEYPAD_H__
-#define __WF_LIBWS_KEYPAD_H__
+#ifndef LIBWS_KEYPAD_H_
+#define LIBWS_KEYPAD_H_
 
 #define KEY_Y4    0x0800
 #define KEY_Y3    0x0400
@@ -70,4 +70,4 @@ uint16_t ws_keypad_scan(void);
 
 #endif /* __ASSEMBLER__ */
 
-#endif /* __WF_LIBWS_KEYPAD_H__ */
+#endif /* LIBWS_KEYPAD_H_ */

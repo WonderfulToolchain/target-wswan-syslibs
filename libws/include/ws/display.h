@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWS_DISPLAY_H__
-#define __WF_LIBWS_DISPLAY_H__
+#ifndef LIBWS_DISPLAY_H_
+#define LIBWS_DISPLAY_H_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -314,4 +314,4 @@ static inline uint16_t ws_screen_get_tile(void __wf_iram* src, uint16_t x, uint1
 
 /**@}*/
 
-#endif /* __WF_LIBWS_DISPLAY_H__ */
+#endif /* LIBWS_DISPLAY_H_ */

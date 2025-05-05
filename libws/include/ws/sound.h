@@ -24,8 +24,8 @@
 	* Functionality related to sound.
  */
 
-#ifndef __WF_LIBWS_SOUND_H__
-#define __WF_LIBWS_SOUND_H__
+#ifndef LIBWS_SOUND_H_
+#define LIBWS_SOUND_H_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -47,4 +47,4 @@ typedef struct {
 
 /**@}*/
 
-#endif /* __WF_LIBWS_SOUND_H__ */
+#endif /* LIBWS_SOUND_H_ */

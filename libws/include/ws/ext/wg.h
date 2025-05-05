@@ -24,8 +24,8 @@
  * Functionality related to the MobileWonderGate peripheral.
  */
 
-#ifndef WS_EXT_WG_H_
-#define WS_EXT_WG_H_
+#ifndef LIBWS_EXT_WG_H_
+#define LIBWS_EXT_WG_H_
 
 #include <stdbool.h>
 #include <stdint.h>

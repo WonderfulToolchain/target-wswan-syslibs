@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWS_SYSTEM_H__
-#define __WF_LIBWS_SYSTEM_H__
+#ifndef LIBWS_SYSTEM_H_
+#define LIBWS_SYSTEM_H_
 
 /** \file system.h
  * Functionality related to system control.
@@ -277,4 +277,4 @@ static inline void ws_int_ack(uint8_t mask) {
 
 /**@}*/
 
-#endif /* __WF_LIBWS_SYSTEM_H__ */
+#endif /* LIBWS_SYSTEM_H_ */

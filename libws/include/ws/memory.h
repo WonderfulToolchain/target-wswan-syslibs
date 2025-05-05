@@ -24,8 +24,8 @@
  * Functionality related to memory and bank management.
  */
 
-#ifndef WS_MEMORY_H_
-#define WS_MEMORY_H_
+#ifndef LIBWS_MEMORY_H_
+#define LIBWS_MEMORY_H_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -59,7 +59,7 @@
 typedef uint16_t ws_bank_t; ///< Type indicating a bank index.
 
 /// \cond INTERNAL
-static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
+static inline ws_bank_t _ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	volatile ws_bank_t old_bank = inportw(port);
 	outportw(port, new_bank);
@@ -67,22 +67,22 @@ static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	return old_bank;
 }
 
-static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
+static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	outportw(port, new_bank);
 	asm volatile("" ::: "memory");
 }
 
-#define __ws_bank_ram_port WS_CART_EXTBANK_RAM_PORT
-#define __ws_bank_rom0_port WS_CART_EXTBANK_ROM0_PORT
-#define __ws_bank_rom1_port WS_CART_EXTBANK_ROM1_PORT
-#define __ws_bank_roml_port WS_CART_EXTBANK_ROML_PORT
+#define _ws_bank_ram_port WS_CART_EXTBANK_RAM_PORT
+#define _ws_bank_rom0_port WS_CART_EXTBANK_ROM0_PORT
+#define _ws_bank_rom1_port WS_CART_EXTBANK_ROM1_PORT
+#define _ws_bank_roml_port WS_CART_EXTBANK_ROML_PORT
 /// \endcond
 #else
 typedef uint8_t ws_bank_t; ///< Type indicating a bank index.
 
 /// \cond INTERNAL
-static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
+static inline ws_bank_t _ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	volatile ws_bank_t old_bank = inportb(port);
 	outportb(port, new_bank);
@@ -90,16 +90,16 @@ static inline ws_bank_t __ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	return old_bank;
 }
 
-static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
+static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	outportb(port, new_bank);
 	asm volatile("" ::: "memory");
 }
 
-#define __ws_bank_ram_port WS_CART_BANK_RAM_PORT
-#define __ws_bank_rom0_port WS_CART_BANK_ROM0_PORT
-#define __ws_bank_rom1_port WS_CART_BANK_ROM1_PORT
-#define __ws_bank_roml_port WS_CART_BANK_ROML_PORT
+#define _ws_bank_ram_port WS_CART_BANK_RAM_PORT
+#define _ws_bank_rom0_port WS_CART_BANK_ROM0_PORT
+#define _ws_bank_rom1_port WS_CART_BANK_ROM1_PORT
+#define _ws_bank_roml_port WS_CART_BANK_ROML_PORT
 /// \endcond
 #endif
 
@@ -126,14 +126,14 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param new_bank New RAM bank.
  * @return uint8_t The previous RAM bank.
  */
-#define ws_bank_ram_save(new_bank) __ws_bank_save(__ws_bank_ram_port, (new_bank))
+#define ws_bank_ram_save(new_bank) _ws_bank_save(_ws_bank_ram_port, (new_bank))
 
 /**
  * @brief Switch to a new RAM bank.
  * 
  * @param new_bank New RAM bank.
  */
-#define ws_bank_ram_set(new_bank) __ws_bank_set(__ws_bank_ram_port, (new_bank))
+#define ws_bank_ram_set(new_bank) _ws_bank_set(_ws_bank_ram_port, (new_bank))
 #define ws_bank_ram_restore ws_bank_ram_set
 
 /**
@@ -173,14 +173,14 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom0_save(new_bank) __ws_bank_save(__ws_bank_rom0_port, (new_bank))
+#define ws_bank_rom0_save(new_bank) _ws_bank_save(_ws_bank_rom0_port, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in slot 0.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom0_set(new_bank) __ws_bank_set(__ws_bank_rom0_port, (new_bank))
+#define ws_bank_rom0_set(new_bank) _ws_bank_set(_ws_bank_rom0_port, (new_bank))
 #define ws_bank_rom0_restore ws_bank_rom0_set
 
 /**
@@ -220,14 +220,14 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_rom1_save(new_bank) __ws_bank_save(__ws_bank_rom1_port, (new_bank))
+#define ws_bank_rom1_save(new_bank) _ws_bank_save(_ws_bank_rom1_port, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in slot 1.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_rom1_set(new_bank) __ws_bank_set(__ws_bank_rom1_port, (new_bank))
+#define ws_bank_rom1_set(new_bank) _ws_bank_set(_ws_bank_rom1_port, (new_bank))
 #define ws_bank_rom1_restore ws_bank_rom1_set
 
 /**
@@ -267,14 +267,14 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param new_bank New ROM bank.
  * @return uint8_t The previous ROM bank.
  */
-#define ws_bank_roml_save(new_bank) __ws_bank_save(__ws_bank_roml_port, (new_bank))
+#define ws_bank_roml_save(new_bank) _ws_bank_save(_ws_bank_roml_port, (new_bank))
 
 /**
  * @brief Switch to a new ROM bank in the linear slot.
  * 
  * @param new_bank New ROM bank.
  */
-#define ws_bank_roml_set(new_bank) __ws_bank_set(__ws_bank_roml_port, (new_bank))
+#define ws_bank_roml_set(new_bank) _ws_bank_set(_ws_bank_roml_port, (new_bank))
 #define ws_bank_roml_restore ws_bank_roml_set
 
 /**
@@ -310,4 +310,4 @@ static inline void __ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 
 /**@}*/
 
-#endif /* WS_MEMORY_H_ */
+#endif /* LIBWS_MEMORY_H_ */

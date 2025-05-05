@@ -24,8 +24,8 @@
 	* Functionality related to EEPROM.
  */
 
-#ifndef __WF_LIBWS_EEPROM_H__
-#define __WF_LIBWS_EEPROM_H__
+#ifndef LIBWS_EEPROM_H_
+#define LIBWS_EEPROM_H_
 
 #define WS_IEEP_SIZE_MONO  0x80
 #define WS_IEEP_SIZE_COLOR 0x800
@@ -195,4 +195,4 @@ static inline bool ws_ieep_is_protected(void) {
 
 #endif /* __ASSEMBLER__ */
 
-#endif /* __WF_LIBWS_EEPROM_H__ */
+#endif /* LIBWS_EEPROM_H_ */
