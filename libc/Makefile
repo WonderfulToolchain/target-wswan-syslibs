@@ -4,6 +4,7 @@
 
 WONDERFUL_TOOLCHAIN ?= /opt/wonderful
 TARGET ?= wswan/medium
+WF_TARGET_DIR ?= $(WONDERFUL_TOOLCHAIN)/target/$(TARGET)
 include $(WF_TARGET_DIR)/makedefs.mk
 
 # Source code paths

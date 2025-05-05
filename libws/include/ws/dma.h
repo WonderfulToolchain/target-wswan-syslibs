@@ -37,16 +37,25 @@
  * @{
  */
 
+/// @private
 static inline void ws_gdma_set_sourcep(const void __far *src) {
 	outportw(WS_GDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
 	outportb(WS_GDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
 }
 
+/// @private
 static inline void ws_gdma_set_sourcei(uint32_t src) {
 	outportw(WS_GDMA_SOURCE_L_PORT, src);
 	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
 }
 
+/**
+ * @brief Set the initial source address of a general DMA transfer.
+ *
+ * One can specify a pointer, such as `MK_FP(0x2100, 0x1234)`, or an integer representing a linear CPU address, such as `0x22234`.
+ *
+ * @param src The source address.
+ */
 #define ws_gdma_set_source(src) _Generic((src), \
 	int8_t: ws_gdma_set_sourcei, \
 	int16_t: ws_gdma_set_sourcei, \
@@ -57,33 +66,10 @@ static inline void ws_gdma_set_sourcei(uint32_t src) {
 	default: ws_gdma_set_sourcep \
 )(src)
 
-static inline void ws_sdma_set_sourcep(const void __far *src) {
-	outportw(WS_SDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
-	outportb(WS_SDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
-}
-
-static inline void ws_sdma_set_sourcei(uint32_t src) {
-	outportw(WS_SDMA_SOURCE_L_PORT, src);
-	outportb(WS_SDMA_SOURCE_H_PORT, src >> 16);
-}
-
-#define ws_sdma_set_source(src) _Generic((src), \
-	int8_t: ws_sdma_set_sourcei, \
-	int16_t: ws_sdma_set_sourcei, \
-	int32_t: ws_sdma_set_sourcei, \
-	uint8_t: ws_sdma_set_sourcei, \
-	uint16_t: ws_sdma_set_sourcei, \
-	uint32_t: ws_sdma_set_sourcei, \
-	default: ws_sdma_set_sourcep \
-)(src)
-
-static inline void ws_sdma_set_length(uint32_t length) {
-	outportw(WS_SDMA_LENGTH_L_PORT, length);
-	outportb(WS_SDMA_LENGTH_H_PORT, length >> 16);
-}
-
+/// @private
 void ws_gdma_copyi(void __wf_iram* dest, uint32_t src, uint16_t length);
 
+/// @private
 static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, uint16_t length) {
 	ws_gdma_copyi(dest, ws_ptr_to_linear(src), length);
 }
@@ -116,6 +102,43 @@ static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, ui
  * @param length Length, in bytes. Must be a multiple of 2.
  */
 void ws_gdma_maybe_copy(void __wf_iram* dest, const void __far* src, uint16_t length);
+
+/// @private
+static inline void ws_sdma_set_sourcep(const void __far *src) {
+	outportw(WS_SDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
+	outportb(WS_SDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
+}
+
+/// @private
+static inline void ws_sdma_set_sourcei(uint32_t src) {
+	outportw(WS_SDMA_SOURCE_L_PORT, src);
+	outportb(WS_SDMA_SOURCE_H_PORT, src >> 16);
+}
+
+/**
+ * @brief Set the initial source address of a sound DMA transfer.
+ *
+ * One can specify a pointer, such as `MK_FP(0x2100, 0x1234)`, or an integer representing a linear CPU address, such as `0x22234`.
+ *
+ * @param src The source address.
+ */
+#define ws_sdma_set_source(src) _Generic((src), \
+	int8_t: ws_sdma_set_sourcei, \
+	int16_t: ws_sdma_set_sourcei, \
+	int32_t: ws_sdma_set_sourcei, \
+	uint8_t: ws_sdma_set_sourcei, \
+	uint16_t: ws_sdma_set_sourcei, \
+	uint32_t: ws_sdma_set_sourcei, \
+	default: ws_sdma_set_sourcep \
+)(src)
+
+/**
+ * @brief Set the length of a sound DMA transfer.
+ */
+static inline void ws_sdma_set_length(uint32_t length) {
+	outportw(WS_SDMA_LENGTH_L_PORT, length);
+	outportb(WS_SDMA_LENGTH_H_PORT, length >> 16);
+}
 
 /**@}*/
 
