@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2023 Adrian "asie" Siekierka
+/**
+ * Copyright (c) 2022 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,27 +18,24 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
- */
-
-/** \file gate.h
-	* Functionality related to WonderGate control.
- */
-
-#ifndef __WF_LIBWS_GATE_H__
-#define __WF_LIBWS_GATE_H__
+*/
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "ports.h"
-#include "util.h"
+#include "ws/cart/gpio.h"
 
-/**
- * @addtogroup Gate Functions - WonderGate
- * @{
- */
+void ws_cart_gpio_set_output(uint8_t mask) {
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) | mask);
+}
 
+void ws_cart_gpio_set_input(uint8_t mask) {
+	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) & (~mask));
+}
 
+void ws_cart_gpio_set(uint8_t mask) {
+	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) | mask);
+}
 
-/**@}*/
-
-#endif /* __WF_LIBWS_GATE_H__ */
+void ws_cart_gpio_clear(uint8_t mask) {
+	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) & (~mask));
+}

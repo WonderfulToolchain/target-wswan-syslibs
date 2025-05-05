@@ -22,4 +22,7 @@
 
 #define __WONDERFUL__
 
+#define WF_MACRO_CONCAT_(x, y) x##y
+#define WF_MACRO_CONCAT(x, y) WF_MACRO_CONCAT_(x, y)
+
 #include "ia16.h"

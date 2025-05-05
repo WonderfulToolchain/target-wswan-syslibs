@@ -26,18 +26,19 @@
 #include <wonderful.h>
 #include <ws/ports.h>
 #include <ws/keypad.h>
-#include <ws/rtc.h>
 #include <ws/eeprom.h>
 #include <ws/system.h>
+#include <ws/cart/gpio.h>
+#include <ws/cart/rtc.h>
 
 #ifndef __ASSEMBLER__
+#include <ws/memory.h>
 #include <ws/util.h>
 #include <ws/display.h>
 #include <ws/sound.h>
 #include <ws/dma.h>
 #include <ws/uart.h>
-#include <ws/cartridge.h>
-#include <ws/gate.h>
+#include <ws/ext/wg.h>
 #endif
 
 #if defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L

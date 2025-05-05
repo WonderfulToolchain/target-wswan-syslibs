@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2022 Adrian "asie" Siekierka
+/*
+ * Copyright (c) 2023 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,24 +18,25 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
-*/
+ */
+
+/** \file ext/wg.h
+ * Functionality related to the MobileWonderGate peripheral.
+ */
+
+#ifndef WS_EXT_WG_H_
+#define WS_EXT_WG_H_
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "ws/cartridge.h"
+#include "../ports.h"
+#include "../util.h"
 
-void ws_cart_gpio_set_output(uint8_t mask) {
-	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) | mask);
-}
+/**
+ * @addtogroup Gate Functions - WonderGate
+ * @{
+ */
 
-void ws_cart_gpio_set_input(uint8_t mask) {
-	outportb(WS_CART_GPIO_DIR_PORT, inportb(WS_CART_GPIO_DIR_PORT) & (~mask));
-}
+/**@}*/
 
-void ws_cart_gpio_set(uint8_t mask) {
-	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) | mask);
-}
-
-void ws_cart_gpio_clear(uint8_t mask) {
-	outportb(WS_CART_GPIO_DATA_PORT, inportb(WS_CART_GPIO_DATA_PORT) & (~mask));
-}
+#endif /* WS_EXT_WG_H_ */

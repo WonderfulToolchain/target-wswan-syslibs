@@ -20,15 +20,17 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-/** \file rtc.h
+/** \file cart/rtc.h
 	* Functionality related to the cartridge RTC.
  */
 
-#ifndef __WF_LIBWS_RTC_H__
-#define __WF_LIBWS_RTC_H__
+#ifndef LIBWS_RTC_H_
+#define LIBWS_RTC_H_
+
+#include "../ports.h"
 
 /**
- * @addtogroup RTC Functions - RTC
+ * @addtogroup cart_rtc Functions - Cartridge - RTC
  * @{
  */
 
@@ -52,8 +54,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "ports.h"
-#include "util.h"
 
 typedef struct {
     uint8_t year;
@@ -83,4 +83,4 @@ bool ws_rtc_low_write_ctrl(uint8_t value, uint16_t timeout);
 
 #endif /* __ASSEMBLER__ */
 
-#endif /* __WF_LIBWS_RTC_H__ */
+#endif /* LIBWS_RTC_H_ */

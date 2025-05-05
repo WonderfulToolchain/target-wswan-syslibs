@@ -20,16 +20,39 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#if !(defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L)
-# error This file should no longer be included directly. Use <ws/memory.h> going forward.
+/** \file cart/gpio.h
+ * Functionality related to the on-cartridge GPIO.
+ */
+
+#ifndef LIBWS_CART_GPIO_H_
+#define LIBWS_CART_GPIO_H_
+
+#include <wonderful.h>
+#include "../ports.h"
+
+/**
+ * @addtogroup cart_gpio Functions - Cartridge - GPIO
+ * @{
+ */
+
+#define WS_CART_GPIO_PIN(n) (1 << (n))
+#define WS_CART_GPIO_PIN_0 0x01
+#define WS_CART_GPIO_PIN_1 0x02
+#define WS_CART_GPIO_PIN_2 0x04
+#define WS_CART_GPIO_PIN_3 0x08
+
+#ifndef __ASSEMBLER__
+
+#include <stdbool.h>
+#include <stdint.h>
+
+void ws_cart_gpio_set_output(uint8_t mask);
+void ws_cart_gpio_set_input(uint8_t mask);
+void ws_cart_gpio_set(uint8_t mask);
+void ws_cart_gpio_clear(uint8_t mask);
+
 #endif
-
-#ifndef __WF_LIBWS_CARTRIDGE_H__
-#define __WF_LIBWS_CARTRIDGE_H__
-
-#include "memory.h"
-#include "legacy.h"
 
 /**@}*/
 
-#endif /* __WF_LIBWS_CARTRIDGE_H__ */
+#endif /* LIBWS_CART_GPIO_H_ */

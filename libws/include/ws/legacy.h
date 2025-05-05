@@ -70,10 +70,10 @@
 #define cpu_irq_enable ia16_enable_irq
 #define cpu_halt ia16_halt
 
-#define MEM_RAM WS_IRAM
-#define MEM_SRAM WS_SRAM
-#define MEM_ROM0 WS_ROM0
-#define MEM_ROM1 WS_ROM1
+#define MEM_RAM WS_IRAM_MEM
+#define MEM_SRAM WS_SRAM_MEM
+#define MEM_ROM0 WS_ROM0_MEM
+#define MEM_ROM1 WS_ROM1_MEM
 #define MEM_ROM_LINEAR ((uint8_t __far*) 0x40000000)
 
 #define ws_bank_rom_linear_save ws_bank_roml_save
@@ -82,6 +82,8 @@
 
 #define ws_ieep_protect_enable ws_ieep_set_protect
 #define ws_ieep_protect_check ws_ieep_is_protected
+
+#define WF_BANK_INDEX(x) (x)
 
 #endif
 

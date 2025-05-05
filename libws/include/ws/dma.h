@@ -37,17 +37,17 @@
  * @{
  */
 
-/// @private
+/// \cond INTERNAL
 static inline void ws_gdma_set_sourcep(const void __far *src) {
 	outportw(WS_GDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
 	outportb(WS_GDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
 }
 
-/// @private
 static inline void ws_gdma_set_sourcei(uint32_t src) {
 	outportw(WS_GDMA_SOURCE_L_PORT, src);
 	outportb(WS_GDMA_SOURCE_H_PORT, src >> 16);
 }
+/// \endcond
 
 /**
  * @brief Set the initial source address of a general DMA transfer.
@@ -66,13 +66,13 @@ static inline void ws_gdma_set_sourcei(uint32_t src) {
 	default: ws_gdma_set_sourcep \
 )(src)
 
-/// @private
+/// \cond INTERNAL
 void ws_gdma_copyi(void __wf_iram* dest, uint32_t src, uint16_t length);
 
-/// @private
 static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, uint16_t length) {
 	ws_gdma_copyi(dest, ws_ptr_to_linear(src), length);
 }
+/// \endcond
 
 /**
  * @brief Copy words from a source pointer to a destination pointer using DMA.
@@ -103,17 +103,17 @@ static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, ui
  */
 void ws_gdma_maybe_copy(void __wf_iram* dest, const void __far* src, uint16_t length);
 
-/// @private
+/// \cond INTERNAL
 static inline void ws_sdma_set_sourcep(const void __far *src) {
 	outportw(WS_SDMA_SOURCE_L_PORT, (FP_SEG(src) << 4) + FP_OFF(src));
 	outportb(WS_SDMA_SOURCE_H_PORT, FP_SEG(src) >> 12);
 }
 
-/// @private
 static inline void ws_sdma_set_sourcei(uint32_t src) {
 	outportw(WS_SDMA_SOURCE_L_PORT, src);
 	outportb(WS_SDMA_SOURCE_H_PORT, src >> 16);
 }
+/// \endcond
 
 /**
  * @brief Set the initial source address of a sound DMA transfer.
