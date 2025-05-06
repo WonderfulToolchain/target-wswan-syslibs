@@ -25,7 +25,7 @@
 #include "ws/system.h"
 
 bool ws_system_set_mode(ws_system_mode_t mode) {
-	if (!ws_system_is_color()) {
+	if (!ws_system_is_color_model()) {
 		return mode == 0;
 	}
 	outportb(WS_SYSTEM_CTRL_COLOR_PORT, (inportb(WS_SYSTEM_CTRL_COLOR_PORT) & 0x1F) | mode);

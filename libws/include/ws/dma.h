@@ -66,6 +66,24 @@ static inline void ws_gdma_set_sourcei(uint32_t src) {
 	default: ws_gdma_set_sourcep \
 )(src)
 
+/**
+ * @brief Set the destination of a general DMA transfer.
+ *
+ * @param address The destination address.
+ */
+static inline void ws_gdma_set_destination(void __wf_iram *address) {
+	outportw(WS_GDMA_DEST_PORT, (uint16_t) address);
+}
+
+/**
+ * @brief Set the length of a general DMA transfer.
+ *
+ * @param length The length, in bytes; must be rounded up to a multiple of 2.
+ */
+static inline void ws_gdma_set_length(uint16_t length) {
+	outportw(WS_GDMA_LENGTH_PORT, length);
+}
+
 /// \cond INTERNAL
 void ws_gdma_copyi(void __wf_iram* dest, uint32_t src, uint16_t length);
 

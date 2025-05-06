@@ -236,6 +236,11 @@ static inline void outportw(uint8_t port, uint16_t value) {
 	);
 }
 
+#define ia16_port_inb inportb
+#define ia16_port_inw inportw
+#define ia16_port_outb outportb
+#define ia16_port_outw outportw
+
 static inline void ia16_halt(void) {
     __asm volatile ("hlt");
 }
