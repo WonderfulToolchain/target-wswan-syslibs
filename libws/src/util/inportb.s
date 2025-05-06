@@ -25,9 +25,10 @@
 	.intel_syntax noprefix
 
 	.global inportb
+	.global ia16_port_inb
 inportb:
 	xor	ah, ah
 	mov	dx, ax
+ia16_port_inb:
 	in	al, dx
-	// xor	ah, ah - cleared above
 	IA16_RET

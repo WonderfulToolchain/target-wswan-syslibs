@@ -33,7 +33,7 @@
 #include "util.h"
 
 /**
- * @addtogroup Sound Functions - Sound
+ * @addtogroup sound Sound
  * @{
  */
 

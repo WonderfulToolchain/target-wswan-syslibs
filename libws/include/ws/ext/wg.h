@@ -33,7 +33,7 @@
 #include "../util.h"
 
 /**
- * @addtogroup Gate Functions - WonderGate
+ * @addtogroup ext_wg Peripheral - WonderGate
  * @{
  */
 

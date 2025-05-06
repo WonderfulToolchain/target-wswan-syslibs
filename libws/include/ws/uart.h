@@ -33,7 +33,7 @@
 #include "util.h"
 
 /**
- * @addtogroup UART Functions - UART EXT port
+ * @addtogroup uart UART (EXT port)
  * @{
  */
 

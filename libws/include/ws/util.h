@@ -30,9 +30,10 @@
  * Various utility functions for working with the WonderSwan hardware.
  */
 
-static inline uint32_t ws_ptr_to_linear(const void __far* src) {
-    return ((((uint32_t) src) >> 12) & 0xFFFF0) + ((uint16_t) ((uint32_t) src));
-}
+/**
+ * @addtogroup util Utility/Misc.
+ * @{
+ */
 
 /**
  * @brief Copy memory data to I/O ports, in order.
@@ -41,7 +42,7 @@ static inline uint32_t ws_ptr_to_linear(const void __far* src) {
  * @param src Source pointer.
  * @param count Count, in bytes.
  */
-void ws_portcpy(uint16_t port, const void __far* src, uint16_t count);
+void ws_portcpy(uint16_t port, const void __far *src, uint16_t count);
 
 /**
  * @brief Delay for a set number of microseconds.
@@ -70,5 +71,7 @@ void ws_delay_us(uint16_t us);
  */
 __attribute__((no_assume_ds_data, no_assume_ss_data))
 void ws_delay_ms(uint16_t ms);
+
+/**@}*/
 
 #endif /* LIBWS_UTIL_H_ */

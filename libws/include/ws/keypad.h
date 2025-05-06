@@ -27,36 +27,36 @@
 #ifndef LIBWS_KEYPAD_H_
 #define LIBWS_KEYPAD_H_
 
-#define KEY_Y4    0x0800
-#define KEY_Y3    0x0400
-#define KEY_Y2    0x0200
-#define KEY_Y1    0x0100
-#define KEY_X4    0x0080
-#define KEY_X3    0x0040
-#define KEY_X2    0x0020
-#define KEY_X1    0x0010
-#define KEY_B     0x0008
-#define KEY_A     0x0004
-#define KEY_START 0x0002
+/**
+ * @addtogroup keypad Key input
+ * @{
+ */
 
-#define KEY_PCV2_PASS   0x0800
-#define KEY_PCV2_CIRCLE 0x0400
-#define KEY_PCV2_CLEAR  0x0100
-#define KEY_PCV2_RIGHT  0x0080
-#define KEY_PCV2_ESC    0x0040
-#define KEY_PCV2_VIEW   0x0010
-#define KEY_PCV2_UP     0x0008
-#define KEY_PCV2_DOWN   0x0004
-#define KEY_PCV2_LEFT   0x0001
+#define WS_KEY_Y4    0x0800
+#define WS_KEY_Y3    0x0400
+#define WS_KEY_Y2    0x0200
+#define WS_KEY_Y1    0x0100
+#define WS_KEY_X4    0x0080
+#define WS_KEY_X3    0x0040
+#define WS_KEY_X2    0x0020
+#define WS_KEY_X1    0x0010
+#define WS_KEY_B     0x0008
+#define WS_KEY_A     0x0004
+#define WS_KEY_START 0x0002
+
+#define WS_KEY_PCV2_PASS   0x0800
+#define WS_KEY_PCV2_CIRCLE 0x0400
+#define WS_KEY_PCV2_CLEAR  0x0100
+#define WS_KEY_PCV2_RIGHT  0x0080
+#define WS_KEY_PCV2_ESC    0x0040
+#define WS_KEY_PCV2_VIEW   0x0010
+#define WS_KEY_PCV2_UP     0x0008
+#define WS_KEY_PCV2_DOWN   0x0004
+#define WS_KEY_PCV2_LEFT   0x0001
 
 #ifndef __ASSEMBLER__
 
 #include <stdint.h>
-
-/**
- * @addtogroup Keypad Functions - Keypad
- * @{
- */
  
 /**
  * @brief Query the current state of the keypad.

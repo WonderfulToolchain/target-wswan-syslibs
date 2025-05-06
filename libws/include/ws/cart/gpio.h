@@ -31,7 +31,7 @@
 #include "../ports.h"
 
 /**
- * @addtogroup cart_gpio Functions - Cartridge - GPIO
+ * @addtogroup cart_gpio Cartridge - GPIO
  * @{
  */
 

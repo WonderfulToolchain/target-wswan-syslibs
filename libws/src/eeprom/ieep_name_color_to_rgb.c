@@ -29,22 +29,22 @@ static const uint16_t
 __far
 #endif
 ieep_name_color_to_rgb_map[16] = {
-	RGB(0, 0, 0),
-	RGB(15, 0, 0),
-	RGB(15, 7, 0),
-	RGB(15, 15, 0),
-	RGB(7, 15, 0),
-	RGB(0, 15, 0),
-	RGB(0, 15, 7),
-	RGB(0, 15, 15),
-	RGB(0, 7, 15),
-	RGB(0, 0, 15),
-	RGB(7, 0, 15),
-	RGB(15, 0, 15),
-	RGB(15, 0, 7),
-	RGB(15, 15, 15),
-	RGB(7, 7, 7),
-	RGB(7, 7, 7)
+	WS_RGB(0, 0, 0),
+	WS_RGB(15, 0, 0),
+	WS_RGB(15, 7, 0),
+	WS_RGB(15, 15, 0),
+	WS_RGB(7, 15, 0),
+	WS_RGB(0, 15, 0),
+	WS_RGB(0, 15, 7),
+	WS_RGB(0, 15, 15),
+	WS_RGB(0, 7, 15),
+	WS_RGB(0, 0, 15),
+	WS_RGB(7, 0, 15),
+	WS_RGB(15, 0, 15),
+	WS_RGB(15, 0, 7),
+	WS_RGB(15, 15, 15),
+	WS_RGB(7, 7, 7),
+	WS_RGB(7, 7, 7)
 };
 
 uint16_t ws_ieep_name_color_to_rgb(uint8_t value) {

@@ -30,6 +30,4 @@
 #include "memory.h"
 #include "legacy.h"
 
-/**@}*/
-
 #endif /* __WF_LIBWS_CARTRIDGE_H__ */

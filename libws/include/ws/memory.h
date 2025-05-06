@@ -34,18 +34,75 @@
 #include "util.h"
 
 /**
- * @addtogroup memory Functions - Memory/Bank Management
+ * @addtogroup memory Memory/Bank Management
  * @{
  */
 
 /**
+ * Address space for pointers to internal RAM.
+ *
+ * This is always a near pointer, either DS-indexed or SS-indexed.
+ */
+#define ws_iram __wf_iram
+
+/**
+ * Address space for pointers to cartridge SRAM.
+ *
+ * This can be a far or near pointer, depending on target.
+ */
+#define ws_sram __wf_sram
+
+/**
+ * Address space for pointers to read-only data.
+ *
+ * As this can be a far or near pointer - some targets store read-only
+ * data in the data segment - this should not be used to mark pointers
+ * to cartridge ROM.
+ */
+#define ws_rom __wf_rom
+
+/**
+ * Address space for all far pointers.
+ */
+#define ws_far __far
+
+/**
+ * Extract the 16-bit offset of any (near and/or far) pointer.
+ */
+#define ws_ptr_offset(x) ((uint16_t) (x))
+
+/**
+ * Extract the 16-bit segment of a far pointer.
+ */
+#define ws_ptr_segment(x) FP_SEG(x)
+
+/**
+ * Create a far pointer from a segment and offset value.
+ */
+#define ws_ptr_far(seg, ofs) MK_FP(seg, ofs)
+
+/**
+ * Convert a far pointer to a 20-bit linear address location.
+ */
+static inline uint32_t ws_ptr_to_linear(const void ws_far *src) {
+    return ((((uint32_t) src) >> 12) & 0xFFFF0) + ((uint16_t) ((uint32_t) src));
+}
+
+/**
+ * Convert a 20-bit linear address location to a far pointer.
+ */
+static inline const void ws_far *ws_ptr_from_linear(uint32_t src) {
+    return ws_ptr_far(src >> 4, src & 0xF);
+}
+
+/**
  * Pointer to internal RAM memory.
  */
-#define WS_IRAM_MEM ((uint8_t __wf_iram*) 0x00000000)
+#define WS_IRAM_MEM ((uint8_t ws_iram*) 0x00000000)
 /**
  * Pointer to the on-cartridge SRAM bank.
  */
-#define WS_SRAM_MEM ((uint8_t __wf_sram*) 0x10000000)
+#define WS_SRAM_MEM ((uint8_t ws_sram*) 0x10000000)
 /**
  * Pointer to the on-cartridge ROM0 bank.
  */
@@ -150,7 +207,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param var The variable name.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_within_ram(var, ...) ws_bank_within_(var, ram WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_within_ram(var, ...) ws_bank_within_(var, ram WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to the specified RAM bank index for a code block.
@@ -165,7 +222,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param bank The bank index.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_with_ram(bank, ...) ws_bank_with_(bank, ram, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_with_ram(bank, ...) ws_bank_with_(bank, ram, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to a new ROM bank in slot 0, while preserving the value of the old one.
@@ -197,7 +254,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param var The variable name.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_within_rom0(var, ...) ws_bank_within_(var, rom0, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_within_rom0(var, ...) ws_bank_within_(var, rom0, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to the specified ROM0 bank index for a code block.
@@ -212,7 +269,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param bank The bank index.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_with_rom0(bank, ...) ws_bank_within_(bank, rom0, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_with_rom0(bank, ...) ws_bank_within_(bank, rom0, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to a new ROM bank in slot 1, while preserving the value of the old one.
@@ -244,7 +301,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param var The variable name.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_within_rom1(var, ...) ws_bank_within_(var, rom1, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_within_rom1(var, ...) ws_bank_within_(var, rom1, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to the specified ROM1 bank index for a code block.
@@ -259,7 +316,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param bank The bank index.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_with_rom1(bank, ...) ws_bank_with_(bank, rom1, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_with_rom1(bank, ...) ws_bank_with_(bank, rom1, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to a new ROM bank in the linear slot, while preserving the value of the old one.
@@ -291,7 +348,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param var The variable name.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_within_roml(var, ...) ws_bank_within_(var, roml, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_within_roml(var, ...) ws_bank_within_(var, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to the specified ROML bank index for a code block.
@@ -306,7 +363,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * @param bank The bank index.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(__wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**@}*/
 

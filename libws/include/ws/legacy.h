@@ -25,6 +25,8 @@
 
 #if defined(LIBWS_API_COMPAT) && LIBWS_API_COMPAT < 202505L
 
+#define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
+
 #define ws_dma_set_sourcei ws_gdma_set_sourcei
 #define ws_dma_set_sourcep ws_gdma_set_sourcep
 #define ws_dma_set_source ws_gdma_set_source
@@ -84,6 +86,98 @@
 #define ws_ieep_protect_check ws_ieep_is_protected
 
 #define WF_BANK_INDEX(x) (x)
+
+#define DISPLAY_WIDTH WS_DISPLAY_WIDTH_TILES
+#define DISPLAY_HEIGHT WS_DISPLAY_HEIGHT_TILES
+#define DISPLAY_WIDTH_PX WS_DISPLAY_WIDTH_PIXELS
+#define DISPLAY_HEIGHT_PX WS_DISPLAY_HEIGHT_PIXELS
+#define SCR_WIDTH WS_SCREEN_WIDTH_TILES
+#define SCR_HEIGHT WS_SCREEN_HEIGHT_TILES
+#define SCR_WIDTH_PX WS_SCREEN_WIDTH_PIXELS
+#define SCR_HEIGHT_PX WS_SCREEN_HEIGHT_PIXELS
+#define TILE_WIDTH WS_DISPLAY_TILE_WIDTH
+#define TILE_HEIGHT WS_DISPLAY_TILE_HEIGHT
+
+#define SCR_ATTR_TILE(x) (x)
+#define SCR_ATTR_TILE_MASK (0x1FF)
+#define SCR_ATTR_PALETTE(x) ((x) << 9)
+#define SCR_ATTR_PALETTE_MASK (0xF << 9)
+#define SCR_ATTR_BANK(x) ((x) << 13)
+#define SCR_ATTR_BANK_MASK (0x2000)
+#define SCR_ATTR_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
+#define SCR_ATTR_TILE_EX_MASK (0x21FF)
+#define SCR_ATTR_TILE_BANK_MASK (SCR_ATTR_TILE_MASK | SCR_ATTR_BANK_MASK)
+
+#define SCR_ATTR_FLIP_H    0x4000
+#define SCR_ATTR_FLIP_V    0x8000
+#define SCR_ATTR_FLIP      0xC000
+#define SCR_ATTR_FLIP_MASK 0xC000
+
+#define SPR_ATTR_PALETTE(x) ((x) << 9)
+#define SPR_ATTR_PALETTE_MASK	(0x7 << 9)
+#define SPR_ATTR_INSIDE   0x1000
+#define SPR_ATTR_PRIORITY 0x2000
+#define SPR_ATTR_FLIP_H   0x4000
+#define SPR_ATTR_FLIP_V   0x8000
+
+#define WS_SPRITE_MAX_COUNT 128
+
+#define SCR_ENTRY_TILE(x) (x)
+#define SCR_ENTRY_TILE_MASK (0x1FF)
+#define SCR_ENTRY_PALETTE(x) ((x) << 9)
+#define SCR_ENTRY_PALETTE_MASK (0xF << 9)
+#define SCR_ENTRY_BANK(x) ((x) << 13)
+#define SCR_ENTRY_BANK_MASK (0x2000)
+#define SCR_ENTRY_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
+#define SCR_ENTRY_TILE_EX_MASK (0x21FF)
+#define SCR_ENTRY_TILE_BANK_MASK (SCR_ENTRY_TILE_MASK | SCR_ENTRY_BANK_MASK)
+
+#define SCR_ENTRY_FLIP_H    0x4000
+#define SCR_ENTRY_FLIP_V    0x8000
+#define SCR_ENTRY_FLIP      0xC000
+#define SCR_ENTRY_FLIP_MASK 0xC000
+
+#define SPR_ENTRY_PALETTE(x) ((x) << 9)
+#define SPR_ENTRY_PALETTE_MASK	(0x7 << 9)
+#define SPR_ENTRY_INSIDE   0x1000
+#define SPR_ENTRY_PRIORITY 0x2000
+#define SPR_ENTRY_FLIP_H   0x4000
+#define SPR_ENTRY_FLIP_V   0x8000
+
+#define MEM_TILE WS_TILE_MEM
+#define MEM_TILE_4BPP WS_TILE_4BPP_MEM
+#define MEM_TILE_4BPP_BANK0(i) WS_TILE_4BPP_MEM(i)
+#define MEM_TILE_4BPP_BANK1(i) WS_TILE_4BPP_MEM((i)+512)
+
+#define MEM_COLOR_PALETTE WS_DISPLAY_COLOR_MEM
+#define MEM_SCR_PALETTE WS_SCREEN_COLOR_MEM
+#define MEM_SPR_PALETTE WS_SPRITE_COLOR_MEM
+
+#define SHADE_LUT WS_DISPLAY_SHADE_LUT
+#define SHADE_LUT_DEFAULT WS_DISPLAY_SHADE_LUT_DEFAULT
+#define RGB WS_RGB
+
+#define KEY_Y4    0x0800
+#define KEY_Y3    0x0400
+#define KEY_Y2    0x0200
+#define KEY_Y1    0x0100
+#define KEY_X4    0x0080
+#define KEY_X3    0x0040
+#define KEY_X2    0x0020
+#define KEY_X1    0x0010
+#define KEY_B     0x0008
+#define KEY_A     0x0004
+#define KEY_START 0x0002
+
+#define KEY_PCV2_PASS   0x0800
+#define KEY_PCV2_CIRCLE 0x0400
+#define KEY_PCV2_CLEAR  0x0100
+#define KEY_PCV2_RIGHT  0x0080
+#define KEY_PCV2_ESC    0x0040
+#define KEY_PCV2_VIEW   0x0010
+#define KEY_PCV2_UP     0x0008
+#define KEY_PCV2_DOWN   0x0004
+#define KEY_PCV2_LEFT   0x0001
 
 #endif
 

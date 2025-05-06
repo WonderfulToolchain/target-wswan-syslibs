@@ -24,9 +24,11 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-	.global outportb
+	.global inportb
+	.global ia16_port_outb
 outportb:
 	xor	ah, ah
 	xchg	ax, dx
+ia16_port_outb:
 	out	dx, al
 	IA16_RET

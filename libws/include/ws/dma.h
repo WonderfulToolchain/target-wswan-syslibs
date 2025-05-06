@@ -29,11 +29,11 @@
 
 #include <stdint.h>
 #include <wonderful.h>
+#include "memory.h"
 #include "ports.h"
-#include "util.h"
 
 /**
- * @addtogroup DMA Functions - DMA
+ * @addtogroup dma DMA (Color)
  * @{
  */
 
@@ -71,7 +71,7 @@ static inline void ws_gdma_set_sourcei(uint32_t src) {
  *
  * @param address The destination address.
  */
-static inline void ws_gdma_set_destination(void __wf_iram *address) {
+static inline void ws_gdma_set_destination(void ws_iram *address) {
 	outportw(WS_GDMA_DEST_PORT, (uint16_t) address);
 }
 
@@ -85,9 +85,9 @@ static inline void ws_gdma_set_length(uint16_t length) {
 }
 
 /// \cond INTERNAL
-void ws_gdma_copyi(void __wf_iram* dest, uint32_t src, uint16_t length);
+void ws_gdma_copyi(void ws_iram *dest, uint32_t src, uint16_t length);
 
-static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, uint16_t length) {
+static inline void ws_gdma_copyp(void ws_iram *dest, const void __far *src, uint16_t length) {
 	ws_gdma_copyi(dest, ws_ptr_to_linear(src), length);
 }
 /// \endcond
@@ -119,7 +119,7 @@ static inline void ws_gdma_copyp(void __wf_iram* dest, const void __far* src, ui
  * @param src Source pointer, in any location.
  * @param length Length, in bytes. Must be a multiple of 2.
  */
-void ws_gdma_maybe_copy(void __wf_iram* dest, const void __far* src, uint16_t length);
+void ws_gdma_maybe_copy(void ws_iram *dest, const void __far *src, uint16_t length);
 
 /// \cond INTERNAL
 static inline void ws_sdma_set_sourcep(const void __far *src) {

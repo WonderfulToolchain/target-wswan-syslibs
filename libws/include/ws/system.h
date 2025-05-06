@@ -28,7 +28,7 @@
  */
 
 /**
- * @addtogroup SystemControl Functions - System control
+ * @addtogroup system System Control
  * @{
  */
 

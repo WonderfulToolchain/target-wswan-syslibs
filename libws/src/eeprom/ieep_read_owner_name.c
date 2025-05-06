@@ -24,5 +24,5 @@
 #include "ws/eeprom.h"
 
 void ws_ieep_read_owner_name(uint8_t *data) {
-	ws_eeprom_read_data(ws_eeprom_handle_internal(), IEEP_ADDR_OWNER_NAME, data, 16);
+	ws_eeprom_read_data(ws_eeprom_handle_internal(), WS_IEEP_OWNER_NAME_ADDR, data, WS_IEEP_OWNER_NAME_SIZE);
 }

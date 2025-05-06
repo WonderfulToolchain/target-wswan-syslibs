@@ -28,7 +28,7 @@
 #define __WONDERFUL_WSWAN__
 #define __wf_rom
 #define __wf_iram
-#define __WF_IRAM_TO_OFFSET(x) ((unsigned int) (x))
+#define __wf_sram __far
 
 #ifdef __WF_LS_NO_DEFINE_SUPPORT__
 /* See wonderful-common.h for rationale. */

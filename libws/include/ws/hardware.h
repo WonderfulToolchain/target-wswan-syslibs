@@ -33,11 +33,6 @@
 
 #include <wonderful.h>
 
-/**
- * @addtogroup DefinesInt Defines - Interrupt IDs
- * @{
- */
-
 #define CPUINT_DIV    0x01
 #define CPUINT_STEP   0x02
 #define CPUINT_NMI    0x04
@@ -69,13 +64,6 @@
 #define HWINT_IDX_VBLANK_TIMER 5
 #define HWINT_IDX_VBLANK       6
 #define HWINT_IDX_HBLANK_TIMER 7
-
-/**@}*/
-
-/**
- * @addtogroup DefinesIOPorts Defines - I/O ports
- * @{
- */
 
 #define IO_DISPLAY_CTRL 0x00
 #define DISPLAY_SCR1_ENABLE  0x0001
@@ -448,7 +436,5 @@
 
 #define IO_CART_KARNAK_ADPCM_INPUT 0xD8
 #define IO_CART_KARNAK_ADPCM_OUTPUT 0xD9
-
-/**@}*/
 
 #endif /* __WF_LIBWS_HARDWARE_H__ */

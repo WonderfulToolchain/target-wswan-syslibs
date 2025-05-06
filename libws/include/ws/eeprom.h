@@ -30,41 +30,72 @@
 #define WS_IEEP_SIZE_MONO  0x80
 #define WS_IEEP_SIZE_COLOR 0x800
 
-#define IEEP_ADDR_OWNER_NAME                0x60 /* 16 bytes */
-#define IEEP_ADDR_OWNER_BIRTHDAY_YEAR       0x70 /* word */
-#define IEEP_ADDR_OWNER_BIRTHDAY_MONTH      0x72 /* byte */
-#define IEEP_ADDR_OWNER_BIRTHDAY_DAY        0x73 /* byte */
-#define IEEP_ADDR_OWNER_GENDER              0x74 /* byte */
-#define IEEP_ADDR_OWNER_BLOOD_TYPE          0x75 /* byte */
-#define IEEP_ADDR_LAST_CART_PUBLISHER       0x76 /* byte */
-#define IEEP_ADDR_LAST_CART_PLATFORM        0x77 /* byte */
-#define IEEP_ADDR_LAST_CART_GAME_ID         0x78 /* byte */
-#define IEEP_ADDR_CART_CHANGE_COUNT         0x7C /* byte */
-#define IEEP_ADDR_NAME_CHANGE_COUNT         0x7D /* byte */
-#define IEEP_ADDR_STARTUP_COUNT             0x7E /* word */
+#define WS_IEEP_USER_ADDR 0x00
+#define WS_IEEP_USER_SIZE 0x60
 
-#define IEEP_ADDR_C_OPTIONS1 0x83 /* byte */
-#define IEEP_C_OPTIONS1_CUSTOM_SPLASH     0x80
-#define IEEP_C_OPTIONS1_WSC_HIGH_CONTRAST 0x40
-#define IEEP_C_OPTIONS1_VOLUME(x)         ((x) & 3)
-#define IEEP_C_OPTIONS1_VOLUME_MASK       0x03
+#define WS_IEEP_OWNER_NAME_ADDR           0x60 /* 16 bytes */
+#define WS_IEEP_OWNER_NAME_SIZE           16
+#define WS_IEEP_OWNER_BIRTHDAY_YEAR_ADDR  0x70 /* word */
+#define WS_IEEP_OWNER_BIRTHDAY_MONTH_ADDR 0x72 /* byte */
+#define WS_IEEP_OWNER_BIRTHDAY_DAY_ADDR   0x73 /* byte */
+#define WS_IEEP_OWNER_GENDER_ADDR         0x74 /* byte */
 
-#define IEEP_ADDR_C_NAME_COLOR 0x84 /* byte */
-#define IEEP_C_NAME_COLOR_BLACK          0x00 /* RGB(0, 0, 0) */
-#define IEEP_C_NAME_COLOR_RED            0x01 /* RGB(15, 0, 0) */
-#define IEEP_C_NAME_COLOR_ORANGE         0x02 /* RGB(15, 7, 0) */
-#define IEEP_C_NAME_COLOR_YELLOW         0x03 /* RGB(15, 15, 0) */
-#define IEEP_C_NAME_COLOR_LIME           0x04 /* RGB(7, 15, 0) */
-#define IEEP_C_NAME_COLOR_GREEN          0x05 /* RGB(0, 15, 0) */
-#define IEEP_C_NAME_COLOR_TEAL           0x06 /* RGB(0, 15, 7) */
-#define IEEP_C_NAME_COLOR_CYAN           0x07 /* RGB(0, 15, 15) */
-#define IEEP_C_NAME_COLOR_SEABLUE        0x08 /* RGB(0, 7, 15) */
-#define IEEP_C_NAME_COLOR_BLUE           0x09 /* RGB(0, 0, 15) */
-#define IEEP_C_NAME_COLOR_PURPLE         0x0A /* RGB(7, 0, 15) */
-#define IEEP_C_NAME_COLOR_PINK           0x0B /* RGB(15, 0, 15) */
-#define IEEP_C_NAME_COLOR_FUCHSIA        0x0C /* RGB(15, 0, 7) */
-#define IEEP_C_NAME_COLOR_WHITE          0x0D /* RGB(15, 15, 15) */
-#define IEEP_C_NAME_COLOR_GRAY           0x0E /* RGB(7, 7, 7) */
+/**
+ * Possible IEEPROM gender values.
+ */
+enum ws_ieep_gender {
+	WS_IEEP_GENDER_UNK    = 0,
+	WS_IEEP_GENDER_MALE   = 1,
+	WS_IEEP_GENDER_FEMALE = 2
+};
+
+#define WS_IEEP_OWNER_BLOOD_TYPE_ADDR     0x75 /* byte */
+
+/**
+ * Possible IEEPROM blood type values.
+ */
+enum ws_ieep_blood_type {
+	WS_IEEP_BLOOD_TYPE_UNK = 0,
+	WS_IEEP_BLOOD_TYPE_A   = 1,
+	WS_IEEP_BLOOD_TYPE_B   = 2,
+	WS_IEEP_BLOOD_TYPE_0   = 3,
+	WS_IEEP_BLOOD_TYPE_AB  = 4
+};
+
+#define WS_IEEP_LAST_CART_PUBLISHER_ADDR  0x76 /* byte */
+#define WS_IEEP_LAST_CART_PLATFORM_ADDR   0x77 /* byte */
+#define WS_IEEP_LAST_CART_GAME_ID_ADDR    0x78 /* byte */
+#define WS_IEEP_CART_CHANGE_COUNT_ADDR    0x7C /* byte */
+#define WS_IEEP_NAME_CHANGE_COUNT_ADDR    0x7D /* byte */
+#define WS_IEEP_STARTUP_COUNT_ADDR        0x7E /* word */
+
+#define WS_IEEP_COLOR_SETTINGS_ADDR       0x83 /* byte */
+#define WS_IEEP_COLOR_SETTINGS_CUSTOM_SPLASH     0x80
+#define WS_IEEP_COLOR_SETTINGS_WSC_HIGH_CONTRAST 0x40
+#define WS_IEEP_COLOR_SETTINGS_VOLUME(x)         ((x) & 3)
+#define WS_IEEP_COLOR_SETTINGS_VOLUME_MASK       0x03
+
+#define WS_IEEP_NAME_COLOR_ADDR           0x84 /* byte */
+
+/**
+ * Possible IEEPROM name color values.
+ */
+enum ws_ieep_name_color {
+	WS_IEEP_NAME_COLOR_BLACK = 0x00, ///< RGB(0, 0, 0)
+	WS_IEEP_NAME_COLOR_RED = 0x01, ///< RGB(15, 0, 0)
+	WS_IEEP_NAME_COLOR_ORANGE = 0x02, ///< RGB(15, 7, 0)
+	WS_IEEP_NAME_COLOR_YELLOW = 0x03, ///< RGB(15, 15, 0)
+	WS_IEEP_NAME_COLOR_LIME = 0x04, ///< RGB(7, 15, 0)
+	WS_IEEP_NAME_COLOR_GREEN = 0x05, ///< RGB(0, 15, 0)
+	WS_IEEP_NAME_COLOR_TEAL = 0x06, ///< RGB(0, 15, 7)
+	WS_IEEP_NAME_COLOR_CYAN = 0x07, ///< RGB(0, 15, 15)
+	WS_IEEP_NAME_COLOR_SEABLUE = 0x08, ///< RGB(0, 7, 15)
+	WS_IEEP_NAME_COLOR_BLUE = 0x09, ///< RGB(0, 0, 15)
+	WS_IEEP_NAME_COLOR_PURPLE = 0x0A, ///< RGB(7, 0, 15)
+	WS_IEEP_NAME_COLOR_PINK = 0x0B, ///< RGB(15, 0, 15)
+	WS_IEEP_NAME_COLOR_FUCHSIA = 0x0C, ///< RGB(15, 0, 7)
+	WS_IEEP_NAME_COLOR_WHITE = 0x0D  ///< RGB(15, 15, 15)
+};
 
 #ifndef __ASSEMBLER__
 
@@ -74,7 +105,7 @@
 #include "util.h"
 
 /**
- * @addtogroup EEPROM Functions - EEPROM
+ * @addtogroup eeprom EEPROM
  * @{
  */
 
@@ -147,7 +178,7 @@ bool ws_eeprom_write_unlock(ws_eeprom_handle_t handle);
 /**@}*/
 
 /**
- * @addtogroup IEEP Functions - Internal EEPROM
+ * @addtogroup eeprom_ieep Internal EEPROM
  * @{
  */
 

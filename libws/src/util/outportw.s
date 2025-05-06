@@ -25,8 +25,10 @@
 	.intel_syntax noprefix
 
 	.global outportw
+	.global ia16_port_outw
 outportw:
 	xor	ah, ah
 	xchg	ax, dx
+ia16_port_outw:
 	out	dx, ax
 	IA16_RET
