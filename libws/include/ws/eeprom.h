@@ -40,6 +40,14 @@
 #define WS_IEEP_OWNER_BIRTHDAY_DAY_ADDR   0x73 /* byte */
 #define WS_IEEP_OWNER_GENDER_ADDR         0x74 /* byte */
 
+#ifdef __ASSEMBLER__
+
+#define WS_IEEP_GENDER_UNK    0
+#define WS_IEEP_GENDER_MALE   1
+#define WS_IEEP_GENDER_FEMALE 2
+
+#else
+
 /**
  * Possible IEEPROM gender values.
  */
@@ -49,7 +57,19 @@ enum ws_ieep_gender {
 	WS_IEEP_GENDER_FEMALE = 2
 };
 
+#endif
+
 #define WS_IEEP_OWNER_BLOOD_TYPE_ADDR     0x75 /* byte */
+
+#ifdef __ASSEMBLER__
+
+#define WS_IEEP_BLOOD_TYPE_UNK 0
+#define WS_IEEP_BLOOD_TYPE_A   1
+#define WS_IEEP_BLOOD_TYPE_B   2
+#define WS_IEEP_BLOOD_TYPE_0   3
+#define WS_IEEP_BLOOD_TYPE_AB  4
+
+#else
 
 /**
  * Possible IEEPROM blood type values.
@@ -61,6 +81,8 @@ enum ws_ieep_blood_type {
 	WS_IEEP_BLOOD_TYPE_0   = 3,
 	WS_IEEP_BLOOD_TYPE_AB  = 4
 };
+
+#endif
 
 #define WS_IEEP_LAST_CART_PUBLISHER_ADDR  0x76 /* byte */
 #define WS_IEEP_LAST_CART_PLATFORM_ADDR   0x77 /* byte */
@@ -76,6 +98,25 @@ enum ws_ieep_blood_type {
 #define WS_IEEP_COLOR_SETTINGS_VOLUME_MASK       0x03
 
 #define WS_IEEP_NAME_COLOR_ADDR           0x84 /* byte */
+
+#ifdef __ASSEMBLER__
+
+#define WS_IEEP_NAME_COLOR_BLACK   0x00
+#define WS_IEEP_NAME_COLOR_RED     0x01
+#define WS_IEEP_NAME_COLOR_ORANGE  0x02
+#define WS_IEEP_NAME_COLOR_YELLOW  0x03
+#define WS_IEEP_NAME_COLOR_LIME    0x04
+#define WS_IEEP_NAME_COLOR_GREEN   0x05
+#define WS_IEEP_NAME_COLOR_TEAL    0x06
+#define WS_IEEP_NAME_COLOR_CYAN    0x07
+#define WS_IEEP_NAME_COLOR_SEABLUE 0x08
+#define WS_IEEP_NAME_COLOR_BLUE    0x09
+#define WS_IEEP_NAME_COLOR_PURPLE  0x0A
+#define WS_IEEP_NAME_COLOR_PINK    0x0B
+#define WS_IEEP_NAME_COLOR_FUCHSIA 0x0C
+#define WS_IEEP_NAME_COLOR_WHITE   0x0D
+
+#else
 
 /**
  * Possible IEEPROM name color values.
@@ -96,6 +137,8 @@ enum ws_ieep_name_color {
 	WS_IEEP_NAME_COLOR_FUCHSIA = 0x0C, ///< RGB(15, 0, 7)
 	WS_IEEP_NAME_COLOR_WHITE = 0x0D  ///< RGB(15, 15, 15)
 };
+
+#endif
 
 #ifndef __ASSEMBLER__
 

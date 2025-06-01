@@ -49,8 +49,8 @@ static uint16_t *text_tilemap(void) {
     return (uint16_t*) (((inportb(IO_SCR_BASE) >> shift) & 0xF) << 11);
 }
 
-static ws_tile_t *text_fontmap(void) {
-    return (ws_tile_t*) (0x2000 + (text_base << 4));
+static ws_display_tile_t *text_fontmap(void) {
+    return (ws_display_tile_t*) (0x2000 + (text_base << 4));
 }
 
 static void text_window_clear_screen(void) {
@@ -73,7 +73,7 @@ static void text_window_init_tiles(void) {
     if (text_mode == TEXT_MODE_ANK) {
         font_set_monodata(text_base, 128, __wwcl_font_ank);
     } else {
-        memset(text_fontmap(), 0, window_width * window_height * sizeof(ws_tile_t));
+        memset(text_fontmap(), 0, window_width * window_height * sizeof(ws_display_tile_t));
     }
 }
 
