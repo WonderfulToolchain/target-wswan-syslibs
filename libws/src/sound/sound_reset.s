@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2023 Adrian "asie" Siekierka
+/**
+ * Copyright (c) 2025 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -18,40 +18,25 @@
  *    misrepresented as being the original software.
  *
  * 3. This notice may not be removed or altered from any source distribution.
- */
+*/
 
-/** \file sound.h
- * Functionality related to sound.
- */
+#include <wonderful.h>
+#include "ws/ports.h"
+#include "asm-preamble.h"
+	.intel_syntax noprefix
 
-#ifndef LIBWS_SOUND_H_
-#define LIBWS_SOUND_H_
+	.global ws_sound_reset
+ws_sound_reset:
+    xor ax, ax
 
-#include <stdbool.h>
-#include <stdint.h>
-#include "ports.h"
-#include "util.h"
+    out 0x90, ax
+    out 0x80, ax
+    out 0x82, ax
+    out 0x84, ax
+    out 0x86, ax
+    out 0x8A, ax
+    out 0x8C, ax
+    out 0x8E, al
+    out 0x94, ax
 
-/**
- * @addtogroup sound Sound
- * @{
- */
-
-typedef struct {
-    uint8_t data[16];
-} ws_sound_wave_t;
-
-typedef struct {
-    ws_sound_wave_t wave[4];
-} ws_sound_wavetable_t;
-
-/**
- * @brief Reset the sound system.
- * 
- * Clears all sound-related I/O ports, except for the wave table address.
- */
-void ws_sound_reset(void);
-
-/**@}*/
-
-#endif /* LIBWS_SOUND_H_ */
+    IA16_RET
