@@ -26,7 +26,7 @@
 
 	.global ws_delay_ms
 ws_delay_ms:
-	mov cx, 2999
+	mov cx, 511
 1:
 	nop // 1 cycle
 	loop 1b // 2-5 cycles
