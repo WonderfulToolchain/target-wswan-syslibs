@@ -48,6 +48,14 @@ char *wsx_utf8_encode_next(char *s, uint32_t chr);
  */
 uint32_t wsx_utf8_decode_next(const char __far** s);
 
+/**
+ * @brief Measure the length of an UTF-8 string, in characters.
+ * 
+ * @param s Pointer to UTF-8 string.
+ * @return int Length of UTF-8 string, in characters; < 0 on error.
+ */
+int wsx_utf8_len(const char __far* s);
+
 #ifdef __cplusplus
 }
 #endif
