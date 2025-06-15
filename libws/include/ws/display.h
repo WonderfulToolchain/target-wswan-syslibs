@@ -292,6 +292,17 @@ static inline void ws_display_scroll_screen_to(uint8_t screen, uint8_t x, uint8_
 void ws_display_scroll_screen_by(uint8_t screen, int16_t x, int16_t y);
 
 /**
+ * @brief Get the line currently being drawn to the line buffer.
+ *
+ * This is one higher than the line currently being sent to the LCD display.
+ * 
+ * @return uint8_t Currently drawn line.
+ */
+static inline uint8_t ws_display_get_current_line(void) {
+	return inportb(WS_DISPLAY_LINE_PORT);
+}
+
+/**
  * @brief Scroll screen 1 by a specified number of pixels.
  * 
  * @param x Left corner of area to show, in pixels.
@@ -315,6 +326,66 @@ static inline void ws_display_scroll_screen2_by(uint8_t x, uint8_t y) {
 		"in $0x12, %%ax\nadd %0, %%al\nadd %1, %%ah\nout %%ax, $0x12"
 		: : "g"(x), "g"(y) : "a", "cc"
 	);
+}
+
+/**
+ * @brief Set the list of displayed LCD icons, clearing any unspecified icons.
+ * 
+ * @param mask One or more of the LCD icon segments.
+ * @see WS_LCD_ICON_SLEEP
+ * @see WS_LCD_ICON_ORIENT_V
+ * @see WS_LCD_ICON_ORIENT_H
+ * @see WS_LCD_ICON_AUX1
+ * @see WS_LCD_ICON_AUX2
+ * @see WS_LCD_ICON_AUX3
+ */
+static inline void ws_display_set_icons(uint8_t mask) {
+	outportb(WS_LCD_ICON_PORT, mask);
+}
+
+/**
+ * @brief Show specified LCD icons.
+ * 
+ * @param mask One or more of the LCD icon segments.
+ * @see WS_LCD_ICON_SLEEP
+ * @see WS_LCD_ICON_ORIENT_V
+ * @see WS_LCD_ICON_ORIENT_H
+ * @see WS_LCD_ICON_AUX1
+ * @see WS_LCD_ICON_AUX2
+ * @see WS_LCD_ICON_AUX3
+ */
+static inline void ws_display_show_icons(uint8_t mask) {
+	outportb(WS_LCD_ICON_PORT, inportb(WS_LCD_ICON_PORT) | mask);
+}
+
+/**
+ * @brief Hide specified LCD icons.
+ * 
+ * @param mask One or more of the LCD icon segments.
+ * @see WS_LCD_ICON_SLEEP
+ * @see WS_LCD_ICON_ORIENT_V
+ * @see WS_LCD_ICON_ORIENT_H
+ * @see WS_LCD_ICON_AUX1
+ * @see WS_LCD_ICON_AUX2
+ * @see WS_LCD_ICON_AUX3
+ */
+static inline void ws_display_hide_icons(uint8_t mask) {
+	outportb(WS_LCD_ICON_PORT, inportb(WS_LCD_ICON_PORT) & ~mask);
+}
+
+/**
+ * @brief Toggle specified LCD icons.
+ * 
+ * @param mask One or more of the LCD icon segments.
+ * @see WS_LCD_ICON_SLEEP
+ * @see WS_LCD_ICON_ORIENT_V
+ * @see WS_LCD_ICON_ORIENT_H
+ * @see WS_LCD_ICON_AUX1
+ * @see WS_LCD_ICON_AUX2
+ * @see WS_LCD_ICON_AUX3
+ */
+static inline void ws_display_toggle_icons(uint8_t mask) {
+	outportb(WS_LCD_ICON_PORT, inportb(WS_LCD_ICON_PORT) ^ mask);
 }
 
 /**
