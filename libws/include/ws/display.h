@@ -27,6 +27,7 @@
 #include <stdint.h>
 #include <wonderful.h>
 #include "memory.h"
+#include "ports.h"
 
 /** \file display.h
  * Functionality related to the display.
@@ -157,13 +158,172 @@ typedef struct {
  */
 #define WS_RGB(r, g, b) (((r) << 8) | ((g) << 4) | (b))
 
- /**
-  * @brief Configure the shade LUT.
-  *
-  * To learn more about the shade LUT, see @ref video_pipeline.
-  *
-  * @param lut The shade LUT configuration. Usage of the #GRAY_LUT macro is recommended. A default configuration is provided via #GRAY_LUT_DEFAULT .
-  */
+// TODO: Add ws_display_set_backdrop (has to consider mono/color modes have different values)
+
+/**
+ * @brief Set the base addresses of screens 1 and 2.
+ * 
+ * @param scr1_addr Pointer to screen 1 data.
+ * @param scr2_addr Pointer to screen 2 data.
+ */
+static inline void ws_display_set_screen_addresses(const void __wf_iram* scr1_addr, const void __wf_iram* scr2_addr) {
+	outportb(WS_SCR_BASE_PORT, WS_SCR_BASE_1_ADDR(scr1_addr) | WS_SCR_BASE_2_ADDR(scr2_addr));
+}
+
+/**
+ * @brief Set the base addresses of the specified screen.
+ * 
+ * @param screen Screen ID (0 - Screen 1; 1 - Screen 2).
+ * @param address Pointer to screen data.
+ */
+static inline void ws_display_set_screen_address(uint8_t screen, const void __wf_iram* address) {
+	outportb(WS_SCR_BASE_PORT, (inportb(WS_SCR_BASE_PORT) & (0xF0 >> (screen * 4))) | (WS_SCR_BASE_1_ADDR(address) << (screen * 4)));
+}
+
+/**
+ * @brief Set the base addresses of screen 1.
+ * 
+ * @param address Pointer to screen data.
+ */
+#define ws_display_set_screen1_address(address) ws_display_set_screen_address(0, (address))
+
+/**
+ * @brief Set the base addresses of screen 2.
+ * 
+ * @param address Pointer to screen data.
+ */
+#define ws_display_set_screen2_address(address) ws_display_set_screen_address(1, (address))
+
+/**
+ * @brief Set the base addresses of the sprite table.
+ * 
+ * @param address Pointer to sprite table data.
+ */
+static inline void ws_display_set_sprite_address(const void __wf_iram* address) {
+	outportb(WS_SPR_BASE_PORT, WS_SPR_BASE_ADDR(address));
+}
+
+/**
+ * @brief Set the position and size of the screen 2 window.
+ * 
+ * @param x X position
+ * @param y Y position
+ * @param width Width
+ * @param height Height
+ */
+static inline void ws_display_set_screen2_window(uint8_t x, uint8_t y, uint8_t width, uint8_t height) {
+	outportw(WS_SCR2_WIN_X1_PORT, x | (y << 8));
+	outportw(WS_SCR2_WIN_X2_PORT, ((x + width - 1) & 0xFF) | ((y + height - 1) << 8));
+}
+
+/**
+ * @brief Set the corners of the screen 2 window.
+ * 
+ * @param left Left corner
+ * @param top Top corner
+ * @param right Right corner
+ * @param bottom Bottom corner
+ */
+static inline void ws_display_set_screen2_window_corners(uint8_t left, uint8_t top, uint8_t right, uint8_t bottom) {
+	outportw(WS_SCR2_WIN_X1_PORT, left | (top << 8));
+	outportw(WS_SCR2_WIN_X2_PORT, right | (bottom << 8));
+}
+
+/**
+ * @brief Set the position and size of the sprite window.
+ * 
+ * @param x X position
+ * @param y Y position
+ * @param width Width
+ * @param height Height
+ */
+static inline void ws_display_set_sprite_window(uint8_t x, uint8_t y, uint8_t width, uint8_t height) {
+	outportw(WS_SPR_WIN_X1_PORT, x | (y << 8));
+	outportw(WS_SPR_WIN_X2_PORT, ((x + width - 1) & 0xFF) | ((y + height - 1) << 8));
+}
+
+/**
+ * @brief Set the corners of the sprite window.
+ * 
+ * @param left Left corner
+ * @param top Top corner
+ * @param right Right corner
+ * @param bottom Bottom corner
+ */
+static inline void ws_display_set_sprite_window_corners(uint8_t left, uint8_t top, uint8_t right, uint8_t bottom) {
+	outportw(WS_SPR_WIN_X1_PORT, left | (top << 8));
+	outportw(WS_SPR_WIN_X2_PORT, right | (bottom << 8));
+}
+
+/**
+ * @brief Scroll the specified screen to a specified location.
+ * 
+ * @param screen Screen ID (0 - Screen 1; 1 - Screen 2).
+ * @param x Left corner of area to show, in pixels.
+ * @param y Top corner of area to show, in pixels.
+ */
+static inline void ws_display_scroll_screen_to(uint8_t screen, uint8_t x, uint8_t y) {
+	outportw(WS_SCR1_SCRL_X_PORT + (screen * 2), x | (y << 8));
+}
+
+/**
+ * @brief Scroll screen 1 to a specified location.
+ * 
+ * @param x Left corner of area to show, in pixels.
+ * @param y Top corner of area to show, in pixels.
+ */
+#define ws_display_scroll_screen1_to(x, y) ws_display_scroll_screen_to(0, (x), (y))
+
+/**
+ * @brief Scroll screen 2 to a specified location.
+ * 
+ * @param x Left corner of area to show, in pixels.
+ * @param y Top corner of area to show, in pixels.
+ */
+#define ws_display_scroll_screen2_to(x, y) ws_display_scroll_screen_to(1, (x), (y))
+
+/**
+ * @brief Scroll the specified screen by a specified number of pixels.
+ * 
+ * @param screen Screen ID (0 - Screen 1; 1 - Screen 2).
+ * @param x Pixels to scroll by in the X axis.
+ * @param y Pixels to scroll by in the Y axis.
+ */
+void ws_display_scroll_screen_by(uint8_t screen, int16_t x, int16_t y);
+
+/**
+ * @brief Scroll screen 1 by a specified number of pixels.
+ * 
+ * @param x Left corner of area to show, in pixels.
+ * @param y Top corner of area to show, in pixels.
+ */
+static inline void ws_display_scroll_screen1_by(uint8_t x, uint8_t y) {
+	__asm (
+		"in $0x10, %%ax\nadd %0, %%al\nadd %1, %%ah\nout %%ax, $0x10"
+		: : "g"(x), "g"(y) : "a", "cc"
+	);
+}
+
+/**
+ * @brief Scroll screen 2 by a specified number of pixels.
+ * 
+ * @param x Left corner of area to show, in pixels.
+ * @param y Top corner of area to show, in pixels.
+ */
+static inline void ws_display_scroll_screen2_by(uint8_t x, uint8_t y) {
+	__asm (
+		"in $0x12, %%ax\nadd %0, %%al\nadd %1, %%ah\nout %%ax, $0x12"
+		: : "g"(x), "g"(y) : "a", "cc"
+	);
+}
+
+/**
+ * @brief Configure the shade LUT.
+ *
+ * To learn more about the shade LUT, see @ref video_pipeline.
+ *
+ * @param lut The shade LUT configuration. Usage of the #GRAY_LUT macro is recommended. A default configuration is provided via #GRAY_LUT_DEFAULT .
+ */
 __attribute__((no_assume_ds_data, no_assume_ss_data, save_all))
 void ws_display_set_shade_lut(uint32_t lut);
 

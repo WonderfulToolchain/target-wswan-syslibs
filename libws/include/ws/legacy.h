@@ -39,6 +39,9 @@
 #define ws_system_mode_get ws_system_get_mode
 #define ws_system_mode_set ws_system_set_mode
 
+#define ws_mode_get ws_system_get_mode
+#define ws_mode_set ws_system_set_mode
+
 #define ws_cpuint_set_handler ia16_int_set_handler
 #define ws_hwint_set_handler ws_int_set_handler
 #define ws_hwint_set_default_handler_serial_tx ws_int_set_default_handler_serial_tx
