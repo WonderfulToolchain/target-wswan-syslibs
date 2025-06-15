@@ -167,7 +167,7 @@ typedef struct {
  * @param scr2_addr Pointer to screen 2 data.
  */
 static inline void ws_display_set_screen_addresses(const void __wf_iram* scr1_addr, const void __wf_iram* scr2_addr) {
-	outportb(WS_SCR_BASE_PORT, WS_SCR_BASE_1_ADDR(scr1_addr) | WS_SCR_BASE_2_ADDR(scr2_addr));
+	outportb(WS_SCR_BASE_PORT, WS_SCR_BASE_ADDR1(scr1_addr) | WS_SCR_BASE_ADDR2(scr2_addr));
 }
 
 /**
@@ -177,7 +177,7 @@ static inline void ws_display_set_screen_addresses(const void __wf_iram* scr1_ad
  * @param address Pointer to screen data.
  */
 static inline void ws_display_set_screen_address(uint8_t screen, const void __wf_iram* address) {
-	outportb(WS_SCR_BASE_PORT, (inportb(WS_SCR_BASE_PORT) & (0xF0 >> (screen * 4))) | (WS_SCR_BASE_1_ADDR(address) << (screen * 4)));
+	outportb(WS_SCR_BASE_PORT, (inportb(WS_SCR_BASE_PORT) & (0xF0 >> (screen * 4))) | (WS_SCR_BASE_ADDR1(address) << (screen * 4)));
 }
 
 /**
