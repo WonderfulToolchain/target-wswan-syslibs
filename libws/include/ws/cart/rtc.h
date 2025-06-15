@@ -24,8 +24,8 @@
 	* Functionality related to the cartridge RTC.
  */
 
-#ifndef LIBWS_RTC_H_
-#define LIBWS_RTC_H_
+#ifndef LIBWS_CART_RTC_H_
+#define LIBWS_CART_RTC_H_
 
 #include "../ports.h"
 
@@ -34,53 +34,119 @@
  * @{
  */
 
-#define WS_RTC_MONTH_AMPM 0x80
-#define WS_RTC_MONTH_AM   0x00
-#define WS_RTC_MONTH_PM   0x80
+#define WS_CART_RTC_MONTH_AMPM 0x80
+#define WS_CART_RTC_MONTH_AM   0x00
+#define WS_CART_RTC_MONTH_PM   0x80
 
-#define WS_RTC_STATUS_POWER_LOST 0x80
-#define WS_RTC_STATUS_12_HOUR    0x00
-#define WS_RTC_STATUS_24_HOUR    0x40
-#define WS_RTC_STATUS_INTAE      0x20
-#define WS_RTC_STATUS_INTME      0x08
-#define WS_RTC_STATUS_INTFE      0x02
-#define WS_RTC_STATUS_INT_OFF    0
-#define WS_RTC_STATUS_INT_FREQ_STEADY (WS_RTC_STATUS_INTFE)
-#define WS_RTC_STATUS_INT_MINUTE_EDGE (WS_RTC_STATUS_INTME)
-#define WS_RTC_STATUS_INT_MINUTE_STEADY (WS_RTC_STATUS_INTME | WS_RTC_STATUS_INTFE)
-#define WS_RTC_STATUS_INT_ALARM (WS_RTC_STATUS_INTAE)
+#define WS_CART_RTC_STATUS_POWER_LOST 0x80
+#define WS_CART_RTC_STATUS_12_HOUR    0x00
+#define WS_CART_RTC_STATUS_24_HOUR    0x40
+#define WS_CART_RTC_STATUS_INTAE      0x20
+#define WS_CART_RTC_STATUS_INTME      0x08
+#define WS_CART_RTC_STATUS_INTFE      0x02
+#define WS_CART_RTC_STATUS_INT_OFF    0
+#define WS_CART_RTC_STATUS_INT_FREQ_STEADY (WS_CART_RTC_STATUS_INTFE)
+#define WS_CART_RTC_STATUS_INT_MINUTE_EDGE (WS_CART_RTC_STATUS_INTME)
+#define WS_CART_RTC_STATUS_INT_MINUTE_STEADY (WS_CART_RTC_STATUS_INTME | WS_CART_RTC_STATUS_INTFE)
+#define WS_CART_RTC_STATUS_INT_ALARM (WS_CART_RTC_STATUS_INTAE)
 
 #ifndef __ASSEMBLER__
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <wonderful.h>
 
-typedef struct {
+/**
+ * @brief Structure containing the date read from the RTC, BCD-encoded.
+ */
+typedef struct __attribute__((packed)) {
     uint8_t year;
     uint8_t month;
     uint8_t date;
     uint8_t day;
-} ws_rtc_date_t;
+} ws_cart_rtc_date_t;
 
-typedef struct {
+/**
+ * @brief Structure containing the time read from the RTC, BCD-encoded.
+ */
+typedef struct __attribute__((packed)) {
     uint8_t hour;
     uint8_t minute;
     uint8_t second;
-} ws_rtc_time_t;
+} ws_cart_rtc_time_t;
 
-typedef struct {
-    ws_rtc_date_t date;
-    ws_rtc_time_t time;
-} ws_rtc_datetime_t;
+typedef struct __attribute__((packed)) {
+    ws_cart_rtc_date_t date;
+    ws_cart_rtc_time_t time;
+} ws_cart_rtc_datetime_t;
 
-int16_t ws_rtc_low_read_byte(uint16_t timeout);
-bool ws_rtc_low_write_byte(uint8_t value, uint16_t timeout);
-bool ws_rtc_low_write_ctrl(uint8_t value, uint16_t timeout);
+/**
+ * @brief Wait until the RTC is ready.
+ */
+bool ws_cart_rtc_wait_ready(void);
 
-// TODO: high-level commands
+/**
+ * @brief Send command and read from RTC.
+ *
+ * Upon buffer overflow, any additional bytes read are ignored, but the transaction is completed.
+ * 
+ * @param command Command
+ * @param buffer Buffer to write to
+ * @param length Length of buffer
+ * @return uint16_t Number of bytes read (can be smaller than, equal, or larger than buffer)
+ */
+uint16_t ws_cart_rtc_read(uint8_t command, void __wf_cram* buffer, uint16_t length);
+
+/**
+ * @brief Send command and write to RTC.
+ *
+ * Upon buffer overflow, the byte 0x00 is sent for all remaining bytes.
+ * 
+ * @param command Command
+ * @param buffer Buffer to read from
+ * @param length Length of buffer
+ * @return uint16_t Number of bytes written (can be smaller than, equal, or larger than buffer)
+ */
+uint16_t ws_cart_rtc_write(uint8_t command, const void __wf_cram* buffer, uint16_t length);
+
+static inline bool ws_cart_rtc_reset(void) {
+    if (!ws_cart_rtc_wait_ready()) return false;
+    outportb(WS_CART_RTC_CTRL_PORT, WS_CART_RTC_CTRL_CMD_RESET | WS_CART_RTC_CTRL_ACTIVE);
+}
+
+static inline bool ws_cart_rtc_read_status(uint8_t __wf_cram* result) {
+    return ws_cart_rtc_read(WS_CART_RTC_CTRL_CMD_READ_STATUS, result, 1) == 1;
+}
+
+static inline bool ws_cart_rtc_write_status(uint8_t result) {
+    return ws_cart_rtc_write(WS_CART_RTC_CTRL_CMD_WRITE_STATUS, &result, 1) == 1;
+}
+
+static inline bool ws_cart_rtc_read_datetime(ws_cart_rtc_datetime_t __wf_cram* result) {
+    return ws_cart_rtc_read(WS_CART_RTC_CTRL_CMD_READ_DATETIME, result, sizeof(ws_cart_rtc_datetime_t)) == sizeof(ws_cart_rtc_datetime_t);
+}
+
+static inline bool ws_cart_rtc_write_datetime(ws_cart_rtc_datetime_t __wf_cram* result) {
+    return ws_cart_rtc_write(WS_CART_RTC_CTRL_CMD_WRITE_DATETIME, result, sizeof(ws_cart_rtc_datetime_t)) == sizeof(ws_cart_rtc_datetime_t);
+}
+
+static inline bool ws_cart_rtc_read_time(ws_cart_rtc_time_t __wf_cram* result) {
+    return ws_cart_rtc_read(WS_CART_RTC_CTRL_CMD_READ_TIME, result, sizeof(ws_cart_rtc_time_t)) == sizeof(ws_cart_rtc_time_t);
+}
+
+static inline bool ws_cart_rtc_write_time(ws_cart_rtc_time_t __wf_cram* result) {
+    return ws_cart_rtc_write(WS_CART_RTC_CTRL_CMD_WRITE_TIME, result, sizeof(ws_cart_rtc_time_t)) == sizeof(ws_cart_rtc_time_t);
+}
+
+static inline bool ws_cart_rtc_write_alarm(uint16_t alarm) {
+    alarm = __builtin_bswap16(alarm);
+    return ws_cart_rtc_write(WS_CART_RTC_CTRL_CMD_WRITE_ALARM, &alarm, 2) == 2;
+}
+
+
 
 /**@}*/
 
 #endif /* __ASSEMBLER__ */
 
-#endif /* LIBWS_RTC_H_ */
+#endif /* LIBWS_CART_RTC_H_ */
