@@ -21,17 +21,18 @@
 */
 
 #include <wonderful.h>
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 	.global ws_int_set_default_handler_serial_tx
 
 ws_int_internal_default_handler0:
 	push ax
-	in al, 0xB2
+	in al, WS_INT_ENABLE_PORT
 	and al, 0xFE
-	out 0xB2, al
+	out WS_INT_ENABLE_PORT, al
 	mov al, 0x01
-	out 0xB6, al
+	out WS_INT_ACK_PORT, al
 	pop ax
 	iret
 

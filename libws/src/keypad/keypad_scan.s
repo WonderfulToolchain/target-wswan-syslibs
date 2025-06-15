@@ -26,7 +26,7 @@
 
 	.global ws_keypad_scan
 ws_keypad_scan:
-	mov	dx, 0x00B5
+	mov	dx, WS_KEY_SCAN_PORT
 
 	mov	al, 0x10
 	out	dx, al

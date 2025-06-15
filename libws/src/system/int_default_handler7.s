@@ -21,6 +21,7 @@
 */
 
 #include <wonderful.h>
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 	.global ws_int_set_default_handler_hblank_timer
@@ -28,7 +29,7 @@
 ws_int_internal_int_default_handler7:
 	push ax
 	mov al, 0x80
-	out 0xB6, al
+	out WS_INT_ACK_PORT, al
 	pop ax
 	iret
 

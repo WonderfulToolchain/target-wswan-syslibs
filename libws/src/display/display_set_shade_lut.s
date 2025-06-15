@@ -21,12 +21,13 @@
 */
 
 #include <wonderful.h>
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
 	.global ws_display_set_shade_lut
 ws_display_set_shade_lut:
-	out	0x1C, ax
+	out	WS_LCD_SHADE_01_PORT, ax
 	mov	ax, dx
-	out	0x1E, ax
+	out	WS_LCD_SHADE_45_PORT, ax
 	IA16_RET

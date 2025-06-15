@@ -143,8 +143,6 @@ static inline bool ws_cart_rtc_write_alarm(uint16_t alarm) {
     return ws_cart_rtc_write(WS_CART_RTC_CTRL_CMD_WRITE_ALARM, &alarm, 2) == 2;
 }
 
-
-
 /**@}*/
 
 #endif /* __ASSEMBLER__ */

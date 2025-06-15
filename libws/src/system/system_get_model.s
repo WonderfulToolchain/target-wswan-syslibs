@@ -39,9 +39,9 @@ ws_system_get_model:
     jnz __ws_system_get_model_color
 
 	xor al, al
-	out	0xB5, al
+	out	WS_KEY_SCAN_PORT, al
 	daa
-	in	al, 0xB5
+	in	al, WS_KEY_SCAN_PORT
     test al, 0x02
     jnz __ws_system_get_model_pcv2
 

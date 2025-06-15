@@ -21,6 +21,7 @@
 */
 
 #include <wonderful.h>
+#include "ws/ports.h"
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
@@ -30,7 +31,7 @@ ws_display_scroll_screen_by:
     mov bx, dx
     // DX = port (0x10 or 0x12)
     shl al, 1
-    add al, 0x10
+    add al, WS_SCR1_SCRL_X_PORT
     xor dx, dx
     mov dl, al
     
