@@ -182,6 +182,10 @@
 #define KEY_PCV2_DOWN   0x0004
 #define KEY_PCV2_LEFT   0x0001
 
+#define ws_tile_t ws_display_tile_t
+#define ws_tile_4bpp_t ws_display_tile_4bpp_t
+#define ws_int_handler_t ia16_int_handler_t
+
 #endif
 
 #endif /* LIBWS_LEGACY_H_ */
