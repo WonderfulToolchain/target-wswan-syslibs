@@ -158,6 +158,11 @@ typedef struct {
  */
 #define WS_RGB(r, g, b) (((r) << 8) | ((g) << 4) | (b))
 
+/**
+ * @brief Define a mono mode palette of four shades (0-7).
+ */
+#define WS_DISPLAY_MONO_PALETTE(c0, c1, c2, c3) ((c0) | ((c1) << 4) | ((c2) << 8) | ((c3) << 12))
+
 // TODO: Add ws_display_set_backdrop (has to consider mono/color modes have different values)
 
 /**
