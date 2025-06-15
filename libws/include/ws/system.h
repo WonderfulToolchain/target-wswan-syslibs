@@ -232,28 +232,28 @@ void ws_int_set_default_handler_hblank_timer(void);
  * 
  * @param mask The MASK of an interrupt (HWINT_*).
  */
-static inline void ws_int_enable_set(uint8_t mask) {
+static inline void ws_int_set_enabled(uint8_t mask) {
 	outportb(WS_INT_ENABLE_PORT, mask);
 }
 
-static inline uint8_t ws_int_enable_push(uint8_t mask) {
+static inline uint8_t ws_int_push_set_enabled(uint8_t mask) {
 	uint8_t prev_mask = inportb(WS_INT_ENABLE_PORT);
 	outportb(WS_INT_ENABLE_PORT, mask);
 	return prev_mask;
 }
-#define ws_int_enable_pop ws_int_enable_set
+#define ws_int_pop_enabled ws_int_enable_set
 
 /**
  * @brief Enable selected hardware interrupts.
  * 
- * @param mask The MASK of an interrupt (HWINT_*).
+ * @param mask The enablement mask of an interrupt (WS_INT_ENABLE_*).
  */
 void ws_int_enable(uint8_t mask);
 
 /**
  * @brief Disable selected hardware interrupts.
  * 
- * @param mask The MASK of an interrupt (HWINT_*).
+ * @param mask The enablement mask of an interrupt (WS_INT_ENABLE_*).
  */
 void ws_int_disable(uint8_t mask);
 
