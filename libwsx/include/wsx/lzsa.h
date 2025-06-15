@@ -19,8 +19,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWSX_LZSA_H__
-#define __WF_LIBWSX_LZSA_H__
+#ifndef LIBWSX_LZSA_H_
+#define LIBWSX_LZSA_H_
 
 #include <stdint.h>
 
@@ -46,4 +46,4 @@ uint16_t wsx_lzsa1_decompress(void __far* dest, const void __far* src);
  */
 uint16_t wsx_lzsa2_decompress(void __far* dest, const void __far* src);
 
-#endif /* __WF_LIBWSX_LZSA_H__ */
+#endif /* LIBWSX_LZSA_H_ */

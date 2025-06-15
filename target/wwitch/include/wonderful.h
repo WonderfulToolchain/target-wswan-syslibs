@@ -29,6 +29,7 @@
 #define __wf_rom
 #define __wf_iram __seg_ss
 #define __wf_sram
+#define __wf_cram __far
 
 #ifdef __WF_LS_NO_DEFINE_SUPPORT__
 /* See wonderful-common.h for rationale. */

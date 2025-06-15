@@ -19,8 +19,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWSX_APLIB_H__
-#define __WF_LIBWSX_APLIB_H__
+#ifndef LIBWSX_APLIB_H_
+#define LIBWSX_APLIB_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@
  */
 uint16_t wsx_aplib_decompress(void __far* dest, const void __far* src);
 
-#endif /* __WF_LIBWSX_APLIB_H__ */
+#endif /* LIBWSX_APLIB_H_ */

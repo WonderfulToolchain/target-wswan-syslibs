@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Adrian "asie" Siekierka
+ * Copyright (c) 2024, 2025 Adrian "asie" Siekierka
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,25 +20,36 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_WONDERFUL_H__
-#define __WF_WONDERFUL_H__
+#ifndef LIBWSX_UTF8_H_
+#define LIBWSX_UTF8_H_
 
-#include "../../wonderful-common-pre.h"
-
-#define __WONDERFUL_WSWAN__
-#define __wf_rom __far
-#define __wf_iram __seg_ss
-#define __wf_sram
-#define __wf_cram __far
-
-#ifdef __WF_LS_NO_DEFINE_SUPPORT__
-/* See wonderful-common.h for rationale. */
-#define __IA16_CMODEL_SMALL__
-#define __IA16_ABI_SEGELF
-#define __IA16_CALLCVT_REGPARMCALL
-#define __IA16_CALLCVT_NO_ASSUME_SS_DATA
+#ifdef __cplusplus
+extern "C" {
 #endif
 
-#include "../../wonderful-common.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include <wonderful.h>
 
-#endif /* __WF_WONDERFUL_H__ */
+/**
+ * @brief Encode the next character in an UTF-8 string.
+ * 
+ * @param s Pointer to encode character to.
+ * @param chr Character to encode.
+ * @return char* Pointer to the first byte after the encoded character.
+ */
+char *wsx_utf8_encode_next(char *s, uint32_t chr);
+
+/**
+ * @brief Decode the next character in an UTF-8 string.
+ * 
+ * @param s Pointer to far pointer to character. Will be modified to point to the next character.
+ * @return uint32_t The decoded character.
+ */
+uint32_t wsx_utf8_decode_next(const char __far** s);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* LIBWSX_UTF8_H_ */

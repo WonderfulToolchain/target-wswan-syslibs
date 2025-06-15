@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWSX_ZX0_H__
-#define __WF_LIBWSX_ZX0_H__
+#ifndef LIBWSX_ZX0_H_
+#define LIBWSX_ZX0_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@
  */
 void wsx_zx0_decompress(void __far* dest, const void __far* src);
 
-#endif /* __WF_LIBWSX_ZX0_H__ */
+#endif /* LIBWSX_ZX0_H_ */

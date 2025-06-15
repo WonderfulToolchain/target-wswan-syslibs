@@ -20,8 +20,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWSX_PLANAR_CONVERT_H__
-#define __WF_LIBWSX_PLANAR_CONVERT_H__
+#ifndef LIBWSX_PLANAR_CONVERT_H_
+#define LIBWSX_PLANAR_CONVERT_H_
 
 #include <stdint.h>
 
@@ -34,4 +34,4 @@
  */
 uint32_t wsx_planar_convert_4bpp_packed_row(uint32_t row);
 
-#endif /* __WF_LIBWSX_PLANAR_CONVERT_H__ */
+#endif /* LIBWSX_PLANAR_CONVERT_H_ */

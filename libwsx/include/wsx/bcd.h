@@ -18,8 +18,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef __WF_LIBWSX_BCD_H__
-#define __WF_LIBWSX_BCD_H__
+#ifndef LIBWSX_BCD_H_
+#define LIBWSX_BCD_H_
 
 #include <stdint.h>
 
@@ -51,4 +51,4 @@ uint16_t wsx_bcd16_to_int(uint16_t value);
  */
 uint8_t wsx_int_to_bcd8(uint8_t value);
 
-#endif /* __WF_LIBWSX_BCD_H__ */
+#endif /* LIBWSX_BCD_H_ */
