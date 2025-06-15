@@ -27,14 +27,16 @@
 #ifndef __WF_WWCL_H__
 #define __WF_WWCL_H__
 
+#warning WWCL is considered deprecated.
+
 #include <wonderful.h>
 #include <ws.h>
 #include "sys/bios.h"
 
 #define WWCL_INIT_MODE(disp_ctrl, text_mode, scr1_addr, scr2_addr, spr_addr, reserved_name, reserved_from, reserved_to) \
     const uint8_t __wwcl_init_display_control = disp_ctrl; \
-    const uint8_t __wwcl_init_scr_base = SCR1_BASE(scr1_addr) | SCR2_BASE(scr2_addr); \
-    const uint8_t __wwcl_init_spr_base = SPR_BASE(spr_addr); \
+    const uint8_t __wwcl_init_scr_base = WS_SCR_BASE_ADDR1(scr1_addr) | WS_SCR_BASE_ADDR2(scr2_addr); \
+    const uint8_t __wwcl_init_spr_base = WS_SPR_BASE_ADDR(spr_addr); \
     const uint8_t __wwcl_init_text_mode = text_mode; \
     __attribute__((section(reserved_name))) \
     const uint8_t __wwcl_reserved[(reserved_to) - (reserved_from)];
@@ -44,7 +46,7 @@
  */
 #define WWCL_INIT_MODE_ASCII1() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK, \
+        WS_DISPLAY_CTRL_SCR2_ENABLE, TEXT_MODE_ANK, \
         0x3000, 0x3000, 0x2E00, ".iramx_2e00", 0x2E00, 0x4000 \
     );
 
@@ -53,7 +55,7 @@
  */
 #define WWCL_INIT_MODE_ASCII2() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR1_ENABLE | DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK, \
+        WS_DISPLAY_CTRL_SCR1_ENABLE | WS_DISPLAY_CTRL_SCR2_ENABLE, TEXT_MODE_ANK, \
         0x3000, 0x2800, 0x2600, ".iramx_2600", 0x2600, 0x4000 \
     );
 
@@ -62,7 +64,7 @@
  */
 #define WWCL_INIT_MODE_JAPANESE1() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
+        WS_DISPLAY_CTRL_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
         0x1800, 0x1800, 0x1600, ".iramx_1600", 0x1600, 0x4000 \
     );
 
@@ -71,7 +73,7 @@
  */
 #define WWCL_INIT_MODE_JAPANESE2() \
     WWCL_INIT_MODE( \
-        DISPLAY_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
+        WS_DISPLAY_CTRL_SCR2_ENABLE, TEXT_MODE_ANK_SJIS, \
         0x1000, 0x1800, 0x0E00, ".iramx_0e00", 0x0E00, 0x4000 \
     );
 
