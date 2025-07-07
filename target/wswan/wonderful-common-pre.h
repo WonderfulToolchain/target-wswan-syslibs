@@ -68,6 +68,7 @@
 #define __far
 #define __seg_ss
 #define __seg_cs
+#define __segment uint16_t
 
 /* Built-in functions. */
 #define __builtin_ia16_FP_OFF(v) ((size_t) (v))
