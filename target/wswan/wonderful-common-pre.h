@@ -25,6 +25,9 @@
 /* does not support querying ia16-elf-gcc. */
 #define __WF_LS_NO_DEFINE_SUPPORT__
 #define __WF_LS_NO_PRAGMA_SUPPORT__
+#elif defined(__CLION_IDE__)
+#define __WF_LS_NO_DEFINE_SUPPORT__
+#define __WF_LS_NO_PRAGMA_SUPPORT__
 #elif defined(__INTELLISENSE__)
 #define __WF_LS_NO_PRAGMA_SUPPORT__
 #endif
