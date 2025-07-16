@@ -159,6 +159,15 @@ static inline __segment ia16_get_es() {
 
 #define ia16_get_ss __builtin_ia16_ss
 
+static inline uint16_t ia16_get_sp() {
+	uint16_t result;
+	__asm (
+		"mov %%sp, %0"
+		: "=r" (result)
+	);
+	return result;
+}
+
 static inline uint16_t ia16_get_flags() {
 	uint16_t result;
 	__asm volatile (
