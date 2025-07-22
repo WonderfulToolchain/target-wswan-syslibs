@@ -164,16 +164,16 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 #define ws_bank_within_(var, loc, prev_bank, ...) \
 	{ \
 		extern const void __bank_ ## var; \
+		__attribute__((cleanup(ws_bank_ ## loc ## _cleanup_))) \
 		ws_bank_t prev_bank = ws_bank_ ## loc ## _save((unsigned int) (&__bank_ ## var)); \
 		__VA_ARGS__ \
-		ws_bank_ram_restore(prev_bank); \
 	}
 
 #define ws_bank_with_(var, loc, prev_bank, ...) \
 	{ \
+		__attribute__((cleanup(ws_bank_ ## loc ## _cleanup_))) \
 		ws_bank_t prev_bank = ws_bank_ ## loc ## _save((unsigned int) var); \
 		__VA_ARGS__ \
-		ws_bank_ram_restore(prev_bank); \
 	}
 /// \endcond
 
@@ -192,6 +192,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  */
 #define ws_bank_ram_set(new_bank) _ws_bank_set(_ws_bank_ram_port, (new_bank))
 #define ws_bank_ram_restore ws_bank_ram_set
+/// \cond INTERNAL
+static inline void ws_bank_ram_cleanup_(ws_bank_t *bank) { ws_bank_ram_restore(*bank); }
+/// \endcond
 
 /**
  * @brief Switch to the RAM bank containing the specified variable for a code block.
@@ -239,6 +242,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  */
 #define ws_bank_rom0_set(new_bank) _ws_bank_set(_ws_bank_rom0_port, (new_bank))
 #define ws_bank_rom0_restore ws_bank_rom0_set
+/// \cond INTERNAL
+static inline void ws_bank_rom0_cleanup_(ws_bank_t *bank) { ws_bank_rom0_restore(*bank); }
+/// \endcond
 
 /**
  * @brief Switch to the ROM0 bank containing the specified variable for a code block.
@@ -246,9 +252,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * This is equivalent to:
  * @code
  * extern const void __bank_var;
- * ws_bank_t previous_bank = ws_bank_ram_save(&__bank_var);
+ * ws_bank_t previous_bank = ws_bank_rom0_save(&__bank_var);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_rom0_restore(previous_bank);
  * @endcode
  * 
  * @param var The variable name.
@@ -261,9 +267,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  *
  * This is equivalent to:
  * @code
- * ws_bank_t previous_bank = ws_bank_ram_save(bank);
+ * ws_bank_t previous_bank = ws_bank_rom0_save(bank);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_rom0_restore(previous_bank);
  * @endcode
  * 
  * @param bank The bank index.
@@ -286,6 +292,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  */
 #define ws_bank_rom1_set(new_bank) _ws_bank_set(_ws_bank_rom1_port, (new_bank))
 #define ws_bank_rom1_restore ws_bank_rom1_set
+/// \cond INTERNAL
+static inline void ws_bank_rom1_cleanup_(ws_bank_t *bank) { ws_bank_rom1_restore(*bank); }
+/// \endcond
 
 /**
  * @brief Switch to the ROM1 bank containing the specified variable for a code block.
@@ -293,9 +302,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * This is equivalent to:
  * @code
  * extern const void __bank_var;
- * ws_bank_t previous_bank = ws_bank_ram_save(&__bank_var);
+ * ws_bank_t previous_bank = ws_bank_rom1_save(&__bank_var);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_rom1_restore(previous_bank);
  * @endcode
  * 
  * @param var The variable name.
@@ -308,9 +317,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  *
  * This is equivalent to:
  * @code
- * ws_bank_t previous_bank = ws_bank_ram_save(bank);
+ * ws_bank_t previous_bank = ws_bank_rom1_save(bank);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_rom1_restore(previous_bank);
  * @endcode
  * 
  * @param bank The bank index.
@@ -333,6 +342,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  */
 #define ws_bank_roml_set(new_bank) _ws_bank_set(_ws_bank_roml_port, (new_bank))
 #define ws_bank_roml_restore ws_bank_roml_set
+/// \cond INTERNAL
+static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore(*bank); }
+/// \endcond
 
 /**
  * @brief Switch to the ROML bank containing the specified variable for a code block.
@@ -340,9 +352,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  * This is equivalent to:
  * @code
  * extern const void __bank_var;
- * ws_bank_t previous_bank = ws_bank_ram_save(&__bank_var);
+ * ws_bank_t previous_bank = ws_bank_roml_save(&__bank_var);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_roml_restore(previous_bank);
  * @endcode
  * 
  * @param var The variable name.
@@ -355,9 +367,9 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
  *
  * This is equivalent to:
  * @code
- * ws_bank_t previous_bank = ws_bank_ram_save(bank);
+ * ws_bank_t previous_bank = ws_bank_roml_save(bank);
  * // ...
- * ws_bank_ram_restore(previous_bank);
+ * ws_bank_roml_restore(previous_bank);
  * @endcode
  * 
  * @param bank The bank index.

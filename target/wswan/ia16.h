@@ -262,6 +262,9 @@ static inline void ia16_disable_irq(void) {
     __asm volatile ("cli");
 }
 
+/**
+ * @brief Critical code segment. Do not return; from within here!
+ */
 #define ia16_critical(...) \
 	do { \
 		ia16_disable_irq(); \
