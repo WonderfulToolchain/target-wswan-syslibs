@@ -51,9 +51,9 @@
 #define ws_hwint_set_default_handler_vblank_timer ws_int_set_default_handler_vblank_timer
 #define ws_hwint_set_default_handler_vblank ws_int_set_default_handler_vblank
 #define ws_hwint_set_default_handler_hblank_timer ws_int_set_default_handler_hblank_timer
-#define ws_hwint_set ws_int_enable_set
+#define ws_hwint_set ws_int_set_enabled
 #define ws_hwint_push ws_int_push_set_enabled
-#define ws_hwint_pop ws_int_enable_set
+#define ws_hwint_pop ws_int_set_enabled
 #define ws_hwint_disable_all ws_int_disable_all
 #define ws_hwint_ack ws_int_ack
 #define ws_hwint_enable ws_int_enable
