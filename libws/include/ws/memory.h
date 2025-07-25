@@ -275,7 +275,7 @@ static inline void ws_bank_rom0_cleanup_(ws_bank_t *bank) { ws_bank_rom0_restore
  * @param bank The bank index.
  * @param ... The code block to run with the specified value in view.
  */
-#define ws_bank_with_rom0(bank, ...) ws_bank_within_(bank, rom0, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
+#define ws_bank_with_rom0(bank, ...) ws_bank_with_(bank, rom0, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /**
  * @brief Switch to a new ROM bank in slot 1, while preserving the value of the old one.
