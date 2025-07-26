@@ -54,7 +54,7 @@ uint32_t wsx_utf8_decode_next(const char __far** s);
  * @param s Pointer to UTF-8 string.
  * @return int Length of UTF-8 string, in characters; < 0 on error.
  */
-int wsx_utf8_len(const char __far* s);
+int wsx_utf8_len(const char __far* s) __attribute__((pure));
 
 #ifdef __cplusplus
 }

@@ -15,10 +15,10 @@
 #include <wonderful.h>
 #include <stddef.h>
 
-void __far* _fmemchr(const void __far* s, int c, size_t n);
-void* _nmemchr(const void* s, int c, size_t n);
-int _fmemcmp(const void __far* s1, const void __far* s2, size_t n);
-int _nmemcmp(const void* s1, const void* s2, size_t n);
+void __far* _fmemchr(const void __far* s, int c, size_t n) __attribute__((pure));
+void* _nmemchr(const void* s, int c, size_t n) __attribute__((pure));
+int _fmemcmp(const void __far* s1, const void __far* s2, size_t n) __attribute__((pure));
+int _nmemcmp(const void* s1, const void* s2, size_t n) __attribute__((pure));
 void __far* _fmemcpy(void __far* restrict s1, const void __far* restrict s2, size_t n);
 void* _nmemcpy(void* restrict s1, const void* restrict s2, size_t n);
 void __far* _fmemmove(void __far* s1, const void __far* s2, size_t n);
@@ -43,21 +43,21 @@ void* memset(void*s, int c, size_t n);
 
 char __far* memccpy(char __far* s1, const char __far* s2, int c, size_t n);
 char __far* strcat(char __far* s1, const char __far* s2);
-char __far* strchr(const char __far* s, int c);
-int strcmp(const char __far* s1, const char __far* s2);
+char __far* strchr(const char __far* s, int c) __attribute__((pure));
+int strcmp(const char __far* s1, const char __far* s2) __attribute__((pure));
 char __far* strcpy(char __far* s1, const char __far* s2);
 size_t strcspn(const char __far* s1, const char __far* s2);
 char *strdup(const char __far* s);
-size_t strlen(const char __far* s);
+size_t strlen(const char __far* s) __attribute__((pure));
 char __far* strncat(char __far* s1, const char __far* s2, size_t n);
-int strncmp(const char __far* s1, const char __far* s2, size_t n);
+int strncmp(const char __far* s1, const char __far* s2, size_t n) __attribute__((pure));
 char __far* strncpy(char __far* s1, const char __far* s2, size_t n);
 char __far* strpbrk(const char __far* s1, const char __far* s2);
-char __far* strrchr(const char __far* s, int c);
+char __far* strrchr(const char __far* s, int c) __attribute__((pure));
 size_t strspn(const char __far* s1, const char __far* s2);
-char __far* strstr(const char __far* s1, const char __far* s2);
+char __far* strstr(const char __far* s1, const char __far* s2) __attribute__((pure));
 
-int strcasecmp(const char __far* s1, const char __far* s2);
-int strncasecmp(const char __far* s1, const char __far* s2, size_t n);
+int strcasecmp(const char __far* s1, const char __far* s2) __attribute__((pure));
+int strncasecmp(const char __far* s1, const char __far* s2, size_t n) __attribute__((pure));
 
 #endif /* _STRING_H_ */

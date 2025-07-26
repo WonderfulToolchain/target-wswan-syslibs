@@ -33,7 +33,7 @@
  * @param value Packed BCD number.
  * @return Integer.
  */
-uint8_t wsx_bcd8_to_int(uint8_t value);
+uint8_t wsx_bcd8_to_int(uint8_t value) __attribute__((const));
 
 /**
  * @brief Transform a 16-bit packed BCD number to an integer.
@@ -41,7 +41,7 @@ uint8_t wsx_bcd8_to_int(uint8_t value);
  * @param value Packed BCD number.
  * @return Integer.
  */
-uint16_t wsx_bcd16_to_int(uint16_t value);
+uint16_t wsx_bcd16_to_int(uint16_t value) __attribute__((const));
 
 /**
  * @brief Transform an 8-bit integer to a packed BCD number.
@@ -49,6 +49,6 @@ uint16_t wsx_bcd16_to_int(uint16_t value);
  * @param value Integer.
  * @return Packed BCD number.
  */
-uint8_t wsx_int_to_bcd8(uint8_t value);
+uint8_t wsx_int_to_bcd8(uint8_t value) __attribute__((const));
 
 #endif /* LIBWSX_BCD_H_ */
