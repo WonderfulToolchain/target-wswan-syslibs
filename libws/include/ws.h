@@ -28,14 +28,15 @@
 #include <ws/keypad.h>
 #include <ws/eeprom.h>
 #include <ws/system.h>
-#include <ws/cart/gpio.h>
-#include <ws/cart/rtc.h>
-
-#ifndef __ASSEMBLER__
 #include <ws/memory.h>
 #include <ws/util.h>
 #include <ws/display.h>
 #include <ws/sound.h>
+#include <ws/timer.h>
+#include <ws/cart/gpio.h>
+#include <ws/cart/rtc.h>
+
+#ifndef __ASSEMBLER__
 #include <ws/dma.h>
 #include <ws/uart.h>
 #include <ws/ext/wg.h>

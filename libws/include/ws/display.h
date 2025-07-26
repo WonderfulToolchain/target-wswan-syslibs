@@ -23,8 +23,10 @@
 #ifndef LIBWS_DISPLAY_H_
 #define LIBWS_DISPLAY_H_
 
+#ifndef __ASSEMBLER__
 #include <stdbool.h>
 #include <stdint.h>
+#endif
 #include <wonderful.h>
 #include "memory.h"
 #include "ports.h"
@@ -45,9 +47,23 @@
 
 #define WS_DISPLAY_TILE_WIDTH     8
 #define WS_DISPLAY_TILE_HEIGHT    8
+/**
+ * @brief Tile 2-bit-per-pixel graphic data size, in bytes.
+ */
 #define WS_DISPLAY_TILE_SIZE      16
+/**
+ * @brief Tile 4-bit-per-pixel graphic data size, in bytes.
+ */
 #define WS_DISPLAY_TILE_SIZE_4BPP 32
 
+#ifndef WS_DISPLAY_VTOTAL
+/**
+ * @brief Number of vertical lines in a frame.
+ */
+#define WS_DISPLAY_VTOTAL 159
+#endif
+
+#ifndef __ASSEMBLER__
 typedef struct {
 	uint16_t row[WS_DISPLAY_TILE_HEIGHT];
 } ws_display_tile_t;
@@ -55,19 +71,40 @@ typedef struct {
 typedef struct {
 	uint32_t row[WS_DISPLAY_TILE_HEIGHT];
 } ws_display_tile_4bpp_t;
+#endif
 
+/**
+ * @brief Attribute: tile index (0-511).
+ */
 #define WS_SCREEN_ATTR_TILE(x) (x)
 #define WS_SCREEN_ATTR_TILE_MASK (0x1FF)
+/**
+ * @brief Attribute: palette (0-15).
+ */
 #define WS_SCREEN_ATTR_PALETTE(x) ((x) << 9)
 #define WS_SCREEN_ATTR_PALETTE_MASK (0xF << 9)
+/**
+ * @brief Attribute: tile bank (0-1).
+ */
 #define WS_SCREEN_ATTR_BANK(x) ((x) << 13)
 #define WS_SCREEN_ATTR_BANK_MASK (0x2000)
+/**
+ * @brief Attribute: tile index (0-1023). Calculates both bank and index.
+ */
 #define WS_SCREEN_ATTR_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
 #define WS_SCREEN_ATTR_TILE_EX_MASK (0x21FF)
-#define WS_SCREEN_ATTR_TILE_BANK_MASK (WS_SCREEN_ATTR_TILE_MASK | WS_SCREEN_ATTR_BANK_MASK)
 
+/**
+ * @brief Attribute: flip tile graphic horizontally.
+ */
 #define WS_SCREEN_ATTR_FLIP_H    0x4000
+/**
+ * @brief Attribute: flip tile graphic vertically.
+ */
 #define WS_SCREEN_ATTR_FLIP_V    0x8000
+/**
+ * @brief Attribute: flip tile graphic in both axes (180-degree rotation).
+ */
 #define WS_SCREEN_ATTR_FLIP      0xC000
 #define WS_SCREEN_ATTR_FLIP_MASK 0xC000
 
@@ -76,22 +113,58 @@ typedef struct {
 #define WS_SCREEN_WIDTH_PIXELS  (WS_SCREEN_WIDTH_TILES  * WS_DISPLAY_TILE_WIDTH)
 #define WS_SCREEN_HEIGHT_PIXELS (WS_SCREEN_HEIGHT_TILES * WS_DISPLAY_TILE_HEIGHT)
 
+#ifndef __ASSEMBLER__
 typedef struct {
 	uint16_t attr;
 	uint8_t y;
 	uint8_t x;
 } ws_sprite_t;
+#endif
 
+/**
+ * @brief Attribute: palette (0-7; corresponds to screen palettes 8-15).
+ */
 #define WS_SPRITE_ATTR_PALETTE(x) ((x) << 9)
 #define WS_SPRITE_ATTR_PALETTE_MASK	(0x7 << 9)
-#define WS_SPRITE_ATTR_INSIDE    0x1000
+/**
+ * @brief Attribute: draw sprite outside instead of inside window, if window enabled.
+ */
+#define WS_SPRITE_ATTR_OUTSIDE   0x1000
+/**
+ * @brief Attribute: draw sprite in front of instead of behind Screen 2.
+ */
 #define WS_SPRITE_ATTR_PRIORITY  0x2000
+/**
+ * @brief Attribute: flip tile graphic horizontally.
+ */
 #define WS_SPRITE_ATTR_FLIP_H    0x4000
+/**
+ * @brief Attribute: flip tile graphic vertically.
+ */
 #define WS_SPRITE_ATTR_FLIP_V    0x8000
+/**
+ * @brief Attribute: flip tile graphic in both axes (180-degree rotation).
+ */
 #define WS_SPRITE_ATTR_FLIP      0xC000
 #define WS_SPRITE_ATTR_FLIP_MASK 0xC000
 
 #define WS_SPRITE_MAX_COUNT 128
+
+/**
+ * @brief Create an RGB color.
+ *
+ * @param r The red component (0-15).
+ * @param g The red component (0-15).
+ * @param b The red component (0-15).
+ */
+#define WS_RGB(r, g, b) (((r) << 8) | ((g) << 4) | (b))
+
+/**
+ * @brief Define a mono mode palette of four shades (0-7).
+ */
+#define WS_DISPLAY_MONO_PALETTE(c0, c1, c2, c3) ((c0) | ((c1) << 4) | ((c2) << 8) | ((c3) << 12))
+
+#ifndef __ASSEMBLER__
 
 /**
  * @brief Pointer to tile.
@@ -148,20 +221,6 @@ typedef struct {
 	(((uint32_t)(c0)) | (((uint32_t)(c1)) << 4) | (((uint32_t)(c2)) << 8) | (((uint32_t)(c3)) << 12) | \
 	(((uint32_t)(c4)) << 16) | (((uint32_t)(c5)) << 20) | (((uint32_t)(c6)) << 24) | (((uint32_t)(c7)) << 28))
 #define WS_DISPLAY_SHADE_LUT_DEFAULT WS_DISPLAY_SHADE_LUT(0, 2, 4, 6, 9, 11, 13, 15)
-
-/**
- * @brief Create an RGB color.
- *
- * @param r The red component (0-15).
- * @param g The red component (0-15).
- * @param b The red component (0-15).
- */
-#define WS_RGB(r, g, b) (((r) << 8) | ((g) << 4) | (b))
-
-/**
- * @brief Define a mono mode palette of four shades (0-7).
- */
-#define WS_DISPLAY_MONO_PALETTE(c0, c1, c2, c3) ((c0) | ((c1) << 4) | ((c2) << 8) | ((c3) << 12))
 
 // TODO: Add ws_display_set_backdrop (has to consider mono/color modes have different values)
 
@@ -496,6 +555,8 @@ static inline void ws_screen_put_tile(void ws_iram *dest, uint16_t src, uint16_t
 static inline uint16_t ws_screen_get_tile(void ws_iram *src, uint16_t x, uint16_t y) {
 	return ((uint16_t ws_iram*) src)[((y & 0x1F) << 5) | (x & 0x1F)];
 }
+
+#endif
 
 /**@}*/
 

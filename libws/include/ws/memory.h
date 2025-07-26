@@ -27,16 +27,25 @@
 #ifndef LIBWS_MEMORY_H_
 #define LIBWS_MEMORY_H_
 
+#ifndef __ASSEMBLER__
 #include <stdbool.h>
 #include <stdint.h>
 #include <wonderful.h>
 #include "ports.h"
 #include "util.h"
+#endif
 
 /**
  * @addtogroup memory Memory/Bank Management
  * @{
  */
+
+#define WS_IRAM_SEGMENT 0x0000
+#define WS_SRAM_SEGMENT 0x1000
+#define WS_ROM0_SEGMENT 0x2000
+#define WS_ROM1_SEGMENT 0x3000
+
+#ifndef __ASSEMBLER__
 
 /**
  * Address space for pointers to internal RAM.
@@ -376,6 +385,8 @@ static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore
  * @param ... The code block to run with the specified value in view.
  */
 #define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
+
+#endif
 
 /**@}*/
 

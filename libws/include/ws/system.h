@@ -33,6 +33,11 @@
  */
 
 /**
+ * @brief System clock frequency, in hertz.
+ */
+#define WS_SYSTEM_CLOCK_HZ (3072000)
+
+/**
  * UART TX ready interrupt.
  */
 #define WS_INT_UART_TX 0

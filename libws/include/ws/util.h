@@ -23,7 +23,6 @@
 #ifndef LIBWS_UTIL_H_
 #define LIBWS_UTIL_H_
 
-#include <stdint.h>
 #include <wonderful.h>
 
 /** \file util.h
@@ -34,6 +33,15 @@
  * @addtogroup util Utility/Misc.
  * @{
  */
+
+/**
+ * @brief Convert a frequency in Hertz to a clock divider value.
+ */
+#define WS_HZ_TO_DIVIDER(hz, clock_hz) (((clock_hz) + ((((hz) + 1)) >> 1)) / (hz))
+
+#ifndef __ASSEMBLER__
+
+#include <stdint.h>
 
 /**
  * @brief Copy memory data to I/O ports, in order.
@@ -71,6 +79,8 @@ void ws_delay_us(uint16_t us);
  */
 __attribute__((no_assume_ds_data, no_assume_ss_data))
 void ws_delay_ms(uint16_t ms);
+
+#endif
 
 /**@}*/
 
