@@ -9,13 +9,20 @@
  * work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#ifndef _UNISTD_H_
-#define _UNISTD_H_
+#ifndef _SETJMP_H_
+#define _SETJMP_H_
 
-#include <stdint.h>
 #include <wonderful.h>
+#include <stddef.h>
 
-int brk(void *addr);
-void *sbrk(intptr_t incr);
+/* jmp_buf preserves SI, DI, BP, DS, ES, SS, SP, IP, CS? */
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+typedef uint16_t __far jmp_buf[9];
+#else
+typedef uint16_t __far jmp_buf[8];
+#endif
 
-#endif /* _UNISTD_H_ */
+__attribute__((noreturn)) void longjmp(jmp_buf env, int val);
+int setjmp(jmp_buf env);
+
+#endif /* _SETJMP_H_ */
