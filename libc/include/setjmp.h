@@ -23,6 +23,6 @@ typedef uint16_t jmp_buf[8];
 #endif
 
 __attribute__((noreturn)) void longjmp(jmp_buf env, int val);
-int setjmp(jmp_buf env);
+__attribute__((returns_twice)) int setjmp(jmp_buf env);
 
 #endif /* _SETJMP_H_ */
