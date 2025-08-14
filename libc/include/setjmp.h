@@ -17,9 +17,9 @@
 
 /* jmp_buf preserves SI, DI, BP, DS, ES, SS, SP, IP, CS? */
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
-typedef uint16_t __far jmp_buf[9];
+typedef uint16_t jmp_buf[9];
 #else
-typedef uint16_t __far jmp_buf[8];
+typedef uint16_t jmp_buf[8];
 #endif
 
 __attribute__((noreturn)) void longjmp(jmp_buf env, int val);

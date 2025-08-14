@@ -17,11 +17,16 @@
 
 	.global longjmp
 longjmp:
+#ifdef __IA16_CMODEL_IS_FAR_DATA
 	// jmp_buf (DX:AX) => DS:BX
 	// return value (CX) => AX
 	mov bx, ax
 	mov ds, dx
 	mov ax, cx
+#else
+	mov bx, ax
+	mov ax, dx
+#endif
 
 	// restore registers
 	mov si, [bx+0]

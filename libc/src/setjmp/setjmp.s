@@ -17,17 +17,25 @@
 
 	.global setjmp
 setjmp:
+#ifdef __IA16_CMODEL_IS_FAR_DATA
 	// jmp_buf (DX:AX) => DS:BX
-	// DS => AX
+	// DS => DX
 	mov bx, ax
 	mov ax, ds
 	mov ds, dx
+#else
+	mov bx, ax
+#endif
 
 	// store registers in jmp_buf
 	mov [bx+0], si
 	mov [bx+2], di
 	mov [bx+4], bp
+#ifdef __IA16_CMODEL_IS_FAR_DATA
+	mov [bx+6], dx
+#else
 	mov [bx+6], ds
+#endif
 	mov [bx+8], es
 	mov [bx+10], ss
 
@@ -46,6 +54,4 @@ setjmp:
 
 	// return (AX) => 0
 	xor ax, ax
-
-9:
 	IA16_RET
