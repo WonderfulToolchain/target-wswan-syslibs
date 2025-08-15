@@ -6,6 +6,8 @@ SRCDIRS := src
 MKDIRS := $(OBJDIR)
 
 OBJECTS := \
+	$(OBJDIR)/crt0_pinstrap0.o \
+	$(OBJDIR)/crt0_pinstrap1.o \
 	$(OBJDIR)/crt0_ws_bootfriend.o \
 	$(OBJDIR)/crt0_ws_small.o \
 	$(OBJDIR)/crt0_ws_medium.o \
@@ -27,6 +29,12 @@ vpath %.s $(SRCDIRS)
 .PHONY: all clean install
 
 all: $(OBJECTS)
+
+$(OBJDIR)/crt0_pinstrap0.o: crt0_pinstrap0.s $(OBJDIR)
+	$(CC) $(ASFLAGS) -msegelf -c -o $@ $<
+
+$(OBJDIR)/crt0_pinstrap1.o: crt0_pinstrap1.s $(OBJDIR)
+	$(CC) $(ASFLAGS) -msegelf -c -o $@ $<
 
 $(OBJDIR)/crt0_ws_bootfriend.o: crt0_bootfriend.s $(OBJDIR)
 	$(CC) $(ASFLAGS) -mcmodel=tiny -c -o $@ $<
@@ -67,15 +75,23 @@ install: $(OBJECTS)
 
 	install -d $(DESTDIR)/target/wswan/small/lib
 	install -m 644 $(OBJDIR)/crt0_ws_small.o $(DESTDIR)/target/wswan/small/lib/crt0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap0.o $(DESTDIR)/target/wswan/small/lib/crt0_pinstrap0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap1.o $(DESTDIR)/target/wswan/small/lib/crt0_pinstrap1.o
 
 	install -d $(DESTDIR)/target/wswan/medium/lib
 	install -m 644 $(OBJDIR)/crt0_ws_medium.o $(DESTDIR)/target/wswan/medium/lib/crt0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap0.o $(DESTDIR)/target/wswan/medium/lib/crt0_pinstrap0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap1.o $(DESTDIR)/target/wswan/medium/lib/crt0_pinstrap1.o
 
 	install -d $(DESTDIR)/target/wswan/small-sram/lib
 	install -m 644 $(OBJDIR)/crt0_ws_small_sram.o $(DESTDIR)/target/wswan/small-sram/lib/crt0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap0.o $(DESTDIR)/target/wswan/small-sram/lib/crt0_pinstrap0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap1.o $(DESTDIR)/target/wswan/small-sram/lib/crt0_pinstrap1.o
 
 	install -d $(DESTDIR)/target/wswan/medium-sram/lib
 	install -m 644 $(OBJDIR)/crt0_ws_medium_sram.o $(DESTDIR)/target/wswan/medium-sram/lib/crt0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap0.o $(DESTDIR)/target/wswan/medium-sram/lib/crt0_pinstrap0.o
+	install -m 644 $(OBJDIR)/crt0_pinstrap1.o $(DESTDIR)/target/wswan/medium-sram/lib/crt0_pinstrap1.o
 
 	install -d $(DESTDIR)/target/wwitch/lib
 	install -m 644 $(OBJDIR)/crt0_ww_asc1.o $(DESTDIR)/target/wwitch/lib/crt0_asc1.o
