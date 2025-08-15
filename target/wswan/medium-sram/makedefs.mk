@@ -10,5 +10,7 @@ WF_ARCH_LIBDIRS += local/$(WF_TARGET_DIR) thirdparty/$(WF_TARGET_DIR) $(WF_TARGE
 WF_CRT0 := $(WF_TARGET_DIR)/lib/crt0.o
 WF_CRT0_PINSTRAP0 := $(WF_TARGET_DIR)/lib/crt0_pinstrap0.o
 WF_CRT0_PINSTRAP1 := $(WF_TARGET_DIR)/lib/crt0_pinstrap1.o
+WF_CRT0_PINSTRAP0_UNLOCKED := $(WF_TARGET_DIR)/lib/crt0_pinstrap0_unlocked.o
+WF_CRT0_PINSTRAP1_UNLOCKED := $(WF_TARGET_DIR)/lib/crt0_pinstrap1_unlocked.o
 WF_LDSCRIPT := $(WF_TARGET_DIR)/link.ld
 BUILDROM := $(BUILDROM) --ds-sram

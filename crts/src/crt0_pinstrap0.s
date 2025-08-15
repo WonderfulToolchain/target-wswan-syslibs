@@ -27,5 +27,10 @@
 	.section .rom0_4_0000.pinstrap0, "axR"
 	.global _pinstrap0
 _pinstrap0:
+#ifdef BOOTROM_LOCK
+	in al, 0xA0
+	or al, 0x01
+	out 0xA0, al
+#endif
 	.reloc	.+3, R_386_SEG16, "_start!"
 	jmp 0:_start
