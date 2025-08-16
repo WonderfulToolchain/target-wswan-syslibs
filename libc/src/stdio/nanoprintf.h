@@ -155,7 +155,7 @@ NPF_VISIBILITY int npf_vpprintf(
 #if NANOPRINTF_HAVE_GCC_WARNING_PRAGMAS
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wunused-function"
-  #pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+//  #pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
   #ifdef __cplusplus
     #pragma GCC diagnostic ignored "-Wold-style-cast"
   #endif

@@ -16,10 +16,10 @@
 
 #ifdef __WONDERFUL_WWITCH__
 // This points to the heap start pointer in the process's PCB.
-#define brk_addr (*((uint16_t*) 0x005E))
+#define brk_addr (*((void**) 0x005E))
 
 int brk(void *addr) {
-    if (addr < 0x0060) {
+    if (((uint16_t) addr) < 0x0060) {
         errno = ENOMEM;
         return -1;
     }

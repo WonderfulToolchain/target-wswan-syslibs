@@ -53,4 +53,7 @@ void free_sized(void *ptr, size_t size);
 void *realloc(void *ptr, size_t size);
 void* calloc(size_t nelem, size_t elsize) __attribute__((malloc));
 
+__attribute__((noreturn))
+void abort(void);
+
 #endif /* _STDLIB_H_ */

@@ -12,10 +12,17 @@
 #ifndef _ASSERT_H_
 #define _ASSERT_H_
 
-// TODO: Actually implement assert().
+// TODO: Store assert() strings in ROM.
 
 #undef assert
+#ifdef NDEBUG
 #define assert(ignore) ((void)0)
+#else
+#define assert(expression) ((expression) ? (void) 0 : _assert(#expression, __FILE__, __LINE__, __FUNCTION__))
+#endif
+
+__attribute__((noreturn))
+void _assert(const char *expression, const char *file, unsigned int line, const char *function);
 
 #if __STDC_VERSION__ >= 201112L
 # undef static_assert
