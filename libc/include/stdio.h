@@ -15,10 +15,45 @@
 #include <wonderful.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <stdint.h>
 
-int sprintf(char __far* restrict s, const char __far* restrict format, ...);
-int snprintf(char __far* restrict s, size_t n, const char __far* restrict format, ...);
-int vsprintf(char __far* restrict s, const char __far* restrict format, va_list arg);
-int vsnprintf(char __far* restrict s, size_t n, const char __far* restrict format, va_list arg);
+#define EOF -1
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
+struct wf_file_t;
+struct wf_fileops_t {
+    int (*get)(struct wf_file_t*);
+    int (*put)(uint8_t, struct wf_file_t*);
+    int (*close)(struct wf_file_t*);
+};
+
+typedef struct wf_file_t {
+    union {
+        uint32_t h;
+        void __far *p;
+    } handle;
+    const struct wf_fileops_t __far *ops;
+} FILE;
+
+extern FILE* stdin;
+extern FILE* stdout;
+extern FILE* stderr;
+
+int fgetc(FILE *stream);
+int fputc(int c, FILE *stream);
+int getc(FILE *stream);
+int getchar(void);
+int putc(int c, FILE *stream);
+int putchar(int c);
+int puts(const char __far* s);
+
+int printf(const char __far* format, ...);
+int sprintf(char __far* s, const char __far* format, ...);
+int snprintf(char __far* s, size_t n, const char __far* format, ...);
+int vprintf(const char __far* format, va_list arg);
+int vsprintf(char __far* s, const char __far* format, va_list arg);
+int vsnprintf(char __far* s, size_t n, const char __far* format, va_list arg);
 
 #endif /* _STDIO_H_ */

@@ -64,6 +64,13 @@ static inline void ws_uart_close(void) {
 }
 
 /**
+ * @brief Check if an UART connection is currently opened.
+ */
+static inline bool ws_uart_is_opened(void) {
+	return inportb(WS_UART_CTRL_PORT) & WS_UART_CTRL_ENABLE;
+}
+
+/**
  * @brief Check if the UART receive buffer has overflowed.
  */
 static inline bool ws_uart_is_rx_overrun(void) {
