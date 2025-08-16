@@ -1,0 +1,5 @@
+-Itarget/wswan/medium/include
+-Ilibc/include
+-Ilibws/include
+-Ilibwsx/include
+-Ilibww/include
