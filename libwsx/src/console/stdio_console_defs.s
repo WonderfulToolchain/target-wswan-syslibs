@@ -25,31 +25,10 @@
 #include "asm-preamble.h"
 	.intel_syntax noprefix
 
-    .section .data.ws_libc_uart_stdin, "a"
-    .global ws_libc_uart_stdin
-    .global stdin
-ws_libc_uart_stdin:
-    .word _libws_uart_stdin_ops
-	.reloc ., R_386_SEG16, "_libws_uart_stdin_ops!"
+    .section .data.wsx_libc_console_stdout, "a"
+    .global wsx_libc_console_stdout
+wsx_libc_console_stdout:
+    .word _wsx_libc_console_stdout_ops
+	.reloc ., R_386_SEG16, "_wsx_libc_console_stdout_ops!"
     .word 0
     .word 0
-stdin:
-    .word ws_libc_uart_stdin
-
-    .section .data.ws_libc_uart_stdout, "a"
-    .global ws_libc_uart_stdout
-ws_libc_uart_stdout:
-    .word _libws_uart_stdout_ops
-	.reloc ., R_386_SEG16, "_libws_uart_stdout_ops!"
-    .word 0
-    .word 0
-
-    .section .data.stdout, "a"
-    .global stdout
-stdout:
-    .word ws_libc_uart_stdout
-
-    .section .data.stderr, "a"
-    .global stderr
-stderr:
-    .word ws_libc_uart_stdout

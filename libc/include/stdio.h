@@ -30,11 +30,8 @@ struct wf_fileops_t {
 };
 
 typedef struct wf_file_t {
-    union {
-        uint32_t h;
-        void __far *p;
-    } handle;
     const struct wf_fileops_t __far *ops;
+    uint16_t flags;
 } FILE;
 
 extern FILE* stdin;
