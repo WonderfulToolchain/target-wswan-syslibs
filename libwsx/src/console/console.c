@@ -47,17 +47,20 @@ static void wsx_console_sync_scroll(void) {
     ws_display_scroll_screen_to(config.screen >> 2, 0, ((state.y - (WS_DISPLAY_HEIGHT_TILES - 1)) << 3));
 }
 
+static void wsx_console_line_advance(uint16_t __wf_iram *buf, uint16_t tile) {
+    state.y = (state.y + 1) & 0x1F;
+    ws_screen_fill_tiles(buf, tile + 32 - config.char_start, 0, state.y, WS_DISPLAY_WIDTH_TILES, 1);
+}
+
 void wsx_console_putc(uint8_t c) {
     uint8_t oy = state.y;
+    uint16_t __wf_iram *buf = console_get_screen_buffer();
+    uint16_t tile = config.tile_offset | WS_SCREEN_ATTR_PALETTE(config.palette);
 
     if (state.x >= WS_DISPLAY_WIDTH_TILES) {
         state.x = 0;
-        state.y++;
-        state.y &= 0x1F;
+        wsx_console_line_advance(buf, tile);
     }
-
-    uint16_t __wf_iram *buf = console_get_screen_buffer();
-    uint16_t tile = config.tile_offset | WS_SCREEN_ATTR_PALETTE(config.palette);
 
     switch (c) {
     case '\t': {
@@ -70,8 +73,7 @@ void wsx_console_putc(uint8_t c) {
     } break;
     case '\n': {
         state.x = 0;
-        state.y++;
-        state.y &= 0x1F;
+        wsx_console_line_advance(buf, tile);
     } break;
     default: {
         if (c >= config.char_start && c < (config.char_start + config.char_count)) {
