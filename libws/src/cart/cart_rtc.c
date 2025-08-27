@@ -82,8 +82,8 @@ uint16_t ws_cart_rtc_write(uint8_t command, const void __wf_cram* buffer, uint16
 	while (--timeout) {
 		uint8_t status = inportb(WS_CART_RTC_CTRL_PORT);
 
-		// Not ready, not busy => Done
-		if (!(status & (WS_CART_RTC_CTRL_READY | WS_CART_RTC_CTRL_ACTIVE))) break;
+		// Inactive => Finished writing
+		if (!(status & WS_CART_RTC_CTRL_ACTIVE)) break;
 
 		// Ready => Write byte
 		if (status & WS_CART_RTC_CTRL_READY) {
@@ -91,8 +91,6 @@ uint16_t ws_cart_rtc_write(uint8_t command, const void __wf_cram* buffer, uint16
 				outportb(WS_CART_RTC_DATA_PORT, bytes < length ? buffer8[bytes] : 0x00);
 			bytes++;
 		}
-		// Inactive => Finished reading
-		if (!(status & WS_CART_RTC_CTRL_ACTIVE)) break;
 	}
 
 	return bytes;
