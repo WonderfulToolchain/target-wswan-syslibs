@@ -272,10 +272,26 @@ static inline void ws_int_disable_all(void) {
 /**
  * @brief Acknowledge hardware interrupt.
  * 
- * @param mask The MASK of an interrupt (HWINT_*).
+ * @param mask The acknowledgement mask of an interrupt (WS_INT_ACK_*).
  */
 static inline void ws_int_ack(uint8_t mask) {
 	outportb(WS_INT_ACK_PORT, mask);
+}
+
+/**
+ * @brief Acknowledge all pending hardware interrupts.
+ */
+#define ws_int_ack_all() ws_int_ack(0xFF)
+
+/**
+ * @brief Check if a hardware interrupt is being requested.
+ *
+ * To clear an interrupt request, acknowledge it.
+ *
+ * @param mask The status mask of an interrupt (WS_INT_STATUS_*).
+ */
+static inline bool ws_int_is_requested(uint8_t mask) {
+	return inportb(WS_INT_STATUS_PORT) & mask;
 }
 
 #endif
