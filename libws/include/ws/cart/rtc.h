@@ -34,9 +34,9 @@
  * @{
  */
 
-#define WS_CART_RTC_MONTH_AMPM 0x80
-#define WS_CART_RTC_MONTH_AM   0x00
-#define WS_CART_RTC_MONTH_PM   0x80
+#define WS_CART_RTC_HOUR_AMPM 0x80
+#define WS_CART_RTC_HOUR_AM   0x00
+#define WS_CART_RTC_HOUR_PM   0x80
 
 #define WS_CART_RTC_STATUS_POWER_LOST 0x80
 #define WS_CART_RTC_STATUS_12_HOUR    0x00
@@ -60,19 +60,19 @@
  * @brief Structure containing the date read from the RTC, BCD-encoded.
  */
 typedef struct __attribute__((packed)) {
-    uint8_t year;
-    uint8_t month;
-    uint8_t date;
-    uint8_t day;
+    uint8_t year; ///< Year (0x00 - 0x99)
+    uint8_t month; ///< Month (0x01 - 0x12)
+    uint8_t day; ///< Day of month (0x01 - 0x31)
+    uint8_t wday; ///< Day of week (0x00 - 0x06)
 } ws_cart_rtc_date_t;
 
 /**
  * @brief Structure containing the time read from the RTC, BCD-encoded.
  */
 typedef struct __attribute__((packed)) {
-    uint8_t hour;
-    uint8_t minute;
-    uint8_t second;
+    uint8_t hour; ///< Hour (0x00 - 0x23, or 0x00 - 0x11 and AM/PM bit)
+    uint8_t minute; ///< Minute (0x00 - 0x59)
+    uint8_t second; ///< Second (0x00 - 0x59)
 } ws_cart_rtc_time_t;
 
 typedef struct __attribute__((packed)) {
