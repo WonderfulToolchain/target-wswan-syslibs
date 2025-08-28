@@ -112,6 +112,7 @@ uint16_t ws_cart_rtc_write(uint8_t command, const void __wf_cram* buffer, uint16
 static inline bool ws_cart_rtc_reset(void) {
     if (!ws_cart_rtc_wait_ready()) return false;
     outportb(WS_CART_RTC_CTRL_PORT, WS_CART_RTC_CTRL_CMD_RESET | WS_CART_RTC_CTRL_ACTIVE);
+    return true;
 }
 
 static inline bool ws_cart_rtc_read_status(uint8_t __wf_cram* result) {
