@@ -29,20 +29,15 @@ memmove:
 	mov	bx, ds
 	mov	es, bx
 	cmp	ax, dx
-	ja	_nmemmove_reversed	
-	shr	cx, 1
+	ja	_nmemmove_reversed
 	cld
-	rep	movsw
-	jnc	_nmemmove_no_byte
-	movsb
-_nmemmove_no_byte:
+	rep	movsb
 	pop	es
 	pop	di
 	pop	si
 	IA16_RET
 
 _nmemmove_reversed:
-	// TODO: use rep movsw for performance
 	dec	cx
 	add	si, cx
 	add	di, cx
