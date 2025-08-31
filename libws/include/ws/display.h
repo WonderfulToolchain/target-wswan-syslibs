@@ -64,12 +64,24 @@
 #endif
 
 #ifndef __ASSEMBLER__
+/**
+ * @brief A structure representing a 2 bit per pixel tile.
+ */
 typedef struct {
-	uint16_t row[WS_DISPLAY_TILE_HEIGHT];
+	union {
+		uint16_t row[WS_DISPLAY_TILE_HEIGHT]; ///< Per-row access: 16 bits per row
+		uint8_t plane[WS_DISPLAY_TILE_HEIGHT][2]; ///< Per-byte access: 8 rows of 2 planes
+	};
 } ws_display_tile_t;
 
+/**
+ * @brief A structure representing a 4 bit per pixel tile.
+ */
 typedef struct {
-	uint32_t row[WS_DISPLAY_TILE_HEIGHT];
+	union {
+		uint32_t row[WS_DISPLAY_TILE_HEIGHT]; ///< Per-row access: 32 bits per row
+		uint8_t plane[WS_DISPLAY_TILE_HEIGHT][4]; ///< Per-byte access: 8 rows of 4 planes
+	};
 } ws_display_tile_4bpp_t;
 #endif
 
