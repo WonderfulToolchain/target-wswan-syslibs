@@ -26,6 +26,7 @@
 #ifndef __ASSEMBLER__
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 #endif
 #include <wonderful.h>
 #include "memory.h"
@@ -235,6 +236,63 @@ typedef struct {
 #define WS_DISPLAY_SHADE_LUT_DEFAULT WS_DISPLAY_SHADE_LUT(0, 2, 4, 6, 9, 11, 13, 15)
 
 // TODO: Add ws_display_set_backdrop (has to consider mono/color modes have different values)
+
+/**
+ * @brief Load monochrome palette data (2 bytes per palette).
+ * 
+ * @param data Pointer to palette data.
+ * @param first Starting palette index.
+ * @param count Number of palettes to load.
+ */
+static inline void ws_display_palette_load_mono(const void __far* data, int first, int count) {
+	ws_portcpy(WS_SCR_PAL_PORT(first), data, count * 2);
+}
+
+/**
+ * @brief Load 2BPP color palette data (4 words per palette).
+ * 
+ * @param data Pointer to palette data.
+ * @param first Starting palette index.
+ * @param count Number of palettes to load.
+ */
+void ws_display_palette_load_color_2bpp(const void __far* data, int first, int count);
+
+/**
+ * @brief Load 4BPP color palette data (16 words per palette).
+ * 
+ * @param data Pointer to palette data.
+ * @param first Starting palette index.
+ * @param count Number of palettes to load.
+ */
+static inline void ws_display_palette_load_color_4bpp(const void __far* data, int first, int count) {
+	memcpy(WS_DISPLAY_COLOR_MEM(first), data, count * 32);
+}
+
+#define ws_sprite_palette_load_mono(data, first, count) ws_display_palette_load_mono((data), (first) + 8, (count))
+#define ws_sprite_palette_load_color_2bpp(data, first, count) ws_display_palette_load_color_2bpp((data), (first) + 8, (count))
+#define ws_sprite_palette_load_color_4bpp(data, first, count) ws_display_palette_load_color_4bpp((data), (first) + 8, (count))
+
+/**
+ * @brief Set which layers and windows are visible on the display.
+ * 
+ * @param value
+ * @see WS_DISPLAY_CTRL_SCR1_ENABLE
+ * @see WS_DISPLAY_CTRL_SCR2_ENABLE
+ * @see WS_DISPLAY_CTRL_SPR_ENABLE
+ * @see WS_DISPLAY_CTRL_SPR_WIN_ENABLE
+ * @see WS_DISPLAY_CTRL_SCR2_WIN_INSIDE
+ * @see WS_DISPLAY_CTRL_SCR2_WIN_OUTSIDE
+ */
+static inline void ws_display_control_set(uint8_t value) {
+	outportb(WS_DISPLAY_CTRL_PORT, value);
+}
+
+/**
+ * @brief Query which layers and windows are visible on the display.
+ */
+static inline uint8_t ws_display_control_get(void) {
+	return inportb(WS_DISPLAY_CTRL_PORT);
+}
 
 /**
  * @brief Set the base addresses of screens 1 and 2.
@@ -469,10 +527,31 @@ static inline void ws_display_toggle_icons(uint8_t mask) {
  *
  * To learn more about the shade LUT, see @ref video_pipeline.
  *
- * @param lut The shade LUT configuration. Usage of the #GRAY_LUT macro is recommended. A default configuration is provided via #GRAY_LUT_DEFAULT .
+ * @param lut The shade LUT configuration. Usage of the #WS_DISPLAY_SHADE_LUT macro is recommended. A default configuration is provided via #WS_DISPLAY_SHADE_LUT_DEFAULT .
  */
 __attribute__((no_assume_ds_data, no_assume_ss_data, save_all))
 void ws_display_set_shade_lut(uint32_t lut);
+
+/**
+ * @brief Use the default shade LUT.
+ */
+#define ws_display_set_shade_lut_default() ws_display_set_Shade_lut(WS_DISPLAY_SHADE_LUT_DEFAULT)
+
+/**
+ * @brief Enable the LCD panel.
+ *
+ * Done by the boot ROM on WS/WSC consoles; has to be done manually on PCv2 consoles and pinstrapped configurations.
+ */
+static inline void ws_lcd_control_enable(void) {
+	outportb(WS_LCD_CTRL_PORT, inportb(WS_LCD_CTRL_PORT) | WS_LCD_CTRL_DISPLAY_ENABLE);
+}
+
+/**
+ * @brief Disable the LCD panel.
+ */
+static inline void ws_lcd_control_disable(void) {
+	outportb(WS_LCD_CTRL_PORT, inportb(WS_LCD_CTRL_PORT) & ~WS_LCD_CTRL_DISPLAY_ENABLE);
+}
 
 /**
  * @brief Place a map of tiles on the screen.

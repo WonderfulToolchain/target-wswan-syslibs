@@ -61,6 +61,14 @@
 
 #ifndef __ASSEMBLER__
 
+static inline uint16_t ws_timer_hblank_get_counter(void) {
+    return inportw(WS_TIMER_HBL_COUNTER_PORT);
+}
+
+static inline uint16_t ws_timer_vblank_get_counter(void) {
+    return inportw(WS_TIMER_VBL_COUNTER_PORT);
+}
+
 static inline void ws_timer_hblank_disable(void) {
     outportb(WS_TIMER_CTRL_PORT, inportb(WS_TIMER_CTRL_PORT) & ~WS_TIMER_CTRL_HBL_MASK);
 }
