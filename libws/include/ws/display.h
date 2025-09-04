@@ -244,7 +244,7 @@ typedef struct {
  * @param first Starting palette index.
  * @param count Number of palettes to load.
  */
-static inline void ws_display_palette_load_mono(const void __far* data, int first, int count) {
+static inline void ws_display_load_palette_mono(const void __far* data, int first, int count) {
 	ws_portcpy(WS_SCR_PAL_PORT(first), data, count * 2);
 }
 
@@ -255,7 +255,7 @@ static inline void ws_display_palette_load_mono(const void __far* data, int firs
  * @param first Starting palette index.
  * @param count Number of palettes to load.
  */
-void ws_display_palette_load_color_2bpp(const void __far* data, int first, int count);
+void ws_display_load_palette_color_2bpp(const void __far* data, int first, int count);
 
 /**
  * @brief Load 4BPP color palette data (16 words per palette).
@@ -264,13 +264,13 @@ void ws_display_palette_load_color_2bpp(const void __far* data, int first, int c
  * @param first Starting palette index.
  * @param count Number of palettes to load.
  */
-static inline void ws_display_palette_load_color_4bpp(const void __far* data, int first, int count) {
+static inline void ws_display_load_palette_color_4bpp(const void __far* data, int first, int count) {
 	memcpy(WS_DISPLAY_COLOR_MEM(first), data, count * 32);
 }
 
-#define ws_sprite_palette_load_mono(data, first, count) ws_display_palette_load_mono((data), (first) + 8, (count))
-#define ws_sprite_palette_load_color_2bpp(data, first, count) ws_display_palette_load_color_2bpp((data), (first) + 8, (count))
-#define ws_sprite_palette_load_color_4bpp(data, first, count) ws_display_palette_load_color_4bpp((data), (first) + 8, (count))
+#define ws_sprite_load_palette_mono(data, first, count) ws_display_load_palette_mono((data), (first) + 8, (count))
+#define ws_sprite_load_palette_color_2bpp(data, first, count) ws_display_load_palette_color_2bpp((data), (first) + 8, (count))
+#define ws_sprite_load_palette_color_4bpp(data, first, count) ws_display_load_palette_color_4bpp((data), (first) + 8, (count))
 
 /**
  * @brief Set which layers and windows are visible on the display.
@@ -535,7 +535,7 @@ void ws_display_set_shade_lut(uint32_t lut);
 /**
  * @brief Use the default shade LUT.
  */
-#define ws_display_set_shade_lut_default() ws_display_set_Shade_lut(WS_DISPLAY_SHADE_LUT_DEFAULT)
+#define ws_display_set_shade_lut_default() ws_display_set_shade_lut(WS_DISPLAY_SHADE_LUT_DEFAULT)
 
 /**
  * @brief Enable the LCD panel.

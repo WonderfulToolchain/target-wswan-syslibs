@@ -28,7 +28,7 @@ typedef struct {
     uint16_t entries[4];
 } pal_2bpp_t;
 
-void ws_display_palette_load_color_2bpp(const void __far* data, int first, int count) {
+void ws_display_load_palette_color_2bpp(const void __far* data, int first, int count) {
     const pal_2bpp_t __far *src = data;
     pal_2bpp_t __wf_iram *dest = (pal_2bpp_t __wf_iram*) WS_DISPLAY_COLOR_MEM(first);
     for (int i = 0; i < count; i++, src++, dest += 4) {
