@@ -283,14 +283,14 @@ static inline void ws_display_palette_load_color_4bpp(const void __far* data, in
  * @see WS_DISPLAY_CTRL_SCR2_WIN_INSIDE
  * @see WS_DISPLAY_CTRL_SCR2_WIN_OUTSIDE
  */
-static inline void ws_display_control_set(uint8_t value) {
+static inline void ws_display_set_control(uint8_t value) {
 	outportb(WS_DISPLAY_CTRL_PORT, value);
 }
 
 /**
  * @brief Query which layers and windows are visible on the display.
  */
-static inline uint8_t ws_display_control_get(void) {
+static inline uint8_t ws_display_get_control(void) {
 	return inportb(WS_DISPLAY_CTRL_PORT);
 }
 
