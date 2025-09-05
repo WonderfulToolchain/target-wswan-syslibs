@@ -13,11 +13,12 @@ RM := rm -rf
 
 ifeq ($(WF_TARGET),wwitch)
 MKFENT := $(WF)/bin/wf-wwitchtool mkfent
+ROMUSAGE := $(WF)/bin/wf-wwitchtool usage
 else
-ROMLINK := $(WF)/bin/wf-wswantool romlink
 BUILDROM := $(WF)/bin/wf-wswantool build rom
 BUILDGATE := $(WF)/bin/wf-wswantool build wgate
 BUILDBFB := $(WF)/bin/wf-wswantool build bfb
+ROMUSAGE := $(WF)/bin/wf-wswantool usage
 endif
 
 WF_ARCH_CFLAGS := -march=v30mz -mtune=v30mz -mregparmcall -ffreestanding
