@@ -92,10 +92,6 @@ _start_data_block_clear:
 
 _start_finish_data_block:
 
-	// initialize DS
-	push	es
-	pop	ds
-
 	// clear int enable
 	out	0xB2, al
 
@@ -108,6 +104,18 @@ _start_finish_data_block:
 	and	al, 0x1F
 	out	0x60, al
 
+	// initialize DS
+	push	es
+	pop	ds
+
+	// run constructors
+	.reloc	.+1, R_386_SEG16, "__init_array_start!"
+	mov ax, 0
+	mov es, ax
+	mov si, offset __init_array_start
+	mov di, offset __init_array_end
+	call run_array
+
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 	.reloc	.+3, R_386_SEG16, "main!"
 	jmp 0:main
@@ -115,7 +123,32 @@ _start_finish_data_block:
 	jmp main
 #endif
 
+run_array:
+1:
+	cmp si, di
+	jae 9f
+#ifdef __IA16_CMODEL_IS_FAR_TEXT
+	es lcall [si]
+	add si, 4
+#else
+	es call [si]
+	inc si
+	inc si
+#endif
+	jmp 1b
+9:
+	ret
+
 	.section .fartext.exit, "ax"
 	.global _exit
 _exit:
-	jmp _exit
+	// run destructors
+	.reloc	.+1, R_386_SEG16, "__fini_array_start!"
+	mov ax, 0
+	mov es, ax
+	mov si, offset __fini_array_start
+	mov di, offset __fini_array_end
+	call run_array
+
+1:
+	jmp 1b

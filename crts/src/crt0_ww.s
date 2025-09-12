@@ -20,7 +20,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
 */
 
-	.arch	i8086
+	.arch	i186
 	.code16
 	.intel_syntax noprefix
 
@@ -156,7 +156,7 @@ _premain:
 	mov	sp, ax
 
 	// run constructors
-	mov bp, offset __init_array_start
+	mov si, offset __init_array_start
 	mov di, offset __init_array_end
 	call run_array
 
@@ -168,7 +168,7 @@ _premain:
 	.global _exit
 _exit:
 	// run destructors
-	mov bp, offset __fini_array_start
+	mov si, offset __fini_array_start
 	mov di, offset __fini_array_end
 	call run_array
 
@@ -178,11 +178,11 @@ _exit:
 
 run_array:
 1:
-	cmp bp, di
+	cmp si, di
 	jae 9f
-	cs call [bp]
-	inc bp
-	inc bp
+	cs call [si]
+	inc si
+	inc si
 	jmp 1b
 9:
 	ret

@@ -31,7 +31,6 @@ _start:
 	cli
 
 	xor	ax, ax
-	// CS = 0x0000
 	mov	ds, ax
 	mov	es, ax
 	mov	ss, ax
@@ -62,6 +61,16 @@ _start_finish_data_block:
 	mov	al, 0x08
 	out	0xB0, al
 
+	// run constructors
+	mov si, offset __init_array_start
+1:
+	cmp si, offset __init_array_end
+	jae 9f
+	call [si]
+	inc si
+	inc si
+	jmp 1b
+9:
 	jmp	main
 
 	.section .text.exit, "ax"
