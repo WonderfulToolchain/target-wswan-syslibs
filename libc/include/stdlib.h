@@ -56,4 +56,7 @@ void* calloc(size_t nelem, size_t elsize) __attribute__((malloc));
 __attribute__((noreturn))
 void abort(void);
 
+__attribute__((noreturn))
+void exit(int code);
+
 #endif /* _STDLIB_H_ */

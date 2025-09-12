@@ -155,14 +155,37 @@ _premain:
 	mov	ax, (STACK_ADDR)
 	mov	sp, ax
 
+	// run constructors
+	mov bp, offset __init_array_start
+	mov di, offset __init_array_end
+	call run_array
+
 	// pass argc/argv
 	mov	ax, word ptr [bp + 0x8]
 	mov	dx, word ptr [bp + 0x6]
 	call	main
 
+	.global _exit
+_exit:
+	// run destructors
+	mov bp, offset __fini_array_start
+	mov di, offset __fini_array_end
+	call run_array
+
 	// exit to FreyaBIOS
 	int	0x10
 	retf
+
+run_array:
+1:
+	cmp bp, di
+	jae 9f
+	cs call [bp]
+	inc bp
+	inc bp
+	jmp 1b
+9:
+	ret
 
 	// process control block
 	.section .data_pcb

@@ -114,3 +114,8 @@ _start_finish_data_block:
 #else
 	jmp main
 #endif
+
+	.section .fartext.exit, "ax"
+	.global _exit
+_exit:
+	jmp _exit

@@ -63,3 +63,8 @@ _start_finish_data_block:
 	out	0xB0, al
 
 	jmp	main
+
+	.section .text.exit, "ax"
+	.global _exit
+_exit:
+	jmp _exit

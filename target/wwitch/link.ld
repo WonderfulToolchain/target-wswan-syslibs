@@ -10,6 +10,12 @@ SECTIONS
 		*(".text!*" ".text.*!")
 		*(".fartext!*" ".fartext.*!")
 		*(".farrodata!*" ".farrodata.*!")
+
+		PROVIDE("__init_array_start!" = .);
+		PROVIDE("__init_array_end!" = .);
+		PROVIDE("__fini_array_start!" = .);
+		PROVIDE("__fini_array_end!" = .);
+
 		"__etext!" = .;
 	}
 
@@ -21,6 +27,19 @@ SECTIONS
 		*(.text ".text.*[^&]")
 		*(".fartext.*[^&]")
 		*(".farrodata.*[^&]")
+
+		/* Handle constructors/destructors. */
+		PROVIDE(__init_array_start = .);
+		KEEP(*(.preinit_array))
+		KEEP(*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
+		KEEP(*(.init_array .ctors))
+		PROVIDE(__init_array_end = .);
+
+		PROVIDE(__fini_array_start = .);
+		KEEP(*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
+		KEEP(*(.fini_array .dtors))
+		PROVIDE(__fini_array_end = .);
+
 		__etext = .;
 	}
 
