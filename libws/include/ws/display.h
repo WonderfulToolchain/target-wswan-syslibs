@@ -24,6 +24,7 @@
 #define LIBWS_DISPLAY_H_
 
 #ifndef __ASSEMBLER__
+#include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -87,36 +88,36 @@ typedef struct {
 #endif
 
 /**
- * @brief Attribute: tile index (0-511).
+ * @brief Screen attribute: tile index (0-511).
  */
 #define WS_SCREEN_ATTR_TILE(x) (x)
 #define WS_SCREEN_ATTR_TILE_MASK (0x1FF)
 /**
- * @brief Attribute: palette (0-15).
+ * @brief Screen attribute: palette (0-15).
  */
 #define WS_SCREEN_ATTR_PALETTE(x) ((x) << 9)
 #define WS_SCREEN_ATTR_PALETTE_MASK (0xF << 9)
 /**
- * @brief Attribute: tile bank (0-1).
+ * @brief Screen attribute: tile bank (0-1).
  */
 #define WS_SCREEN_ATTR_BANK(x) ((x) << 13)
 #define WS_SCREEN_ATTR_BANK_MASK (0x2000)
 /**
- * @brief Attribute: tile index (0-1023). Calculates both bank and index.
+ * @brief Screen attribute: tile index (0-1023). Calculates both bank and index.
  */
 #define WS_SCREEN_ATTR_TILE_EX(x) (((x) & 0x1FF) | (((x) >> 13) << 13))
 #define WS_SCREEN_ATTR_TILE_EX_MASK (0x21FF)
 
 /**
- * @brief Attribute: flip tile graphic horizontally.
+ * @brief Screen attribute: flip tile graphic horizontally.
  */
 #define WS_SCREEN_ATTR_FLIP_H    0x4000
 /**
- * @brief Attribute: flip tile graphic vertically.
+ * @brief Screen attribute: flip tile graphic vertically.
  */
 #define WS_SCREEN_ATTR_FLIP_V    0x8000
 /**
- * @brief Attribute: flip tile graphic in both axes (180-degree rotation).
+ * @brief Screen attribute: flip tile graphic in both axes (180-degree rotation).
  */
 #define WS_SCREEN_ATTR_FLIP      0xC000
 #define WS_SCREEN_ATTR_FLIP_MASK 0xC000
@@ -126,42 +127,69 @@ typedef struct {
 #define WS_SCREEN_WIDTH_PIXELS  (WS_SCREEN_WIDTH_TILES  * WS_DISPLAY_TILE_WIDTH)
 #define WS_SCREEN_HEIGHT_PIXELS (WS_SCREEN_HEIGHT_TILES * WS_DISPLAY_TILE_HEIGHT)
 
+/**
+ * @brief Sprite attribute: tile index (0-511).
+ */
+#define WS_SPRITE_ATTR_TILE(x) (x)
+#define WS_SPRITE_ATTR_TILE_MASK (0x1FF)
+/**
+ * @brief Sprite attribute: palette (0-7; corresponds to screen palettes 8-15).
+ */
+#define WS_SPRITE_ATTR_PALETTE(x) ((x) << 9)
+#define WS_SPRITE_ATTR_PALETTE_MASK	(0x7 << 9)
+/**
+ * @brief Sprite attribute: draw sprite outside instead of inside window, if window enabled.
+ */
+#define WS_SPRITE_ATTR_OUTSIDE   0x1000
+/**
+ * @brief Sprite attribute: draw sprite in front of instead of behind Screen 2.
+ */
+#define WS_SPRITE_ATTR_PRIORITY  0x2000
+/**
+ * @brief Sprite attribute: flip tile graphic horizontally.
+ */
+#define WS_SPRITE_ATTR_FLIP_H    0x4000
+/**
+ * @brief Sprite attribute: flip tile graphic vertically.
+ */
+#define WS_SPRITE_ATTR_FLIP_V    0x8000
+/**
+ * @brief Sprite attribute: flip tile graphic in both axes (180-degree rotation).
+ */
+#define WS_SPRITE_ATTR_FLIP      0xC000
+#define WS_SPRITE_ATTR_FLIP_MASK 0xC000
+/**
+ * @brief Sprite: maximum number of sprites in a sprite table.
+ */
+#define WS_SPRITE_MAX_COUNT 128
+/**
+ * @brief Sprite: maximum number of sprites in a scanline.
+ */
+#define WS_SPRITE_MAX_LINE_COUNT 32
+
 #ifndef __ASSEMBLER__
+typedef struct {
+	union {
+		struct {
+			uint16_t cell[WS_SCREEN_WIDTH_TILES];
+		} row[WS_SCREEN_HEIGHT_TILES];
+		uint16_t cell[WS_SCREEN_WIDTH_TILES * WS_SCREEN_HEIGHT_TILES];
+	};
+} ws_screen_t;
+_Static_assert(sizeof(ws_screen_t) == WS_SCREEN_WIDTH_TILES * WS_SCREEN_HEIGHT_TILES * 2, "invalid ws_screen_t size");
+
 typedef struct {
 	uint16_t attr;
 	uint8_t y;
 	uint8_t x;
 } ws_sprite_t;
+_Static_assert(sizeof(ws_sprite_t) == 4, "invalid ws_sprite_t size");
+
+typedef struct {
+	ws_sprite_t entry[WS_SPRITE_MAX_COUNT];
+} ws_sprite_table_t;
+_Static_assert(sizeof(ws_sprite_table_t) == WS_SPRITE_MAX_COUNT * 4, "invalid ws_sprite_table_t size");
 #endif
-
-/**
- * @brief Attribute: palette (0-7; corresponds to screen palettes 8-15).
- */
-#define WS_SPRITE_ATTR_PALETTE(x) ((x) << 9)
-#define WS_SPRITE_ATTR_PALETTE_MASK	(0x7 << 9)
-/**
- * @brief Attribute: draw sprite outside instead of inside window, if window enabled.
- */
-#define WS_SPRITE_ATTR_OUTSIDE   0x1000
-/**
- * @brief Attribute: draw sprite in front of instead of behind Screen 2.
- */
-#define WS_SPRITE_ATTR_PRIORITY  0x2000
-/**
- * @brief Attribute: flip tile graphic horizontally.
- */
-#define WS_SPRITE_ATTR_FLIP_H    0x4000
-/**
- * @brief Attribute: flip tile graphic vertically.
- */
-#define WS_SPRITE_ATTR_FLIP_V    0x8000
-/**
- * @brief Attribute: flip tile graphic in both axes (180-degree rotation).
- */
-#define WS_SPRITE_ATTR_FLIP      0xC000
-#define WS_SPRITE_ATTR_FLIP_MASK 0xC000
-
-#define WS_SPRITE_MAX_COUNT 128
 
 /**
  * @brief Create an RGB color.
