@@ -44,3 +44,7 @@ done
 for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram wwitch; do
 	build_library libwsx $i
 done
+
+for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram; do
+	build_library libwse $i
+done
