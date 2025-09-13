@@ -34,6 +34,7 @@
 #define WSE_RESERVE_TILES(count_2bpp, count_4bpp) \
 asm(" .section .iramx_2000.__wse_tiles_2bpp, \"aR\"\n" \
     " .global __wse_tiles_2bpp\n" \
+    "__wse_tiles_2bpp:\n" \
     " .if " #count_2bpp " >= 512\n" \
     "   .fill 512*16\n" \
     " .else\n" \
@@ -41,6 +42,7 @@ asm(" .section .iramx_2000.__wse_tiles_2bpp, \"aR\"\n" \
     " .endif\n\n" \
     " .section .iramx_4000.__wse_tiles_4bpp, \"aR\"\n" \
     " .global __wse_tiles_4bpp\n" \
+    "__wse_tiles_4bpp:\n" \
     " .if (" #count_4bpp ")*2 > (" #count_2bpp ")-512\n" \
     "   .fill (" #count_4bpp ")*32\n" \
     " .else\n" \

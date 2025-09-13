@@ -25,3 +25,7 @@ WF_ARCH_CFLAGS := -march=v30mz -mtune=v30mz -mregparmcall -ffreestanding
 WF_ARCH_ASFLAGS := --32-segelf
 WF_ARCH_LDFLAGS :=
 WF_ARCH_LIBDIRS :=
+
+# HACK: Pull in these libwse symbols if present to reserve certain memory areas.
+# This allows overriding them by the user, too.
+WF_ARCH_LDFLAGS += -u __wse_tiles_2bpp -u __wse_color_palette
