@@ -48,7 +48,7 @@
  *
  * @param hz Playback frequency, in hertz.
  */
-#define WS_SOUND_UPDATE_HZ_TO_FREQ(hz) (-((uint16_t) WS_HZ_TO_CLOCK_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ)))
+#define WS_SOUND_UPDATE_HZ_TO_FREQ(hz) (-((uint16_t) WS_HZ_TO_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ)))
 
 /**
  * @brief Convert a frequency in hertz to a channel frequency value for a wave sample
@@ -65,7 +65,7 @@
  * @param hz Playback frequency, in hertz.
  * @param length Length, in samples (2, 4, 8, 16, 32).
  */
-#define WS_SOUND_WAVE_HZ_TO_FREQ(hz, length) (-((uint16_t) WS_HZ_TO_CLOCK_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ / (length))))
+#define WS_SOUND_WAVE_HZ_TO_FREQ(hz, length) (-((uint16_t) WS_HZ_TO_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ / (length))))
 
 /**
  * @brief Convert a frequency in hertz to a sweep channel update frequency value,
@@ -73,7 +73,7 @@
  * 
  * Range: 13 .. 375 Hz
  */
-#define WS_SOUND_SWEEP_HZ_TO_FREQ(hz) ((uint16_t) WS_HZ_TO_CLOCK_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ / 8192))
+#define WS_SOUND_SWEEP_HZ_TO_FREQ(hz) ((uint16_t) WS_HZ_TO_DIVIDER((hz), WS_SYSTEM_CLOCK_HZ / 8192))
 
 #ifndef __ASSEMBLER__
 

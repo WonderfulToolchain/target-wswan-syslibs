@@ -48,7 +48,7 @@
  *
  * @param hz Frequency, in hertz.
  */
-#define WS_TIMER_HBLANK_HZ_TO_TICKS(hz) ((uint16_t) WS_HZ_TO_CLOCK_DIVIDER((hz), 12000))
+#define WS_TIMER_HBLANK_HZ_TO_TICKS(hz) ((uint16_t) WS_HZ_TO_DIVIDER((hz), 12000))
 
 /**
  * @brief Convert a frequency in hertz to vertical blank timer ticks.
@@ -57,7 +57,7 @@
  *
  * @param hz Frequency, in hertz.
  */
-#define WS_TIMER_VBLANK_HZ_TO_TICKS(hz) ((uint16_t) WS_HZ_TO_CLOCK_DIVIDER((hz), 12000 / (WS_DISPLAY_VTOTAL))))
+#define WS_TIMER_VBLANK_HZ_TO_TICKS(hz) ((uint16_t) WS_HZ_TO_DIVIDER((hz), 12000 / (WS_DISPLAY_VTOTAL))))
 
 #ifndef __ASSEMBLER__
 
