@@ -158,7 +158,7 @@ _premain:
 	// run constructors
 	mov si, offset __init_array_start
 	mov di, offset __init_array_end
-	call run_array
+	call _start_run_array
 
 	// pass argc/argv
 	mov	ax, word ptr [bp + 0x8]
@@ -170,13 +170,13 @@ _exit:
 	// run destructors
 	mov si, offset __fini_array_start
 	mov di, offset __fini_array_end
-	call run_array
+	call _start_run_array
 
 	// exit to FreyaBIOS
 	int	0x10
 	retf
 
-run_array:
+_start_run_array:
 1:
 	cmp si, di
 	jae 9f

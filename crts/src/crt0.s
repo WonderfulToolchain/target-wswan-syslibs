@@ -114,7 +114,7 @@ _start_finish_data_block:
 	mov es, ax
 	mov si, offset __init_array_start
 	mov di, offset __init_array_end
-	call run_array
+	call _start_run_array
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
 	.reloc	.+3, R_386_SEG16, "main!"
@@ -123,7 +123,7 @@ _start_finish_data_block:
 	jmp main
 #endif
 
-run_array:
+_start_run_array:
 1:
 	cmp si, di
 	jae 9f
@@ -148,7 +148,7 @@ _exit:
 	mov es, ax
 	mov si, offset __fini_array_start
 	mov di, offset __fini_array_end
-	call run_array
+	call _start_run_array
 
 1:
 	jmp 1b
