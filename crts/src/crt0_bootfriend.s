@@ -39,9 +39,9 @@ _start:
 
 _start_parse_data_block:
 	lodsw
-	mov	cx, ax
-	test	cx, cx
-	jz	_start_finish_data_block
+	test ax, ax
+	jz _start_finish_data_block
+	mov cx, ax
 	lodsw
 	mov	di, ax
 	xor	ax, ax
