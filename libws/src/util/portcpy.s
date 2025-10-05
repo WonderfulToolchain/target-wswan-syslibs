@@ -28,13 +28,12 @@
 ws_portcpy:
 	push	si
 	push	ds
-	push	bp
-	mov	bp, sp
+	mov	bx, sp
 
 	mov si, dx
 	mov ds, cx
 	mov dx, ax
-	mov	cx, [bp + IA16_CALL_STACK_OFFSET(6)]
+	ss mov	cx, [bx + IA16_CALL_STACK_OFFSET(4)]
 	shr	cx, 1
 	cld
 	jz ws_portcpy_words_end
@@ -47,7 +46,6 @@ ws_portcpy_words_end:
 	outsb
 ws_portcpy_bytes_end:
 
-	pop	bp
 	pop	ds
 	pop	si
 	IA16_RET 0x2

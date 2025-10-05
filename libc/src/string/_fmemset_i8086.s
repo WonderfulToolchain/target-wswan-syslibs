@@ -24,20 +24,18 @@ memset:
 	push	di
 	push	es
 	push	ax
-	push	bp
-	mov	bp, sp
+	mov	bx, sp
 	mov	es, dx
 	mov	di, ax
 	mov	al, cl
 	mov	ah, al
-	mov	cx, [bp + IA16_CALL_STACK_OFFSET(8)]
+	ss mov	cx, [bx + IA16_CALL_STACK_OFFSET(6)]
 	shr	cx, 1
 	cld
 	rep	stosw
 	jnc	_fmemset_no_byte
 	stosb
 _fmemset_no_byte:
-	pop	bp
 	pop	ax
 	pop	es
 	pop	di
