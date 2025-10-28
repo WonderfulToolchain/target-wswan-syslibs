@@ -387,7 +387,7 @@ static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore
 #define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /// \cond INTERNAL
-static inline void ws_bank_flash_cleanup_(uint8_t *val) { outportb(WS_CART_BANK_FLASH_PORT, *val); }
+static inline void ws_bank_flash_cleanup_(volatile uint8_t *val) { outportb(WS_CART_BANK_FLASH_PORT, *val); }
 
 #define ws_bank_with_flash_(var, prev_bank, ...) \
 	{ \
