@@ -56,6 +56,8 @@ char __far* strpbrk(const char __far* s1, const char __far* s2);
 char __far* strrchr(const char __far* s, int c) __attribute__((pure));
 size_t strspn(const char __far* s1, const char __far* s2);
 char __far* strstr(const char __far* s1, const char __far* s2) __attribute__((pure));
+char __far* strtok(char __far* s1, const char __far* s2);
+char __far* strtok_s(char __far* s1, size_t __far* s1max, const char __far* s2, char __far* __far* ptr);
 
 int strcasecmp(const char __far* s1, const char __far* s2) __attribute__((pure));
 int strncasecmp(const char __far* s1, const char __far* s2, size_t n) __attribute__((pure));
