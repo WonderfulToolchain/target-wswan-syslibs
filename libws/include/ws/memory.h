@@ -386,6 +386,26 @@ static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore
  */
 #define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
+/// \cond INTERNAL
+static inline void ws_bank_flash_cleanup_(uint8_t *val) { outportb(WS_CART_BANK_FLASH_PORT, *val); }
+
+#define ws_bank_with_flash_(var, prev_bank, ...) \
+	{ \
+		__attribute__((cleanup(ws_bank_flash_cleanup_))) \
+		volatile uint8_t prev_bank = inportb(WS_CART_BANK_FLASH_PORT); \
+		outportb(WS_CART_BANK_FLASH_PORT, var); \
+		__VA_ARGS__ \
+	}
+/// \endcond
+
+/**
+ * @brief Switch to the specified NOR flash write state for a code block.
+ *
+ * @param val The WS_CART_BANK_FLASH_PORT value.
+ * @param ... The code block to run with the specified value in view.
+ */
+#define ws_bank_with_flash(val, ...) ws_bank_with_flash_(val, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
+
 #endif
 
 /**@}*/
