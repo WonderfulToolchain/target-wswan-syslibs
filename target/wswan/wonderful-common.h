@@ -25,4 +25,10 @@
 #define WF_MACRO_CONCAT_(x, y) x##y
 #define WF_MACRO_CONCAT(x, y) WF_MACRO_CONCAT_(x, y)
 
+#ifdef __IA16_CALLCVT_NO_ASSUME_SS_DATA
+#define __wf_cstack __seg_ss
+#else
+#define __wf_cstack
+#endif
+
 #include "ia16.h"

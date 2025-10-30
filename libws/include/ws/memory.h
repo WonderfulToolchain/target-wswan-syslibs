@@ -202,7 +202,7 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 #define ws_bank_ram_set(new_bank) _ws_bank_set(_ws_bank_ram_port, (new_bank))
 #define ws_bank_ram_restore ws_bank_ram_set
 /// \cond INTERNAL
-static inline void ws_bank_ram_cleanup_(ws_bank_t *bank) { ws_bank_ram_restore(*bank); }
+static inline void ws_bank_ram_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_ram_restore(*bank); }
 /// \endcond
 
 /**
@@ -252,7 +252,7 @@ static inline void ws_bank_ram_cleanup_(ws_bank_t *bank) { ws_bank_ram_restore(*
 #define ws_bank_rom0_set(new_bank) _ws_bank_set(_ws_bank_rom0_port, (new_bank))
 #define ws_bank_rom0_restore ws_bank_rom0_set
 /// \cond INTERNAL
-static inline void ws_bank_rom0_cleanup_(ws_bank_t *bank) { ws_bank_rom0_restore(*bank); }
+static inline void ws_bank_rom0_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_rom0_restore(*bank); }
 /// \endcond
 
 /**
@@ -302,7 +302,7 @@ static inline void ws_bank_rom0_cleanup_(ws_bank_t *bank) { ws_bank_rom0_restore
 #define ws_bank_rom1_set(new_bank) _ws_bank_set(_ws_bank_rom1_port, (new_bank))
 #define ws_bank_rom1_restore ws_bank_rom1_set
 /// \cond INTERNAL
-static inline void ws_bank_rom1_cleanup_(ws_bank_t *bank) { ws_bank_rom1_restore(*bank); }
+static inline void ws_bank_rom1_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_rom1_restore(*bank); }
 /// \endcond
 
 /**
@@ -352,7 +352,7 @@ static inline void ws_bank_rom1_cleanup_(ws_bank_t *bank) { ws_bank_rom1_restore
 #define ws_bank_roml_set(new_bank) _ws_bank_set(_ws_bank_roml_port, (new_bank))
 #define ws_bank_roml_restore ws_bank_roml_set
 /// \cond INTERNAL
-static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore(*bank); }
+static inline void ws_bank_roml_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_roml_restore(*bank); }
 /// \endcond
 
 /**
@@ -387,7 +387,7 @@ static inline void ws_bank_roml_cleanup_(ws_bank_t *bank) { ws_bank_roml_restore
 #define ws_bank_with_roml(bank, ...) ws_bank_with_(bank, roml, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
 
 /// \cond INTERNAL
-static inline void ws_bank_flash_cleanup_(volatile uint8_t *val) { outportb(WS_CART_BANK_FLASH_PORT, *val); }
+static inline void ws_bank_flash_cleanup_(volatile uint8_t __wf_cstack* val) { outportb(WS_CART_BANK_FLASH_PORT, *val); }
 
 #define ws_bank_with_flash_(var, prev_bank, ...) \
 	{ \
