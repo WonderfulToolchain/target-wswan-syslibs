@@ -133,6 +133,13 @@ static inline ws_bank_t _ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	return old_bank;
 }
 
+static inline ws_bank_t _ws_bank_get(uint8_t port) {
+	asm volatile("" ::: "memory");
+	volatile ws_bank_t old_bank = inportw(port);
+	asm volatile("" ::: "memory");
+	return old_bank;
+}
+
 static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	outportw(port, new_bank);
@@ -152,6 +159,13 @@ static inline ws_bank_t _ws_bank_save(uint8_t port, ws_bank_t new_bank) {
 	asm volatile("" ::: "memory");
 	volatile ws_bank_t old_bank = inportb(port);
 	outportb(port, new_bank);
+	asm volatile("" ::: "memory");
+	return old_bank;
+}
+
+static inline ws_bank_t _ws_bank_get(uint8_t port) {
+	asm volatile("" ::: "memory");
+	volatile ws_bank_t old_bank = inportb(port);
 	asm volatile("" ::: "memory");
 	return old_bank;
 }
@@ -195,6 +209,13 @@ static inline void _ws_bank_set(uint8_t port, ws_bank_t new_bank) {
 #define ws_bank_ram_save(new_bank) _ws_bank_save(_ws_bank_ram_port, (new_bank))
 
 /**
+ * @brief Get the value of the current RAM bank.
+ * 
+ * @param new_bank Current RAM bank.
+ */
+#define ws_bank_ram_get() _ws_bank_get(_ws_bank_ram_port)
+
+/**
  * @brief Switch to a new RAM bank.
  * 
  * @param new_bank New RAM bank.
@@ -235,6 +256,13 @@ static inline void ws_bank_ram_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_r
  * @param ... The code block to run with the specified value in view.
  */
 #define ws_bank_with_ram(bank, ...) ws_bank_with_(bank, ram, WF_MACRO_CONCAT(_wf_bank_, __COUNTER__), __VA_ARGS__)
+
+/**
+ * @brief Get the value of the current ROM bank in slot 0.
+ * 
+ * @param new_bank Current ROM bank in slot 0.
+ */
+#define ws_bank_rom0_get() _ws_bank_get(_ws_bank_rom0_port)
 
 /**
  * @brief Switch to a new ROM bank in slot 0, while preserving the value of the old one.
@@ -295,6 +323,13 @@ static inline void ws_bank_rom0_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_
 #define ws_bank_rom1_save(new_bank) _ws_bank_save(_ws_bank_rom1_port, (new_bank))
 
 /**
+ * @brief Get the value of the current ROM bank in slot 1.
+ * 
+ * @param new_bank Current ROM bank in slot 1.
+ */
+#define ws_bank_rom1_get() _ws_bank_get(_ws_bank_rom1_port)
+
+/**
  * @brief Switch to a new ROM bank in slot 1.
  * 
  * @param new_bank New ROM bank.
@@ -343,6 +378,13 @@ static inline void ws_bank_rom1_cleanup_(ws_bank_t __wf_cstack* bank) { ws_bank_
  * @return uint8_t The previous ROM bank.
  */
 #define ws_bank_roml_save(new_bank) _ws_bank_save(_ws_bank_roml_port, (new_bank))
+
+/**
+ * @brief Get the value of the current ROM bank in the linear slot.
+ * 
+ * @param new_bank Current ROM bank in the linear slot.
+ */
+#define ws_bank_roml_get() _ws_bank_get(_ws_bank_roml_port)
 
 /**
  * @brief Switch to a new ROM bank in the linear slot.
