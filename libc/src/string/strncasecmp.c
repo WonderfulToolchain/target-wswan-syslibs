@@ -15,10 +15,10 @@
 
 int strncasecmp(const char __far* s1, const char __far* s2, size_t n) {
 	int result = 0;
-	while (n && (*s1) && !(result = (toupper((unsigned char) *s1) - toupper((unsigned char) *s2)))) {
+	while (n && !(result = (toupper((unsigned char) *s1) - toupper((unsigned char) *s2))) && *s1) {
 		s1++;
 		s2++;
 		n--;
 	}
-	return (n == 0) ? 0 : result;
+	return result;
 }
