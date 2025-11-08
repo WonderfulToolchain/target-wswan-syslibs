@@ -91,8 +91,9 @@ _start:
 	xor	ax, ax
 	rep	stosw
 
-	mov	[es:0x58], di // end of program data
-	mov	[es:0x5e], di // TODO: end of program data?
+	// set argv to first byte of free memory
+	// ProcIL will append data to it and set heap
+	es mov	[0x58], di
 
 	mov	ax, offset "_premain"
 
