@@ -37,10 +37,6 @@ for i in wwitch; do
 	cd ../../..
 done
 
-for i in wswan/bootfriend wswan/small wswan/medium; do
-	build_library libwwcl $i
-done
-
 for i in wswan/bootfriend wswan/small wswan/medium wswan/small-sram wswan/medium-sram wwitch; do
 	build_library libwsx $i
 done
