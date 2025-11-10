@@ -33,92 +33,127 @@
  */
 
 /**
- * Divide error interrupt.
+ * @brief Divide error interrupt.
  */
 #define IA16_INT_DIV    0
 /**
- * Single step/break interrupt.
+ * @brief Single step/break interrupt.
  */
 #define IA16_INT_STEP   1
 /**
- * Non-maskable interrupt.
+ * @brief Non-maskable interrupt.
  */
 #define IA16_INT_NMI    2
 /**
- * Breakpoint (INT3) interrupt.
+ * @brief Breakpoint (INT3) interrupt.
  */
 #define IA16_INT_BREAK  3
 /**
- * Overflow (INTO) interrupt.
+ * @brief Overflow (INTO) interrupt.
  */
 #define IA16_INT_INTO   4
 /**
- * Array bounds (BOUND) interrupt.
+ * @brief Array bounds (BOUND) interrupt.
  */
 #define IA16_INT_BOUNDS 5
 
 /**
- * Carry flag.
+ * @brief Carry flag.
  */
 #define IA16_FLAG_CF 0x0001
 /**
- * Parity flag.
+ * @brief Parity flag.
  */
 #define IA16_FLAG_PF 0x0004
 /**
- * Auxillary carry flag.
+ * @brief Auxillary carry flag.
  */
 #define IA16_FLAG_AF 0x0010
 /**
- * Zero flag.
+ * @brief Zero flag.
  */
 #define IA16_FLAG_ZF 0x0040
 /**
- * Sign flag.
+ * @brief Sign flag.
  */
 #define IA16_FLAG_SF 0x0080
 /**
- * Single step flag.
+ * @brief Single step flag.
  */
 #define IA16_FLAG_TF 0x0100
 /**
- * Interrupt enable flag.
+ * @brief Interrupt enable flag.
  */
 #define IA16_FLAG_IF 0x0200
 /**
- * Direction flag.
+ * @brief Direction flag.
  */
 #define IA16_FLAG_DF 0x0400
 /**
- * Overflow flag.
+ * @brief Overflow flag.
  */
 #define IA16_FLAG_OF 0x0800
 /**
- * Mode flag.
+ * @brief Mode flag.
  */
 #define IA16_FLAG_MD 0x8000
 
 #ifdef __ASSEMBLER__
 
 #ifdef __IA16_CMODEL_IS_FAR_TEXT
+/**
+ * @brief Return using the target's calling convention.
+ */
 #define IA16_RET retf
 #define IA16_CALL_STACK_OFFSET(n) ((n)+4)
 
+/**
+ * @brief Perform a call to a symbol using the target's calling convention.
+ */
 .macro IA16_CALL tgt:req
 	.reloc	.+3, R_386_SEG16, "\tgt\()!"
 	call 0:\tgt
 .endm
+/**
+ * @brief Perform a call to a symbol using the target's calling convention,
+ * under the assumption that the called symbol lives in the same segment as
+ * the caller. This is faster on "far text pointer" targets.
+ */
+.macro IA16_CALL_LOCAL tgt:req
+	push cs
+	call \tgt
+.endm
+/**
+ * @brief Perform a jump to a symbol using the target's calling convention.
+ */
 .macro IA16_JMP tgt:req
 	.reloc	.+3, R_386_SEG16, "\tgt\()!"
 	jmp 0:\tgt
 .endm
 #else
+/**
+ * @brief Return using the target's calling convention.
+ */
 #define IA16_RET ret
 #define IA16_CALL_STACK_OFFSET(n) ((n)+2)
 
+/**
+ * @brief Perform a call to a symbol using the target's calling convention.
+ */
 .macro IA16_CALL tgt:req
 	call \tgt
 .endm
+/**
+ * @brief Perform a call to a symbol using the target's calling convention,
+ * under the assumption that the called symbol lives in the same segment as
+ * the caller. This is faster on "far text pointer" targets.
+ */
+.macro IA16_CALL_LOCAL tgt:req
+	call \tgt
+.endm
+/**
+ * @brief Perform a jump to a symbol using the target's calling convention.
+ */
 .macro IA16_JMP tgt:req
 	jmp \tgt
 .endm
