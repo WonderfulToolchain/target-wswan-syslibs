@@ -13,6 +13,7 @@ RM := rm -rf
 
 ifeq ($(WF_TARGET),wwitch)
 MKFENT := $(WF)/bin/wf-wwitchtool mkfent
+MKROM := $(WF)/bin/wf-wwitchtool mkrom
 ROMUSAGE := $(WF)/bin/wf-wwitchtool usage
 else
 BUILDROM := $(WF)/bin/wf-wswantool build rom
