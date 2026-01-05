@@ -198,8 +198,10 @@ bool ws_system_set_mode(ws_system_mode_t mode);
  * 
  * @param idx The interrupt (WS_INT_*)
  * @param handler The interrupt handler function.
+ *
+ * @see ws_int_handler_t
  */
-void ws_int_set_handler(uint8_t idx, ia16_int_handler_t handler);
+void ws_int_set_handler(uint8_t idx, void __far* handler);
 
 /**
  * @brief Register a default interrupt handler for serial transmission.

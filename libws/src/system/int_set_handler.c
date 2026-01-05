@@ -26,8 +26,7 @@
 #include "ws/ports.h"
 #include "ws/system.h"
 
-void ws_int_set_handler(uint8_t idx, ia16_int_handler_t handler) {
-    uint16_t __wf_iram* ptr = ((uint16_t __wf_iram*) (((inportb(WS_INT_VECTOR_PORT) & 0xF8) | idx) << 2));
-    *(ptr++) = FP_OFF(handler);
-    *(ptr++) = FP_SEG(handler);
+void ws_int_set_handler(uint8_t idx, void __far* handler) {
+    void __far* __wf_iram* ptr = ((void __far* __wf_iram*) (((inportb(WS_INT_VECTOR_PORT) & 0xF8) | idx) << 2));
+    *ptr = handler;
 }
